@@ -1,4 +1,4 @@
-package it.unibo.sampleapp.controller.minigames.mazegame.impl;
+package it.unibo.UniBoParty.controller.minigames.mazegame.impl;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;

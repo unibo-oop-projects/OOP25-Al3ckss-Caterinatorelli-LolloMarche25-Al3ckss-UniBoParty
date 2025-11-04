@@ -1,4 +1,4 @@
-package it.unibo.sampleapp.controller.minigames.mazegame.api;
+package it.unibo.UniBoParty.controller.minigames.mazegame.api;
 /**
  * Interface representing the Maze Controller.
  */
