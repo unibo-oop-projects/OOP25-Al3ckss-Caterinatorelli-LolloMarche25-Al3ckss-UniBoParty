@@ -9,7 +9,7 @@ import it.unibo.UniBoParty.utilities.Direction;
 import it.unibo.UniBoParty.model.minigames.mazegame.api.MazeGenerator;
 import it.unibo.UniBoParty.model.minigames.mazegame.api.MazeModel;
 import it.unibo.UniBoParty.model.minigames.mazegame.api.Player;
-import view.api.GameObserver;
+import it.unibo.UniBoParty.view.minigames.mazegame.api.GameObserver;
 /**
  * Implementation of the MazeModel interface.
  */

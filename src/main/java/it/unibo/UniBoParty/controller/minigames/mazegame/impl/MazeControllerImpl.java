@@ -5,11 +5,11 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
 
-import controller.api.MazeController;
-import model.api.Direction;
-import model.api.MazeModel;
-import model.impl.MazeModelImpl;
-import view.impl.MazeViewImpl;
+import it.unibo.UniBoParty.controller.minigames.mazegame.api.MazeController;
+import it.unibo.UniBoParty.utilities.Direction;
+import it.unibo.UniBoParty.model.minigames.mazegame.api.MazeModel;
+import it.unibo.UniBoParty.model.minigames.mazegame.impl.MazeModelImpl;
+import it.unibo.UniBoParty.view.minigames.mazegame.impl.MazeViewImpl;
 
 /**
  * Implementation of the MazeController interface.
@@ -17,7 +17,7 @@ import view.impl.MazeViewImpl;
 public class MazeControllerImpl implements MazeController {
 
     private final MazeModel model;
-    private final MazeViewImpl view; // uso l'implementazione concreta
+    private final MazeViewImpl view;
     /**
      * Constructor for MazeControllerImpl.
      */
