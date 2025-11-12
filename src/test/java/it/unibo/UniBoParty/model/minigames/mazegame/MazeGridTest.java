@@ -1,10 +1,12 @@
 package it.unibo.UniBoParty.model.minigames.mazegame;
 
-import it.unibo.UniBoParty.model.minigames.mazegame.api.Cell;
-import it.unibo.UniBoParty.model.minigames.mazegame.impl.MazeGridImpl;
-import it.unibo.UniBoParty.utilities.CellType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import it.unibo.uniboparty.model.minigames.mazegame.api.Cell;
+import it.unibo.uniboparty.model.minigames.mazegame.impl.MazeGridImpl;
+import it.unibo.uniboparty.utilities.CellType;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MazeGridTest {

@@ -1,7 +1,7 @@
-package it.unibo.UniBoParty.model.minigames.mazegame.api;
+package it.unibo.uniboparty.model.minigames.mazegame.api;
 
-import it.unibo.UniBoParty.utilities.Direction;
-import it.unibo.UniBoParty.view.minigames.mazegame.api.GameObserver;
+import it.unibo.uniboparty.utilities.Direction;
+import it.unibo.uniboparty.view.minigames.mazegame.api.GameObserver;
 
 /**
  * Main model interface.

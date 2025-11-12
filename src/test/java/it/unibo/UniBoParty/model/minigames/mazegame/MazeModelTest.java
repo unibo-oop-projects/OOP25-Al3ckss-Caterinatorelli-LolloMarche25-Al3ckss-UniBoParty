@@ -1,11 +1,13 @@
 package it.unibo.UniBoParty.model.minigames.mazegame;
 
-import it.unibo.UniBoParty.model.minigames.mazegame.api.MazeModel;
-import it.unibo.UniBoParty.model.minigames.mazegame.impl.MazeModelImpl;
-import it.unibo.UniBoParty.view.minigames.mazegame.api.GameObserver;
-import it.unibo.UniBoParty.utilities.Direction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import it.unibo.uniboparty.model.minigames.mazegame.api.MazeModel;
+import it.unibo.uniboparty.model.minigames.mazegame.impl.MazeModelImpl;
+import it.unibo.uniboparty.utilities.Direction;
+import it.unibo.uniboparty.view.minigames.mazegame.api.GameObserver;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 

@@ -1,4 +1,4 @@
-package it.unibo.UniBoParty.utilities;
+package it.unibo.uniboparty.utilities;
 
 public enum Direction {
     UP, DOWN, LEFT, RIGHT;

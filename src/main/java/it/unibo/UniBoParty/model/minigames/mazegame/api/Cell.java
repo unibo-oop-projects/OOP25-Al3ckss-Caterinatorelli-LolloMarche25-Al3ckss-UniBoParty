@@ -1,6 +1,6 @@
-package it.unibo.UniBoParty.model.minigames.mazegame.api;
+package it.unibo.uniboparty.model.minigames.mazegame.api;
 
-import it.unibo.UniBoParty.utilities.CellType;
+import it.unibo.uniboparty.utilities.CellType;
 
 /**
  * Represents a cell in the maze.

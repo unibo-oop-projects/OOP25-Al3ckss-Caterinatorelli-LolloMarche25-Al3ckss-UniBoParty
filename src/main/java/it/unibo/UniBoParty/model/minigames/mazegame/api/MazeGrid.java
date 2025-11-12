@@ -1,4 +1,4 @@
-package it.unibo.UniBoParty.model.minigames.mazegame.api;
+package it.unibo.uniboparty.model.minigames.mazegame.api;
 
 /**
  * Interface representing the maze grid.

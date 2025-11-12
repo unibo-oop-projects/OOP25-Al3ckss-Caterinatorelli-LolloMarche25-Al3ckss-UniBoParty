@@ -1,4 +1,4 @@
-package it.unibo.UniBoParty.utilities;
+package it.unibo.uniboparty.utilities;
 /**
  * Enum representing the different types of cells in the maze.
  */

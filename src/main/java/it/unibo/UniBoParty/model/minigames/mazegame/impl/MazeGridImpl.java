@@ -1,8 +1,8 @@
-package it.unibo.UniBoParty.model.minigames.mazegame.impl;
+package it.unibo.uniboparty.model.minigames.mazegame.impl;
 
-import it.unibo.UniBoParty.model.minigames.mazegame.api.Cell;
-import it.unibo.UniBoParty.utilities.CellType;
-import it.unibo.UniBoParty.model.minigames.mazegame.api.MazeGrid;
+import it.unibo.uniboparty.model.minigames.mazegame.api.Cell;
+import it.unibo.uniboparty.model.minigames.mazegame.api.MazeGrid;
+import it.unibo.uniboparty.utilities.CellType;
 /**
  * Implementation of the MazeGrid interface.
  */

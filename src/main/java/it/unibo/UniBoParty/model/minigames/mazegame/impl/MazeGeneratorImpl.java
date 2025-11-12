@@ -1,9 +1,9 @@
-package it.unibo.UniBoParty.model.minigames.mazegame.impl;
+package it.unibo.uniboparty.model.minigames.mazegame.impl;
 
 import java.util.Random;
 
-import it.unibo.UniBoParty.utilities.CellType;
-import it.unibo.UniBoParty.model.minigames.mazegame.api.MazeGenerator;
+import it.unibo.uniboparty.model.minigames.mazegame.api.MazeGenerator;
+import it.unibo.uniboparty.utilities.CellType;
 /**
  * Implementation of the MazeGenerator interface.
  */

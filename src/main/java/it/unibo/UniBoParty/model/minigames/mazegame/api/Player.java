@@ -1,4 +1,4 @@
-package it.unibo.UniBoParty.model.minigames.mazegame.api;
+package it.unibo.uniboparty.model.minigames.mazegame.api;
 /**
  * Represents a player in the maze game 
  */

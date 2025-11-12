@@ -1,15 +1,15 @@
-package it.unibo.UniBoParty.model.minigames.mazegame.impl;
+package it.unibo.uniboparty.model.minigames.mazegame.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import it.unibo.UniBoParty.model.minigames.mazegame.api.Cell;
-import it.unibo.UniBoParty.utilities.CellType;
-import it.unibo.UniBoParty.utilities.Direction;
-import it.unibo.UniBoParty.model.minigames.mazegame.api.MazeGenerator;
-import it.unibo.UniBoParty.model.minigames.mazegame.api.MazeModel;
-import it.unibo.UniBoParty.model.minigames.mazegame.api.Player;
-import it.unibo.UniBoParty.view.minigames.mazegame.api.GameObserver;
+import it.unibo.uniboparty.model.minigames.mazegame.api.Cell;
+import it.unibo.uniboparty.model.minigames.mazegame.api.MazeGenerator;
+import it.unibo.uniboparty.model.minigames.mazegame.api.MazeModel;
+import it.unibo.uniboparty.model.minigames.mazegame.api.Player;
+import it.unibo.uniboparty.utilities.CellType;
+import it.unibo.uniboparty.utilities.Direction;
+import it.unibo.uniboparty.view.minigames.mazegame.api.GameObserver;
 /**
  * Implementation of the MazeModel interface.
  */

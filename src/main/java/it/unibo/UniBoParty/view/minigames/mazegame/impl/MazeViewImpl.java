@@ -1,10 +1,12 @@
-package it.unibo.UniBoParty.view.minigames.mazegame.impl;
+package it.unibo.uniboparty.view.minigames.mazegame.impl;
 
 import javax.swing.*;
+
+import it.unibo.uniboparty.model.minigames.mazegame.api.Cell;
+import it.unibo.uniboparty.model.minigames.mazegame.api.MazeModel;
+import it.unibo.uniboparty.view.minigames.mazegame.api.MazeView;
+
 import java.awt.*;
-import it.unibo.UniBoParty.model.minigames.mazegame.api.Cell;
-import it.unibo.UniBoParty.model.minigames.mazegame.api.MazeModel;
-import it.unibo.UniBoParty.view.minigames.mazegame.api.MazeView;
 
 public class MazeViewImpl extends JFrame implements MazeView {
 

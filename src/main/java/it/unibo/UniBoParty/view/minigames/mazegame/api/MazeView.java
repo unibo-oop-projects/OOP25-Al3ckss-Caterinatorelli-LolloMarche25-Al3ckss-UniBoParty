@@ -1,6 +1,6 @@
-package it.unibo.UniBoParty.view.minigames.mazegame.api;
+package it.unibo.uniboparty.view.minigames.mazegame.api;
 
-import it.unibo.UniBoParty.model.minigames.mazegame.api.MazeModel;
+import it.unibo.uniboparty.model.minigames.mazegame.api.MazeModel;
 /**
  * Interface representing the Maze View.
  */
