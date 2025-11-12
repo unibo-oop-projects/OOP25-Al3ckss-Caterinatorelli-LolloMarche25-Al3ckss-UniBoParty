@@ -16,8 +16,7 @@ class PlayerTest {
 
     @BeforeEach
     void setUp() {
-        
-        final CellType[][] layout = new CellType[][]{
+        final CellType[][] layout = {
             {CellType.START},
             {CellType.EMPTY}
         };
