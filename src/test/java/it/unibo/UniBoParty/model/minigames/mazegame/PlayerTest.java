@@ -1,4 +1,4 @@
-package it.unibo.uniboparty.model.minigames.mazegame;
+package it.unibo.UniBoParty.model.minigames.mazegame;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -8,23 +8,21 @@ import it.unibo.uniboparty.utilities.CellType;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PlayerTest {
+class PlayerTest {
 
-    private MazeGridImpl grid;
     private PlayerImpl player;
-    private final int INITIAL_ROW = 0;
-    private final int INITIAL_COL = 0;
+    private static final int INITIAL_ROW = 0;
+    private static final int INITIAL_COL = 0;
 
     @BeforeEach
     void setUp() {
         
-        CellType[][] layout = new CellType[][]{
+        final CellType[][] layout = new CellType[][]{
             {CellType.START},
             {CellType.EMPTY}
         };
-        this.grid = new MazeGridImpl(layout);
-
-        this.player = new PlayerImpl(this.grid, INITIAL_ROW, INITIAL_COL);
+        final MazeGridImpl grid = new MazeGridImpl(layout);
+        this.player = new PlayerImpl(grid, INITIAL_ROW, INITIAL_COL);
     }
     /**
      * test the constructor and getters of PlayerImpl.
