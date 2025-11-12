@@ -31,7 +31,10 @@ public class MazeModelTest {
             this.updateCount = 0;
         }
     }
-    
+
+    /**
+     * Set up the MazeModelImpl and TestObserver before each test.
+     */
     @BeforeEach
     void setUp() {
         this.model = new MazeModelImpl(); 
@@ -40,15 +43,14 @@ public class MazeModelTest {
         observer.resetUpdateCount();
     }
 
-    
     /**
-     * test that moving the player in a valid direction updates the model correctly,
+     * test that moving the player in a valid direction updates the model correctly.
      */
     @Test
     void testMovePlayer() {
         boolean moved = false;
 
-        for (Direction dir : Direction.values()) {
+        for (final Direction dir : Direction.values()) {
             if (model.movePlayer(dir)) {
                 moved = true;
                 break;
@@ -94,7 +96,7 @@ public class MazeModelTest {
             assertEquals(0, observer.getUpdateCount(), "L'observer NON deve essere notificato per una mossa fallita.");
         }
     }
-    
+ 
    /**
     * Test the reset functionality of the MazeModelImpl.
     */
