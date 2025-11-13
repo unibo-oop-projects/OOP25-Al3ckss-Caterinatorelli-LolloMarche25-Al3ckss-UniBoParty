@@ -8,7 +8,7 @@ import java.util.List;
 /*
  * Standard Tetris pieces definitions.
  */
-final class StandardPieces {
+public final class StandardPieces {
     private static Color pick(int idx) {
         Color[] palette = {
             new Color(0x4CAF50), new Color(0x2196F3), new Color(0xFF9800),
@@ -18,7 +18,7 @@ final class StandardPieces {
         return palette[idx % palette.length];
     }
 
-    static final List<PieceImpl> ALL;
+    public static final List<PieceImpl> ALL;
     static {
         List<PieceImpl> list = new ArrayList<>();
 
