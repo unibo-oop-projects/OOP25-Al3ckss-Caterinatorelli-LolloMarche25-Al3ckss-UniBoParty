@@ -21,11 +21,11 @@ public interface MazeGrid {
     /**
      * Get the initial col index of the maze.
      * 
-     * @return an int rappresenting the start col.   
+     * @return an int rappresenting the start col.
      */
     int getStartCol();
 
-    /**      
+    /**
      * Get the exit row index of the maze.
      * 
      * @return an int rappresenting exit row .

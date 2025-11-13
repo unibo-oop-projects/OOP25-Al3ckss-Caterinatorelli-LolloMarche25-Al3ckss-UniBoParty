@@ -64,7 +64,7 @@ public interface MazeModel {
      * 
      * @return an int rappresenting the maximum number of moves allowed
      */
-    int getMaxMoves();  
+    int getMaxMoves();
 
     /**
      * Get the start time in milliseconds.
@@ -78,8 +78,8 @@ public interface MazeModel {
      * 
      * @return a long rappresenting time limit in milliseconds
      */
-    long getTimeLimitMillis();  
-    
+    long getTimeLimitMillis();
+
     /**
      * Add an observer to the model.
      * 

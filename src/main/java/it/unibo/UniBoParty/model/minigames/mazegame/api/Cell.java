@@ -32,6 +32,6 @@ public interface Cell {
      * 
      * @return true if the cell is walkable, false otherwise.
      */
-    boolean isWalkable();     
-   
+    boolean isWalkable(); 
+
 }

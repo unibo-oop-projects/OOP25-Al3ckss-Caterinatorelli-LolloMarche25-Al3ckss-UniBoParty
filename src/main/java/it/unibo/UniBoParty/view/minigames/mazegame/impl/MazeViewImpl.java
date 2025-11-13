@@ -17,7 +17,11 @@ public class MazeViewImpl extends JFrame implements MazeView {
     private static final int CELL_SIZE = 40;
     private MazeModel model;
     private MazePanel mazePanel;
-
+    /**
+     * Constructor for MazeViewImpl.
+     * 
+     * @param model the MazeModel to be visualized
+     */
     public MazeViewImpl(final MazeModel model) {
         this.model = model;
         this.mazePanel = new MazePanel();
@@ -37,8 +41,8 @@ public class MazeViewImpl extends JFrame implements MazeView {
      * {@inheritDoc}
      */
     @Override
-    public void onModelUpdated(MazeModel model) {
-        this.model = model;
+    public void onModelUpdated(final MazeModel newModel) {
+        this.model = newModel;
         mazePanel.repaint();
 
         if (model.checkWin()) {
@@ -49,11 +53,12 @@ public class MazeViewImpl extends JFrame implements MazeView {
             this.dispose();
         }
     }
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public void render(MazeModel newModel) {
+    public void render(final MazeModel newModel) {
         this.model = newModel;
         mazePanel.repaint();
     }
@@ -61,18 +66,20 @@ public class MazeViewImpl extends JFrame implements MazeView {
     /**
      * Inner class for rendering the maze as a JPanel.
      */
-    private class MazePanel extends JPanel {
+    private final class MazePanel extends JPanel {
         /**
          * {@inheritDoc}
          */
         @Override
-        protected void paintComponent(Graphics g) {
+        protected void paintComponent(final Graphics g) {
             super.paintComponent(g);
-            if (model == null) return;
+            if (model == null){
+                return;
+            }
 
-            int rows = model.getRows();
-            int cols = model.getCols();
-            int cellSize = 40;
+            final int rows = model.getRows();
+            final int cols = model.getCols();
+            final int cellSize = CELL_SIZE;
 
             for (int r = 0; r < rows; r++) {
                 for (int c = 0; c < cols; c++) {

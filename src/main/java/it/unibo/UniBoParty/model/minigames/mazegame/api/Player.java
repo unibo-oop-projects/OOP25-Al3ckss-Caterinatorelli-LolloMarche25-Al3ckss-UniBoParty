@@ -3,7 +3,7 @@ package it.unibo.uniboparty.model.minigames.mazegame.api;
 /**
  * Represents a player in the maze game.
  */
- public interface Player {
+public interface Player {
     /**
      * Get the current row of the player.
      * 
