@@ -15,8 +15,14 @@ import it.unibo.uniboparty.view.minigames.mazegame.api.MazeView;
 public class MazeViewImpl extends JFrame implements MazeView {
 
     private static final int CELL_SIZE = 40;
+    private static final int FRAME_WIDTH_INSET = 16;
+    private static final int FRAME_HEIGHT_INSET = 39;
+
+    private static final int PLAYER_PADDING = 5;
+    private static final int PLAYER_DIAMETER_INSET = 10;
     private MazeModel model;
     private MazePanel mazePanel;
+
     /**
      * Constructor for MazeViewImpl.
      * 
@@ -29,8 +35,8 @@ public class MazeViewImpl extends JFrame implements MazeView {
         setTitle("Maze Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         final int cellSize = CELL_SIZE;
-        setSize(model.getCols() * cellSize + 16, model.getRows() * cellSize + 39);
-        setLocationRelativeTo(null); // centra la finestra
+        setSize(model.getCols() * cellSize + FRAME_WIDTH_INSET, model.getRows() * cellSize + FRAME_HEIGHT_INSET);
+        setLocationRelativeTo(null); 
         add(mazePanel);
 
         setVisible(true);
@@ -73,7 +79,7 @@ public class MazeViewImpl extends JFrame implements MazeView {
         @Override
         protected void paintComponent(final Graphics g) {
             super.paintComponent(g);
-            if (model == null){
+            if (model == null) {
                 return;
             }
 
@@ -83,7 +89,7 @@ public class MazeViewImpl extends JFrame implements MazeView {
 
             for (int r = 0; r < rows; r++) {
                 for (int c = 0; c < cols; c++) {
-                    Cell cell = model.getCell(r, c);
+                    final Cell cell = model.getCell(r, c);
                     switch (cell.getType()) {
                         case WALL -> g.setColor(Color.BLACK);
                         case EMPTY -> g.setColor(Color.WHITE);
@@ -94,7 +100,8 @@ public class MazeViewImpl extends JFrame implements MazeView {
 
                     if (r == model.getPlayer().getRow() && c == model.getPlayer().getCol()) {
                         g.setColor(Color.BLUE);
-                        g.fillOval(c * cellSize + 5, r * cellSize + 5, cellSize - 10, cellSize - 10);
+                        g.fillOval(c * CELL_SIZE + PLAYER_PADDING, r * CELL_SIZE + PLAYER_PADDING,
+                        CELL_SIZE - PLAYER_DIAMETER_INSET, CELL_SIZE - PLAYER_DIAMETER_INSET);
                     }
                 }
             }

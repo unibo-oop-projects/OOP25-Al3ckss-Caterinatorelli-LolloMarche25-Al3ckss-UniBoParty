@@ -3,7 +3,7 @@ package it.unibo.uniboparty.application;
 /**
  * Main application class for UniBoParty.
  */
-public class MainApp {
+public final class MainApp {
 
     /**
      * Private constructor to prevent instantiation of this utility class.
@@ -17,7 +17,7 @@ public class MainApp {
      * 
      * @param args command-line arguments
      */
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
 
     }
 }

@@ -12,5 +12,5 @@ public interface GameObserver {
  * 
  * @param model the updated MazeModel
  */
-    void onModelUpdated(MazeModel model);
+void onModelUpdated(MazeModel model);
 }
