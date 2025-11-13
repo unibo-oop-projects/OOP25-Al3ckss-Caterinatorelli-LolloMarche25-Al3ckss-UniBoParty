@@ -1,5 +1,8 @@
 package it.unibo.uniboparty.application;
 
+import it.unibo.uniboparty.controller.minigames.mazegame.api.MazeController;
+import it.unibo.uniboparty.controller.minigames.mazegame.impl.MazeControllerImpl;
+
 /**
  * Main application class for UniBoParty.
  */
@@ -18,6 +21,7 @@ public final class MainApp {
      * @param args command-line arguments
      */
     public static void main(final String[] args) {
-
+        final MazeController controller = new MazeControllerImpl();
+        controller.startNewGame();
     }
 }

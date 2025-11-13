@@ -55,16 +55,16 @@ public interface MazeModel {
     int getCurrentMoves();
 
     /**
+     * Get the maximum number of moves allowed.
+     * 
+     * @return an int rappresenting maximum moves allowed
+     */
+    int getMaxMoves();
+
+    /**
      * Reset the game to the initial state.
      */
     void reset();
-
-    /**
-     * get the maximum number of moves allowed.
-     * 
-     * @return an int rappresenting the maximum number of moves allowed
-     */
-    int getMaxMoves();
 
     /**
      * Get the start time in milliseconds.
@@ -72,13 +72,6 @@ public interface MazeModel {
      * @return a long rappresenting start time in milliseconds
      */
     long getStartTimeMillis();
-
-    /**
-     * Get the time limit in milliseconds.
-     * 
-     * @return a long rappresenting time limit in milliseconds
-     */
-    long getTimeLimitMillis();
 
     /**
      * Add an observer to the model.

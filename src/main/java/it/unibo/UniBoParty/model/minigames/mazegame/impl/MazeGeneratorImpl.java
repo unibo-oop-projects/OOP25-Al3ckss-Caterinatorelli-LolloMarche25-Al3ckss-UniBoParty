@@ -33,7 +33,7 @@ public class MazeGeneratorImpl implements MazeGenerator {
 
     private CellType[][] buildMaze1() {
         return new CellType[][] {
-                {WA, WA, WA, WA, WA, WA, WA, WA, WA,WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA},
+                {WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA},
                 {WA, ST, EM, EM, WA, EM, EM, EM, EM, WA, EM, EM, EM, EM, WA, EM, EM, EM, EM, WA},
                 {WA, WA, EM, WA, WA, EM, WA, WA, EM, WA, EM, WA, WA, EM, WA, WA, WA, WA, EM, WA},
                 {WA, EM, EM, EM, EM, EM, WA, EM, EM, WA, EM, EM, EM, WA, EM, EM, WA, EM, EM, WA},
@@ -54,7 +54,6 @@ public class MazeGeneratorImpl implements MazeGenerator {
                 {WA, WA, WA, WA, EM, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, EX, WA},
                 {WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA},
         };
-        
     }
 
     private CellType[][] buildMaze2() {

@@ -12,4 +12,9 @@ public interface MazeView extends GameObserver {
      * @param model the MazeModel to render
      */
     void render(MazeModel model);
+
+    /**
+     * Setup the JFrame properties.
+     */
+    void setupFrame();
 }

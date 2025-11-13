@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.uniboparty.model.minigames.mazegame.api.Cell;
 import it.unibo.uniboparty.model.minigames.mazegame.api.MazeModel;
 import it.unibo.uniboparty.view.minigames.mazegame.api.MazeView;
@@ -17,10 +19,9 @@ public class MazeViewImpl extends JFrame implements MazeView {
     private static final int CELL_SIZE = 40;
     private static final int FRAME_WIDTH_INSET = 16;
     private static final int FRAME_HEIGHT_INSET = 39;
-
     private static final int PLAYER_PADDING = 5;
     private static final int PLAYER_DIAMETER_INSET = 10;
-    private MazeModel model;
+    private final transient MazeModel model;
     private final MazePanel mazePanel;
 
     /**
@@ -28,18 +29,22 @@ public class MazeViewImpl extends JFrame implements MazeView {
      * 
      * @param model the MazeModel to be visualized
      */
+    @SuppressFBWarnings(
+        value = "EI_EXPOSE_REP2",
+        justification = "The model is intended to be shared between the MVC components"
+    )
     public MazeViewImpl(final MazeModel model) {
         this.model = model;
         this.mazePanel = new MazePanel();
-        setupFrame();
     }
 
     /**
      * Setup the JFrame properties.
      */
-    private void setupFrame() {
+    @Override
+    public void setupFrame() {
         setTitle("Maze Game");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         setSize(model.getCols() * CELL_SIZE + FRAME_WIDTH_INSET, model.getRows() * CELL_SIZE + FRAME_HEIGHT_INSET);
 
@@ -55,7 +60,6 @@ public class MazeViewImpl extends JFrame implements MazeView {
      */
     @Override
     public void onModelUpdated(final MazeModel newModel) {
-        this.model = newModel;
         mazePanel.repaint();
 
         if (model.checkWin()) {
@@ -72,7 +76,6 @@ public class MazeViewImpl extends JFrame implements MazeView {
      */
     @Override
     public void render(final MazeModel newModel) {
-        this.model = newModel;
         mazePanel.repaint();
     }
 
@@ -80,6 +83,8 @@ public class MazeViewImpl extends JFrame implements MazeView {
      * Inner class for rendering the maze as a JPanel.
      */
     private final class MazePanel extends JPanel {
+        private static final long serialVersionUID = 1L;
+
         /**
          * {@inheritDoc}
          */

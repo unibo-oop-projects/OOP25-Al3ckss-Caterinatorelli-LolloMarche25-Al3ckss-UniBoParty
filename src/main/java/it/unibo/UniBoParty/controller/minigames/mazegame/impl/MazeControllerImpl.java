@@ -27,7 +27,6 @@ public class MazeControllerImpl implements MazeController {
         this.view = new MazeViewImpl(model);
         model.addObserver(view);
         addKeyBindings(view);
-        startNewGame();
     }
 
     /**
@@ -36,6 +35,7 @@ public class MazeControllerImpl implements MazeController {
     @Override
     public void startNewGame() {
         model.reset();
+        view.setupFrame();
         view.render(model);
     }
 

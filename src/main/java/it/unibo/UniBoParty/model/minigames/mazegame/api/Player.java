@@ -44,4 +44,11 @@ public interface Player {
      * @return the Cell object representing the current cell of the player
      */
     Cell getCurrentCell();
+
+    /**
+     * Get a copy of the player.
+     * 
+     * @return a new Player object with the same state as the current player
+     */
+    Player getCopy();
 }

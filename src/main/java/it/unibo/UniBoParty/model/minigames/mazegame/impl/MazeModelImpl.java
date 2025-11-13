@@ -24,10 +24,8 @@ public class MazeModelImpl implements MazeModel {
 
     private boolean win;
     private boolean lose;
-    private final int maxMoves = MAX_MOVES_NUM;
     private int currentMoves;
     private final long startTimeMillis;
-    private static final long timeLimitMillis = MINUTE_MILLIS;
  
     /**
      * Constructor for MazeModelImpl that generates a new maze.
@@ -68,7 +66,7 @@ public class MazeModelImpl implements MazeModel {
      */
     @Override
     public Player getPlayer() {
-        return this.player;
+        return this.player.getCopy();
     }
 
     /**
@@ -134,24 +132,8 @@ public class MazeModelImpl implements MazeModel {
      * {@inheritDoc}
      */
     @Override
-    public int getMaxMoves() {
-        return this.maxMoves;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public long getStartTimeMillis() {
         return this.startTimeMillis;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public long getTimeLimitMillis() {
-        return this.timeLimitMillis;
     }
 
     /**
@@ -198,6 +180,14 @@ public class MazeModelImpl implements MazeModel {
      * {@inheritDoc}
      */
     @Override
+    public int getMaxMoves() {
+        return MAX_MOVES_NUM;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public boolean checkWin() {
         return this.player.getCurrentCell().getType() == CellType.EXIT;
     }
@@ -207,8 +197,8 @@ public class MazeModelImpl implements MazeModel {
      */
     @Override
     public boolean checkLose() {
-        final boolean movesExceeded = this.player.getMoves() >= this.getMaxMoves();
-        final boolean timeExceeded = (System.currentTimeMillis() - this.getStartTimeMillis()) >= this.getTimeLimitMillis();
+        final boolean movesExceeded = this.player.getMoves() >= MAX_MOVES_NUM;
+        final boolean timeExceeded = (System.currentTimeMillis() - this.getStartTimeMillis()) >= MINUTE_MILLIS;
         return movesExceeded || timeExceeded;
     }
 

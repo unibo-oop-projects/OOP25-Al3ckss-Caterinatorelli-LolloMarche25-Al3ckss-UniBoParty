@@ -20,7 +20,7 @@ public class PlayerImpl implements Player {
      * @param row rapprezenting the position row of the player
      * @param col rapprezenting the position col of the player
      */
-    public PlayerImpl(final MazeGridImpl grid, final int row, final int col) {
+    public PlayerImpl(final MazeGrid grid, final int row, final int col) {
         this.row = row;
         this.col = col;
         this.grid = grid;
@@ -74,6 +74,14 @@ public class PlayerImpl implements Player {
     @Override
     public Cell getCurrentCell() {
         return grid.getGrid()[row][col];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Player getCopy() {
+        return new PlayerImpl(this.grid, this.row, this.col);
     }
 
 }
