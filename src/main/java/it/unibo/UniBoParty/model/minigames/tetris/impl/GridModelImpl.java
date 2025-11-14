@@ -1,19 +1,29 @@
 package it.unibo.uniboparty.model.minigames.tetris.impl;
-import java.awt.*;
-import java.util.*;
-import java.util.List;
 
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import it.unibo.uniboparty.model.minigames.tetris.api.GridModel;
 import it.unibo.uniboparty.model.minigames.tetris.api.ModelListener;
 
+/**
+ * Implementation of the GridModel interface.
+ */
 public final class GridModelImpl implements GridModel {
     private final int rows;
     private final int cols;
     private final boolean[][] grid;
     private final List<ModelListener> listeners = new ArrayList<>();
 
-    public GridModelImpl(int rows, int cols) {
-        this.rows = rows; this.cols = cols;
+    /**
+     * Creates a new GridModelImpl instance with the specified dimensions.
+     * @param rows the number of rows
+     * @param cols the number of columns
+     */
+    public GridModelImpl(final int rows, final int cols) {
+        this.rows = rows; 
+        this.cols = cols;
         this.grid = new boolean[rows][cols];
     }
 
@@ -21,7 +31,7 @@ public final class GridModelImpl implements GridModel {
      * {@InheritDoc}
      */
     @Override
-    public void addListener(ModelListener l) { 
+    public void addListener(final ModelListener l) { 
         listeners.add(l); 
     }
 
@@ -29,7 +39,7 @@ public final class GridModelImpl implements GridModel {
      * {@InheritDoc}
      */
     @Override
-    public void removeListener(ModelListener l) { 
+    public void removeListener(final ModelListener l) { 
         listeners.remove(l); 
     }
 
@@ -38,7 +48,7 @@ public final class GridModelImpl implements GridModel {
      */
     @Override
     public void fireChange() {
-         for (ModelListener l : listeners) {
+         for (final ModelListener l : listeners) {
             l.onModelChanged();
          }
     }
@@ -47,7 +57,7 @@ public final class GridModelImpl implements GridModel {
      * {@InheritDoc}
      */
     @Override
-    public boolean isOccupied(int r, int c) { 
+    public boolean isOccupied(final int r, final int c) { 
         return grid[r][c]; 
     }
 
@@ -55,11 +65,16 @@ public final class GridModelImpl implements GridModel {
      * {@InheritDoc}
      */
     @Override
-    public boolean canPlace(PieceImpl piece, int topR, int leftC) {
-        for (Point rel : piece.getCells()) {
-            int r = topR + rel.y, c = leftC + rel.x;
-            if (r < 0 || r >= rows || c < 0 || c >= cols) return false;
-            if (grid[r][c]) return false;
+    public boolean canPlace(final PieceImpl piece, final int topR, final int leftC) {
+        for (final Point rel : piece.getCells()) {
+            final int r = topR + rel.y;
+            final int c = leftC + rel.x;
+            if (r < 0 || r >= rows || c < 0 || c >= cols) {
+                return false;
+            }
+            if (grid[r][c]) {
+                 return false;
+            }
         }
         return true;
     }
@@ -68,9 +83,11 @@ public final class GridModelImpl implements GridModel {
      * {@InheritDoc}
      */
     @Override
-    public void place(PieceImpl piece, int topR, int leftC) {
+    public void place(final PieceImpl piece, final int topR, final int leftC) {
         if (!canPlace(piece, topR, leftC)) throw new IllegalArgumentException("Invalid placement");
-        for (Point rel : piece.getCells()) grid[topR + rel.y][leftC + rel.x] = true;
+        for (final Point rel : piece.getCells()) {
+            grid[topR + rel.y][leftC + rel.x] = true;
+        }
         //clearFullLines();
         //fireChange();
     }
@@ -80,25 +97,40 @@ public final class GridModelImpl implements GridModel {
      */
     @Override
     public int clearFullLines() {
-        
+
         java.util.List<Integer> fullRows = new ArrayList<>();
         java.util.List<Integer> fullCols = new ArrayList<>();
 
-        
         for (int r = 0; r < rows; r++) {
             boolean full = true;
-            for (int c = 0; c < cols; c++) if (!grid[r][c]) { full = false; break; }
-            if (full) fullRows.add(r);
+            for (int c = 0; c < cols; c++) {
+                if (!grid[r][c]) { 
+                    full = false; break; 
+                }
+            }
+            if (full) {
+                 fullRows.add(r);
+            }
         }
         
         for (int c = 0; c < cols; c++) {
             boolean full = true;
-            for (int r = 0; r < rows; r++) if (!grid[r][c]) { full = false; break; }
+            for (int r = 0; r < rows; r++) {
+                if (!grid[r][c]) {
+                    { full = false; break; }
+                }
+            }
             if (full) fullCols.add(c);
         }
 
-        for (int r : fullRows) Arrays.fill(grid[r], false);
-        for (int c : fullCols) for (int r = 0; r < rows; r++) grid[r][c] = false;
+        for (int r : fullRows) {
+            Arrays.fill(grid[r], false);
+        }
+        for (int c : fullCols) {
+            for (int r = 0; r < rows; r++) {
+                grid[r][c] = false;
+            }
+        }
 
         return fullRows.size() + fullCols.size();
     }
@@ -108,7 +140,9 @@ public final class GridModelImpl implements GridModel {
      */
     @Override
     public void reset() {
-        for (int r = 0; r < rows; r++) Arrays.fill(grid[r], false);
+        for (int r = 0; r < rows; r++){
+            Arrays.fill(grid[r], false);
+        }
         fireChange();
     }
 
