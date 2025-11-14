@@ -96,7 +96,8 @@ final class GridViewImpl extends JPanel implements ModelListener {
                     final int x = c * cellSize; 
                     final int y = r * cellSize;
                     g2.setColor(new Color(can ? WHITE : RED, true));
-                    g2.fillRoundRect(x + 3, y + 3, cellSize - CELL_PADDING_TOTAL, cellSize - CELL_PADDING_TOTAL, ARC_WIDTH_HEIGHT, ARC_WIDTH_HEIGHT);
+                    g2.fillRoundRect(x + 3, y + 3, cellSize - CELL_PADDING_TOTAL,
+                    cellSize - CELL_PADDING_TOTAL, ARC_WIDTH_HEIGHT, ARC_WIDTH_HEIGHT);
                 }
             }
         }

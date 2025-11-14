@@ -9,9 +9,9 @@ import java.util.List;
  * Standard Tetris pieces definitions.
  */
 public final class StandardPieces {
+    public static final List<PieceImpl> ALL;
     private static final int SIX_BLOCKS_INDEX_START = 6;
     private static final int FIVE_BLOCKS_INDEX_START = 5;
-    public static final List<PieceImpl> ALL;
 
     private StandardPieces() {
     }
