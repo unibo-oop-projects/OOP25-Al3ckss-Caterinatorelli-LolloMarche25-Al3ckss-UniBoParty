@@ -19,7 +19,7 @@ class TetrisModelTest {
     private static final int COLS = 5;
 
     static class TestListener implements ModelListener {
-        private int callCount = 0;
+        private int callCount;
         @Override
         public void onModelChanged() {
             callCount++;
@@ -52,8 +52,8 @@ class TetrisModelTest {
      */
     @Test
     void testNewRackAndConsumePiece() {
-        PieceImpl[] initialRack = model.getRack();
-        PieceImpl consumed = initialRack[0];
+        final PieceImpl[] initialRack = model.getRack();
+        final PieceImpl consumed = initialRack[0];
 
         model.consumePiece(consumed);
         assertEquals(2, model.getRack().length);
@@ -94,8 +94,8 @@ class TetrisModelTest {
      */
     @Test
     void testRandomPiece() {
-        PieceImpl p1 = model.randomPiece();
-        PieceImpl p2 = model.randomPiece();
+        final PieceImpl p1 = model.randomPiece();
+        final PieceImpl p2 = model.randomPiece();
         assertNotNull(p1);
         assertNotNull(p2);
         assertTrue(StandardPieces.ALL.contains(p1));
@@ -106,7 +106,7 @@ class TetrisModelTest {
      */
     @Test
     void testSelectAndGetSelectedPiece() {
-        PieceImpl p = model.getRack()[0];
+        final PieceImpl p = model.getRack()[0];
         model.selectPiece(p);
 
         assertEquals(p, model.getSelected());
@@ -116,15 +116,15 @@ class TetrisModelTest {
      * test tryPlaceAt method for valid placement.
      */
     @Test
-    void testTryPlaceAt_ValidPlacement() {
-        PieceImpl pieceToPlace = model.getRack()[0];
+    void testTryPlaceAtValidPlacement() {
+        final PieceImpl pieceToPlace = model.getRack()[0];
         model.selectPiece(pieceToPlace);
         listener.reset();
     
         model.tryPlaceAt(0, 0); 
 
-        GridModel grid = model.getGrid();
-        for (Point rel : pieceToPlace.getCells()) {
+        final GridModel grid = model.getGrid();
+        for (final Point rel : pieceToPlace.getCells()) {
             assertTrue(grid.isOccupied(rel.y, rel.x));
         }
 
@@ -132,7 +132,7 @@ class TetrisModelTest {
         assertFalse(List.of(model.getRack()).contains(pieceToPlace));
         assertEquals(2, model.getRack().length);
 
-        int expectedScore = pieceToPlace.getCells().size();
+        final int expectedScore = pieceToPlace.getCells().size();
         assertEquals(expectedScore, model.getScore());
     }
 
@@ -140,8 +140,8 @@ class TetrisModelTest {
      * test tryPlaceAt method for invalid placement.
      */
     @Test
-    void testTryPlaceAt_InvalidPlacement() {
-        PieceImpl pieceToPlace = model.getRack()[0];
+    void testTryPlaceAtInvalidPlacement() {
+        final PieceImpl pieceToPlace = model.getRack()[0];
         model.selectPiece(pieceToPlace);
 
         ((GridModelImpl) model.getGrid()).place(pieceToPlace, 0, 0); 

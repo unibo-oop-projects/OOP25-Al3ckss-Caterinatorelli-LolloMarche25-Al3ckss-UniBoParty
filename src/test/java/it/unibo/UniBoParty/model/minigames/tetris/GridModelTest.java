@@ -55,7 +55,7 @@ class GridModelTest {
     void testCanPlaceValidPlacement() {
 
         assertTrue(grid.canPlace(block, TEST_ROWANDCOL, TEST_ROWANDCOL));
-        assertTrue(grid.canPlace(dot, ROWS-1, COLS-1));
+        assertTrue(grid.canPlace(dot, ROWS - 1, COLS - 1));
     }
 
     /**
@@ -86,7 +86,7 @@ class GridModelTest {
     void testPlaceAndIsOccupied() {
         listener.reset();
         grid.place(dot, 2, 3);
-        
+
         assertTrue(grid.isOccupied(2, 3));
         assertFalse(grid.isOccupied(2, 4));
 
@@ -103,7 +103,7 @@ class GridModelTest {
 
         grid.place(dot, TEST_ROWANDCOL, TEST_ROWANDCOL);
         
-        int cleared = grid.clearFullLines();
+        final int cleared = grid.clearFullLines();
         assertEquals(0, cleared);
         assertTrue(grid.isOccupied(TEST_ROWANDCOL, TEST_ROWANDCOL)); // La cella deve rimanere
     }

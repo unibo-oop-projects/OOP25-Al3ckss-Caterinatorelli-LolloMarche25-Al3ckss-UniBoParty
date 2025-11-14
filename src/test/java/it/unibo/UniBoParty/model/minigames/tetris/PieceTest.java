@@ -14,14 +14,10 @@ import java.util.List;
 class PieceTest {
 
     private static final Color TEST_COLOR = Color.RED;
-
-    private final int[][] lShapeCoords = new int[][]{{1, 0}, {2, 0}, {3, 0}, {3, 1}};
-
-    private final int[][] offsetCoords = new int[][]{{10, -5}, {10, -4}, {11, -5}};
-
-    private final int[][] oShapeCoords = new int[][]{{0, 0}, {0, 1}, {1, 0}, {1, 1}};
-
-    // -----------------------------------------------------------------------
+    
+    private final int[][] lShapeCoords = {{1, 0}, {2, 0}, {3, 0}, {3, 1}};
+    private final int[][] offsetCoords = {{10, -5}, {10, -4}, {11, -5}};
+    private final int[][] oShapeCoords = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
 
     /**
      * test factory method and basic getters.
