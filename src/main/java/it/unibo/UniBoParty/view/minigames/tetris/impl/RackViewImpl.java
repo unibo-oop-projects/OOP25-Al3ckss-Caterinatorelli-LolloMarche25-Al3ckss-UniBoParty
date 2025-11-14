@@ -38,13 +38,13 @@ final class RackViewImpl extends JPanel implements Rackview, ModelListener {
     }
 
     /**
-     * {@InheritDoc}
+     * {@InheritDoc}.
      */
     public void refresh() {
         removeAll();
-        ButtonGroup group = new ButtonGroup();
-        for (PieceImpl p : model.getRack()) {
-            JToggleButton btn = new JToggleButton(renderIcon(p));
+        final ButtonGroup group = new ButtonGroup();
+        for (final PieceImpl p : model.getRack()) {
+            final JToggleButton btn = new JToggleButton(renderIcon(p));
             btn.setToolTipText(p.getName() + " (" + p.getCells().size() + ")");
             btn.addActionListener(e -> model.selectPiece(p));
             group.add(btn);
@@ -55,29 +55,30 @@ final class RackViewImpl extends JPanel implements Rackview, ModelListener {
     }
 
     /**
-     * {@InheritDoc}
+     * {@InheritDoc}.
      */
-    public Icon renderIcon(PieceImpl p) {
+    public Icon renderIcon(final PieceImpl p) {
         final int cell = 16;
         final int pad = 3;
-        final int w = p.width()*cell + pad*2;
-        final int h = p.height()*cell + pad*2;
+        final int w = p.width() * cell + pad * 2;
+        final int h = p.height() * cell + pad * 2;
         final Image img = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
         final Graphics2D g2 = (Graphics2D) img.getGraphics();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setColor(new Color(0,0,0,0)); g2.fillRect(0,0,w,h);
+        g2.setColor(new Color(0, 0, 0, 0));
+        g2.fillRect(0,0,w,h);
         g2.setColor(p.getColor());
         for (final Point rel : p.getCells()) {
-            final int x = pad + rel.x*cell;
-            final int y = pad + rel.y*cell;
-            g2.fillRoundRect(x+1, y+1, cell-2, cell-2, 6, 6);
+            final int x = pad + rel.x * cell;
+            final int y = pad + rel.y * cell;
+            g2.fillRoundRect(x + 1, y + 1, cell - 2, cell - 2, 6, 6);
         }
         g2.dispose();
         return new ImageIcon(img);
     }
 
     /**
-     * {@InheritDoc}
+     * {@InheritDoc}.
      */
     @Override
     public void onModelChanged() {

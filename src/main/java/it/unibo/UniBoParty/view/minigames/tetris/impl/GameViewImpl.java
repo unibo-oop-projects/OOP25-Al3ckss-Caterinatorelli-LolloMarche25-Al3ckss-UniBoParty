@@ -41,7 +41,7 @@ public final class GameViewImpl extends JFrame implements GameView {
     }
 
     /**
-     * {@InheritDoc}
+     * {@InheritDoc}.
      */
     public void refresh() {
         hud.onModelChanged();
@@ -49,3 +49,4 @@ public final class GameViewImpl extends JFrame implements GameView {
         rackView.refresh();
     }
 }
+

@@ -50,7 +50,7 @@ public final class TetrisControllerImpl implements TetrisController {
             JOptionPane.showMessageDialog(null, "No moves available. Score: " + model.getScore(),
                     "Game Over", JOptionPane.INFORMATION_MESSAGE);
             view.dispose();
-  
+
         }
         if (model.getScore() > 100) {
             JOptionPane.showMessageDialog(null, "You Win. Score: " + model.getScore(),

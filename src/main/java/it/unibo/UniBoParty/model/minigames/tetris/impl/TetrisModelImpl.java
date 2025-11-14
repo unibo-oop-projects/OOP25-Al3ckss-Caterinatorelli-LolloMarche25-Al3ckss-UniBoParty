@@ -76,7 +76,7 @@ public final class TetrisModelImpl implements TetrisModel {
                         return true;
                     }
                 }
-            }          
+            }
         }
         return false;
     }

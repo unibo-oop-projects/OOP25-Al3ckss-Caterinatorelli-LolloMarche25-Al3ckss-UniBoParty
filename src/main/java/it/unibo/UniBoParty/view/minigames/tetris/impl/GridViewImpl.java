@@ -21,6 +21,7 @@ final class GridViewImpl extends JPanel implements ModelListener {
 
     /**
      * Creates a new {@code GridViewImpl} instance.
+     * 
      * @param model the Tetris model
      * @param cellSize the size of each cell 
      */
@@ -73,16 +74,19 @@ final class GridViewImpl extends JPanel implements ModelListener {
             }
         }
 
-        PieceImpl sel = model.getSelected();
+        final PieceImpl sel = model.getSelected();
         if (sel != null) {
-            Point mouse = getMousePosition();
+            final Point mouse = getMousePosition();
             if (mouse != null) {
                 final int baseC = mouse.x / cellSize;
                 final int baseR = mouse.y / cellSize;
                 final boolean can = model.getGrid().canPlace(sel, baseR, baseC);
-                for (Point rel : sel.getCells()) {
-                    final int r = baseR + rel.y, c = baseC + rel.x;
-                    if (r < 0 || r >= model.getGrid().getRows() || c < 0 || c >= model.getGrid().getCols()) continue;
+                for (final Point rel : sel.getCells()) {
+                    final int r = baseR + rel.y;
+                    final int c = baseC + rel.x;
+                    if (r < 0 || r >= model.getGrid().getRows() || c < 0 || c >= model.getGrid().getCols()) {
+                        continue;
+                    }
                     final int x = c * cellSize; 
                     final int y = r * cellSize;
                     g2.setColor(new Color(can ? 0x88FFFFFF : 0x88FF0000, true));

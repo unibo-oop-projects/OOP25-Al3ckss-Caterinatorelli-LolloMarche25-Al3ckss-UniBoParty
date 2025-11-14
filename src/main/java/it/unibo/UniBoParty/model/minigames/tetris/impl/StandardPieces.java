@@ -13,6 +13,7 @@ public final class StandardPieces {
 
     private StandardPieces() {
     }
+
     private static Color pick(final int idx) {
         final Color[] palette = {
             new Color(0x4CAF50), new Color(0x2196F3), new Color(0xFF9800),
@@ -36,7 +37,7 @@ public final class StandardPieces {
 
         list.add(PieceImpl.of(new int[][]{{0, 0}, {0, 1}, {0, 2}, {0, 3}}, "I4H", pick(6)));
         list.add(PieceImpl.of(new int[][]{{0, 0}, {1, 0}, {2, 0}, {3, 0}}, "I4V", pick(0)));
-        list.add(PieceImpl.of(new int[][]{{0, 0}, {0, 1} ,{1, 0}, {1, 1}}, "O", pick(1)));
+        list.add(PieceImpl.of(new int[][]{{0, 0}, {0, 1}, {1, 0}, {1, 1}}, "O", pick(1)));
         list.add(PieceImpl.of(new int[][]{{0, 0}, {1, 0}, {2, 0}, {2, 1}}, "L4", pick(2)));
         list.add(PieceImpl.of(new int[][]{{0, 1}, {1, 0}, {1, 1}, {1, 2}}, "T4", pick(3)));
 

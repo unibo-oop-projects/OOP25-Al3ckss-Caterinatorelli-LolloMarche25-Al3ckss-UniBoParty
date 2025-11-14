@@ -108,14 +108,15 @@ public final class GridModelImpl implements GridModel {
             boolean full = true;
             for (int c = 0; c < cols; c++) {
                 if (!grid[r][c]) { 
-                    full = false; break; 
+                    full = false; 
+                    break; 
                 }
             }
             if (full) {
                  fullRows.add(r);
             }
         }
-        
+
         for (int c = 0; c < cols; c++) {
             boolean full = true;
             for (int r = 0; r < rows; r++) {
@@ -124,13 +125,15 @@ public final class GridModelImpl implements GridModel {
                       break;
                 }
             }
-            if (full) fullCols.add(c);
+            if (full) {
+                fullCols.add(c);
+            }
         }
 
-        for (int r : fullRows) {
+        for (final int r : fullRows) {
             Arrays.fill(grid[r], false);
         }
-        for (int c : fullCols) {
+        for (final int c : fullCols) {
             for (int r = 0; r < rows; r++) {
                 grid[r][c] = false;
             }

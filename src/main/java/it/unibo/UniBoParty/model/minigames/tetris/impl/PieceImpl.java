@@ -56,7 +56,7 @@ public final class PieceImpl implements Piece {
      * {@InheritDoc}.
      */
     @Override
-    public int width()  { 
+    public int width() { 
         return cells.stream().mapToInt(p -> p.x).max().orElse(0) + 1; 
     }
 
