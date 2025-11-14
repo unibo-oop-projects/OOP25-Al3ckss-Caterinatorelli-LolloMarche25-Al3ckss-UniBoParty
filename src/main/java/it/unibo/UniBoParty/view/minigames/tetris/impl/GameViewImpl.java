@@ -11,6 +11,8 @@ import javax.swing.Timer;
  * Implementation of the Tetris game view.
  */
 public final class GameViewImpl extends JFrame implements GameView {
+    private static final int CELL_SIZE = 36;
+    private static final int DELAY = 40;
     private final GridViewImpl gridView;
     private final RackViewImpl rackView;
     private final HUD hud;
@@ -25,7 +27,7 @@ public final class GameViewImpl extends JFrame implements GameView {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        gridView = new GridViewImpl(model, 36);
+        gridView = new GridViewImpl(model, CELL_SIZE);
         rackView = new RackViewImpl(model);
         hud = new HUD(model);
 
@@ -37,7 +39,7 @@ public final class GameViewImpl extends JFrame implements GameView {
         pack();
         setLocationRelativeTo(null);
 
-        new Timer(40, e -> gridView.repaint()).start();
+        new Timer(DELAY, e -> gridView.repaint()).start();
     }
 
     /**

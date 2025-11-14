@@ -16,6 +16,13 @@ import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 
 final class GridViewImpl extends JPanel implements ModelListener {
+    private static final int RED = 0x88FF0000;
+    private static final int WHITE = 0x88FFFFFF;
+    private static final int GREY = 0x1E1E1E;
+    private static final int DARK_GREEN = 0x6AA84F;
+    private static final int DARK_GRAY = 0x121212;
+    private static final int ARC_WIDTH_HEIGHT = 10;
+    private static final int CELL_PADDING_TOTAL = 6;
     private final TetrisModel model;
     private final int cellSize;
 
@@ -29,7 +36,7 @@ final class GridViewImpl extends JPanel implements ModelListener {
         this.model = model;
         this.cellSize = cellSize;
         setPreferredSize(new Dimension(model.getGrid().getCols() * cellSize, model.getGrid().getRows() * cellSize));
-        setBackground(new Color(0x121212));
+        setBackground(new Color(DARK_GRAY));
         setOpaque(true);
 
         addMouseListener(new MouseAdapter() {
@@ -65,11 +72,10 @@ final class GridViewImpl extends JPanel implements ModelListener {
             for (int c = 0; c < model.getGrid().getCols(); c++) {
                 final int x = c * cellSize;
                 final int y = r * cellSize;
-                g2.setColor(new Color(0x1E1E1E));
-                g2.fillRoundRect(x + 1, y + 1, cellSize - 2, cellSize - 2, 8, 8);
+                g2.setColor(new Color(GREY));
                 if (model.getGrid().isOccupied(r, c)) {
-                    g2.setColor(new Color(0x6AA84F));
-                    g2.fillRoundRect(x + 3, y + 3, cellSize - 6, cellSize - 6, 10, 10);
+                    g2.setColor(new Color(DARK_GREEN));
+                    g2.fillRoundRect(x + 3, y + 3, cellSize - CELL_PADDING_TOTAL, cellSize - CELL_PADDING_TOTAL, ARC_WIDTH_HEIGHT, ARC_WIDTH_HEIGHT);
                 }
             }
         }
@@ -89,8 +95,8 @@ final class GridViewImpl extends JPanel implements ModelListener {
                     }
                     final int x = c * cellSize; 
                     final int y = r * cellSize;
-                    g2.setColor(new Color(can ? 0x88FFFFFF : 0x88FF0000, true));
-                    g2.fillRoundRect(x + 3, y + 3, cellSize - 6, cellSize - 6, 10, 10);
+                    g2.setColor(new Color(can ? WHITE : RED, true));
+                    g2.fillRoundRect(x + 3, y + 3, cellSize - CELL_PADDING_TOTAL, cellSize - CELL_PADDING_TOTAL, ARC_WIDTH_HEIGHT, ARC_WIDTH_HEIGHT);
                 }
             }
         }

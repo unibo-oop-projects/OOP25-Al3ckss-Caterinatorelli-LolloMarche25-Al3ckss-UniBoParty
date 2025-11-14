@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/*
+/**
  * Standard Tetris pieces definitions.
  */
 public final class StandardPieces {
+    private static final int SIX_BLOCKS_INDEX_START = 6;
+    private static final int FIVE_BLOCKS_INDEX_START = 5;
     public static final List<PieceImpl> ALL;
 
     private StandardPieces() {
@@ -33,17 +35,17 @@ public final class StandardPieces {
 
         list.add(PieceImpl.of(new int[][]{{0, 0}, {0, 1}, {0, 2}}, "I3H", pick(3)));
         list.add(PieceImpl.of(new int[][]{{0, 0}, {1, 0}, {2, 0}}, "I3V", pick(4)));
-        list.add(PieceImpl.of(new int[][]{{0, 0}, {1, 0}, {1, 1}}, "L3", pick(5)));
+        list.add(PieceImpl.of(new int[][]{{0, 0}, {1, 0}, {1, 1}}, "L3", pick(FIVE_BLOCKS_INDEX_START)));
 
-        list.add(PieceImpl.of(new int[][]{{0, 0}, {0, 1}, {0, 2}, {0, 3}}, "I4H", pick(6)));
+        list.add(PieceImpl.of(new int[][]{{0, 0}, {0, 1}, {0, 2}, {0, 3}}, "I4H", pick(SIX_BLOCKS_INDEX_START)));
         list.add(PieceImpl.of(new int[][]{{0, 0}, {1, 0}, {2, 0}, {3, 0}}, "I4V", pick(0)));
         list.add(PieceImpl.of(new int[][]{{0, 0}, {0, 1}, {1, 0}, {1, 1}}, "O", pick(1)));
         list.add(PieceImpl.of(new int[][]{{0, 0}, {1, 0}, {2, 0}, {2, 1}}, "L4", pick(2)));
         list.add(PieceImpl.of(new int[][]{{0, 1}, {1, 0}, {1, 1}, {1, 2}}, "T4", pick(3)));
 
         list.add(PieceImpl.of(new int[][]{{0, 0}, {0, 1}, {0, 2}, {0, 3}, {0, 4}}, "I5H", pick(4)));
-        list.add(PieceImpl.of(new int[][]{{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}}, "I5V", pick(5)));
-        list.add(PieceImpl.of(new int[][]{{0, 0}, {1, 0}, {2, 0}, {2, 1}, {2, 2}}, "L5", pick(6)));
+        list.add(PieceImpl.of(new int[][]{{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}}, "I5V", pick(FIVE_BLOCKS_INDEX_START)));
+        list.add(PieceImpl.of(new int[][]{{0, 0}, {1, 0}, {2, 0}, {2, 1}, {2, 2}}, "L5", pick(SIX_BLOCKS_INDEX_START)));
         list.add(PieceImpl.of(new int[][]{{0, 1}, {1, 0}, {1, 1}, {1, 2}, {2, 1}}, "Plus", pick(0)));
         list.add(PieceImpl.of(new int[][]{{0, 0}, {1, 0}, {1, 1}, {2, 1}, {3, 1}}, "Stair5", pick(1)));
         ALL = Collections.unmodifiableList(list);

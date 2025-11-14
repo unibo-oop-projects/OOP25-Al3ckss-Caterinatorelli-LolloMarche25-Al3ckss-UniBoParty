@@ -20,6 +20,10 @@ import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 
 final class RackViewImpl extends JPanel implements Rackview, ModelListener {
+    private static final int ARC_WIDTH_HEIGTH = 6;
+    private static final int DARK_GRAY = 0x0F0F0F;
+    private static final int DIMENSION_HEIGHT = 150;
+    private static final int DIMENSION_WIDTH = 200;
     private final TetrisModel model;
 
     /**
@@ -31,8 +35,8 @@ final class RackViewImpl extends JPanel implements Rackview, ModelListener {
         this.model = model;
         setLayout(new FlowLayout(FlowLayout.LEFT, 8, 8));
         setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
-        setBackground(new Color(0x0F0F0F));
-        setPreferredSize(new Dimension(200, 150));
+        setBackground(new Color(DARK_GRAY));
+        setPreferredSize(new Dimension(DIMENSION_WIDTH, DIMENSION_HEIGHT));
         model.addListener(this);
         refresh();
     }
@@ -66,12 +70,12 @@ final class RackViewImpl extends JPanel implements Rackview, ModelListener {
         final Graphics2D g2 = (Graphics2D) img.getGraphics();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setColor(new Color(0, 0, 0, 0));
-        g2.fillRect(0,0,w,h);
+        g2.fillRect(0, 0, w, h);
         g2.setColor(p.getColor());
         for (final Point rel : p.getCells()) {
             final int x = pad + rel.x * cell;
             final int y = pad + rel.y * cell;
-            g2.fillRoundRect(x + 1, y + 1, cell - 2, cell - 2, 6, 6);
+            g2.fillRoundRect(x + 1, y + 1, cell - 2, cell - 2, ARC_WIDTH_HEIGTH, ARC_WIDTH_HEIGTH);
         }
         g2.dispose();
         return new ImageIcon(img);
