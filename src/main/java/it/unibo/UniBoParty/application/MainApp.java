@@ -1,6 +1,5 @@
 package it.unibo.uniboparty.application;
 
-
 import it.unibo.uniboparty.controller.minigames.tetris.api.TetrisController;
 import it.unibo.uniboparty.controller.minigames.tetris.impl.TetrisControllerImpl;
 
@@ -22,7 +21,7 @@ public final class MainApp {
      * @param args command-line arguments
      */
     public static void main(final String[] args) {
-        TetrisController controller = new TetrisControllerImpl();
+        final TetrisController controller = new TetrisControllerImpl();
         controller.startGame();
     }
 }

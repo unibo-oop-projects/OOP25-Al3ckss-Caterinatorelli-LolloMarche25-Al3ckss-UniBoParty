@@ -86,7 +86,7 @@ final class GridViewImpl extends JPanel implements ModelListener {
                     if (r < 0 || r >= model.getGrid().getRows() || c < 0 || c >= model.getGrid().getCols()) continue;
                     int x = c * cellSize; int y = r * cellSize;
                     g2.setColor(new Color(can ? 0x88FFFFFF : 0x88FF0000, true));
-                    g2.fillRoundRect(x+3, y+3, cellSize-6, cellSize-6, 10, 10);
+                    g2.fillRoundRect(x+3, y + 3, cellSize - 6, cellSize - 6, 10, 10);
                 }
             }
         }

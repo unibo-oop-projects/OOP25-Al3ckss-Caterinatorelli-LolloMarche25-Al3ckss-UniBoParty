@@ -24,9 +24,10 @@ final class RackViewImpl extends JPanel implements Rackview, ModelListener {
 
     /**
      * Creates a new {@code RackViewImpl} instance.
-     * @param model
+     * 
+     * @param model the Tetris model
      */
-    public RackViewImpl(TetrisModel model) {
+    RackViewImpl(final TetrisModel model) {
         this.model = model;
         setLayout(new FlowLayout(FlowLayout.LEFT, 8, 8));
         setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));

@@ -14,6 +14,7 @@ public final class GameViewImpl extends JFrame implements GameView{
 
     /**
      * Creates a new {@code GameViewImpl} instance, initializing the game window with its components.
+     * 
      * @param model 
      */
     public GameViewImpl(TetrisModel model) {
