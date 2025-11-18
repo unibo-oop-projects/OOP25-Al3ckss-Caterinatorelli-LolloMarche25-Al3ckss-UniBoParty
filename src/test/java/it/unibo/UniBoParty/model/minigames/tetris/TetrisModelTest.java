@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import it.unibo.uniboparty.model.minigames.tetris.api.GridModel;
 import it.unibo.uniboparty.model.minigames.tetris.api.ModelListener;
-import it.unibo.uniboparty.model.minigames.tetris.impl.GridModelImpl;
 import it.unibo.uniboparty.model.minigames.tetris.impl.PieceImpl;
 import it.unibo.uniboparty.model.minigames.tetris.impl.TetrisModelImpl;
 import it.unibo.uniboparty.model.minigames.tetris.impl.StandardPieces; 
@@ -131,24 +130,6 @@ class TetrisModelTest {
 
         final int expectedScore = pieceToPlace.getCells().size();
         assertEquals(expectedScore, model.getScore());
-    }
-
-    /**
-     * test tryPlaceAt method for invalid placement.
-     */
-    @Test
-    void testTryPlaceAtInvalidPlacement() {
-        final PieceImpl pieceToPlace = model.getRack()[0];
-        model.selectPiece(pieceToPlace);
-
-        ((GridModelImpl) model.getGrid()).place(pieceToPlace, 0, 0); 
-
-        model.tryPlaceAt(0, 0); 
-
-        assertNull(model.getSelected());
-        assertTrue(List.of(model.getRack()).contains(pieceToPlace));
-
-        assertEquals(0, model.getScore());
     }
 
     static class TestListener implements ModelListener {

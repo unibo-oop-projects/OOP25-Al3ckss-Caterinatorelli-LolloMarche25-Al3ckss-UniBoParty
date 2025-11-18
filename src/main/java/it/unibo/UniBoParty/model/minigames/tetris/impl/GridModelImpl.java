@@ -38,7 +38,10 @@ public final class GridModelImpl implements GridModel {
     public GridModelImpl(final int rows2, final int cols2, final boolean[][] newGrid) {
         this.rows = rows2; 
         this.cols = cols2;
-        this.grid = newGrid;
+        this.grid = new boolean[rows2][cols2];
+        for (int r = 0; r < rows2; r++) {
+            System.arraycopy(newGrid[r], 0, this.grid[r], 0, cols2);
+        }
     }
 
     /**
