@@ -70,11 +70,11 @@ public class StartGameGui extends JFrame{
 
         playerFields = new ArrayList<>();
         for (int i = 1; i <= 5; i++) {
-            JLabel label = new JLabel("Giocatore " + i + ": ");
+            final JLabel label = new JLabel("Giocatore " + i + ": ");
             label.setFont(new Font("Comic Sans MS", Font.BOLD, 22));
             label.setForeground(Color.BLACK);
 
-            JTextField field = new JTextField();
+            final JTextField field = new JTextField();
             field.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
             field.setBackground(new Color(255, 255, 255, 220));
             field.setBorder(BorderFactory.createLineBorder(Color.PINK, 2, true));
@@ -85,7 +85,7 @@ public class StartGameGui extends JFrame{
         }
         mainPanel.add(playerPanel, BorderLayout.CENTER);
 
-        JPanel buttonPanel = new JPanel();
+        final JPanel buttonPanel = new JPanel();
         buttonPanel.setOpaque(false);
 
         startButton = createButton(" Avvia Gioco ", new Color(144, 238, 144));
@@ -99,8 +99,8 @@ public class StartGameGui extends JFrame{
         exitButton.addActionListener(e -> System.exit(0));
     }
 
-    private JButton createButton(String text, Color color) {
-        JButton button = new JButton(text);
+    private JButton createButton(final String text, final Color color) {
+        final JButton button = new JButton(text);
         button.setBackground(color);
         button.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
         button.setFocusPainted(false);
@@ -109,10 +109,12 @@ public class StartGameGui extends JFrame{
         return button;
     }
 
-    private void onStartPressed(ActionEvent e) {
-        List<String> names = new ArrayList<>();
-        for (JTextField f : playerFields) {
-            if (!f.getText().isBlank()) names.add(f.getText());
+    private void onStartPressed(final ActionEvent e) {
+        final List<String> names = new ArrayList<>();
+        for (final JTextField f : playerFields) {
+            if (!f.getText().isBlank()) {
+                names.add(f.getText());
+            }
         }
 
         logic.setPlayers(names);

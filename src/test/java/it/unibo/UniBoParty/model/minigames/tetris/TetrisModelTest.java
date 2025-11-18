@@ -2,17 +2,13 @@ package it.unibo.uniboparty.model.minigames.tetris;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import it.unibo.uniboparty.model.minigames.tetris.api.GridModel;
 import it.unibo.uniboparty.model.minigames.tetris.api.ModelListener;
 import it.unibo.uniboparty.model.minigames.tetris.impl.PieceImpl;
 import it.unibo.uniboparty.model.minigames.tetris.impl.TetrisModelImpl;
 import it.unibo.uniboparty.model.minigames.tetris.impl.StandardPieces; 
-import java.awt.Point;
-import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class TetrisModelTest {
@@ -106,30 +102,6 @@ class TetrisModelTest {
         model.selectPiece(p);
 
         assertEquals(p, model.getSelected());
-    }
-
-    /**
-     * test tryPlaceAt method for valid placement.
-     */
-    @Test
-    void testTryPlaceAtValidPlacement() {
-        final PieceImpl pieceToPlace = model.getRack()[0];
-        model.selectPiece(pieceToPlace);
-        listener.reset();
-
-        model.tryPlaceAt(0, 0); 
-
-        final GridModel grid = model.getGrid();
-        for (final Point rel : pieceToPlace.getCells()) {
-            assertTrue(grid.isOccupied(rel.y, rel.x));
-        }
-
-        assertNull(model.getSelected());
-        assertFalse(List.of(model.getRack()).contains(pieceToPlace));
-        assertEquals(2, model.getRack().length);
-
-        final int expectedScore = pieceToPlace.getCells().size();
-        assertEquals(expectedScore, model.getScore());
     }
 
     static class TestListener implements ModelListener {

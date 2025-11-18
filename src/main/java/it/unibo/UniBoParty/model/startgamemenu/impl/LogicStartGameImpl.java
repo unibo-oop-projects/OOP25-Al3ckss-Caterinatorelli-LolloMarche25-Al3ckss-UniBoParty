@@ -1,8 +1,7 @@
 package it.unibo.uniboparty.model.startgamemenu.impl;
+
 import java.util.List;
-
 import it.unibo.uniboparty.model.startgamemenu.api.LogicStartGame;
-
 import java.util.ArrayList;
 
 public class LogicStartGameImpl implements LogicStartGame {
@@ -33,9 +32,9 @@ public class LogicStartGameImpl implements LogicStartGame {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setPlayers(List<String> players) {
+	public void setPlayers(final List<String> players) {
 		this.players = new ArrayList<>();
-        for (String player : players) {
+        for (final String player : players) {
             if (player != null && !player.trim().isEmpty()) {
                 this.players.add(player.trim());
             }
