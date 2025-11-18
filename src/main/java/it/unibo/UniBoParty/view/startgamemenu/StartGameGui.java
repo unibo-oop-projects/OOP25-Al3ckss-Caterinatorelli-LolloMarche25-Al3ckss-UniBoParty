@@ -23,7 +23,11 @@ import java.awt.GridLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 
-public class StartGameGui extends JFrame{
+/**
+ * Represents the Graphical User Interface (GUI) window for the "Unibo Party" game start menu.
+ * It allows the user to enter player names and start the game.
+ */
+public class StartGameGui extends JFrame {
  private final JButton startButton;
     private final JButton exitButton;
     private final List<JTextField> playerFields;
@@ -37,12 +41,13 @@ public class StartGameGui extends JFrame{
         setSize(800, 600);
         setLocationRelativeTo(null);
 
-        Image background = new ImageIcon("/Users/caterinatorelli/Desktop/uniboparty/src/main/resources/background.png").getImage();
-        Image logo = new ImageIcon("/Users/caterinatorelli/Desktop/uniboparty/src/main/resources/logo.png").getImage();
+        final Image background = new ImageIcon(
+        "/Users/caterinatorelli/Desktop/uniboparty/src/main/resources/background.png").getImage();
+        final Image logo = new ImageIcon(   "/Users/caterinatorelli/Desktop/uniboparty/src/main/resources/logo.png").getImage();
 
-        JPanel mainPanel = new JPanel() {
+        final JPanel mainPanel = new JPanel() {
             @Override
-            protected void paintComponent(Graphics g) {
+            protected void paintComponent(final Graphics g) {
                 super.paintComponent(g);
                 g.drawImage(background, 0, 0, getWidth(), getHeight(), this);
             }
@@ -50,12 +55,12 @@ public class StartGameGui extends JFrame{
         mainPanel.setLayout(new BorderLayout());
         add(mainPanel);
 
-        JPanel logoPanel = new JPanel() {
+        final JPanel logoPanel = new JPanel() {
             @Override
-            protected void paintComponent(Graphics g) {
+            protected void paintComponent(final Graphics g) {
                 super.paintComponent(g);
-                int width = 500;
-                int height = 120;
+                final  int width = 500;
+                final int height = 120;
                 int x = (getWidth() - width) / 2;
                 g.drawImage(logo, x, 10, width, height, this);
             }
@@ -64,7 +69,7 @@ public class StartGameGui extends JFrame{
         logoPanel.setPreferredSize(new Dimension(800, 150));
         mainPanel.add(logoPanel, BorderLayout.NORTH);
 
-        JPanel playerPanel = new JPanel(new GridLayout(5, 2, 15, 15));
+        final JPanel playerPanel = new JPanel(new GridLayout(5, 2, 15, 15));
         playerPanel.setOpaque(false);
         playerPanel.setBorder(BorderFactory.createEmptyBorder(40, 150, 40, 150));
 

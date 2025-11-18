@@ -2,6 +2,11 @@ package it.unibo.uniboparty.model.startgamemenu.api;
 
 import java.util.List;
 
+/**
+ * Interface that defines the necessary logic for managing the game start menu.
+ * It includes methods to set and retrieve players, check the possibility of
+ * starting the game, and obtain a status message for the user.
+ */
 public interface LogicStartGame {
 
     /**

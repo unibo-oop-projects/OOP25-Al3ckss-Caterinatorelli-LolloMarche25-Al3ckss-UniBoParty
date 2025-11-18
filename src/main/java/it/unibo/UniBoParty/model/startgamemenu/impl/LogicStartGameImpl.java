@@ -4,6 +4,11 @@ import java.util.List;
 import it.unibo.uniboparty.model.startgamemenu.api.LogicStartGame;
 import java.util.ArrayList;
 
+/**
+ * Implementation of the game start menu logic.
+ * It manages the list of players and determines if the game can be started
+ * based on the number of players present (from 3 to 5, inclusive).
+ */
 public class LogicStartGameImpl implements LogicStartGame {
 
 	private List<String> players = new ArrayList<>();
