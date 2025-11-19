@@ -10,46 +10,49 @@ import java.util.ArrayList;
  * based on the number of players present (from 3 to 5, inclusive).
  */
 public class LogicStartGameImpl implements LogicStartGame {
-	private List<String> players = new ArrayList<>();
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getStartMessage() {
-		if (canStartGame()) {
+    private static final int MIN_PLAYERS = 3;
+    private static final int MAX_PLAYERS = 5;
+    private List<String> players = new ArrayList<>();
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getStartMessage() {
+        if (canStartGame()) {
             return "Gioco avviato con " + players.size() + " giocatori!";
         } else {
             return "Inserisci da 3 a 5 giocatori per iniziare!";
         }
-	}
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public List<String> getPlayers() {
-		return this.players;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<String> getPlayers() {
+        return this.players;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setPlayers(final List<String> players) {
-		this.players = new ArrayList<>();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setPlayers(final List<String> players) {
+        this.players = new ArrayList<>();
         for (final String player : players) {
             if (player != null && !player.trim().isEmpty()) {
                 this.players.add(player.trim());
             }
         }
-	}
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean canStartGame() {
-		return this.players.size() >= 3 && this.players.size() <= 5;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean canStartGame() {
+        return this.players.size() >= MIN_PLAYERS && this.players.size() <= MAX_PLAYERS;
+    }
 }

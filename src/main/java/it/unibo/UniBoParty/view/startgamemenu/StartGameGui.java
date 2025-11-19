@@ -29,6 +29,21 @@ import java.awt.event.ActionEvent;
  */
 public class StartGameGui extends JFrame {
     private static final String FONT_NAME = "Comic Sans MS";
+    private static final int WINDOW_WIDTH = 800;
+    private static final int WINDOW_HEIGHT = 600;
+    private static final int LOGO_WIDTH = 500;
+    private static final int LOGO_HEIGHT = 120;
+    private static final int LOGO_PANEL_HEIGHT = 150;
+    private static final int PLAYER_GRID_ROWS = 5;
+    private static final int GRID_GAP = 15;
+    private static final int BORDER_PADDING = 40;
+    private static final int SIDE_PADDING = 150;
+    private static final int BUTTON_WIDTH = 220;
+    private static final int BUTTON_HEIGHT = 60;
+    private static final int SIZE = 20;
+    private static final Color FIELD_BG_COLOR = new Color(255, 255, 255, 220);
+    private static final Color START_GAME_COLOR = new Color(144, 238, 144);
+    private static final Color EXIT_GAME_COLOR = new Color(255, 99, 71);
     private static final Font LABEL_FONT = new Font(FONT_NAME, Font.BOLD, 22);
     private static final Font FIELD_FONT = new Font(FONT_NAME, Font.PLAIN, 20);
     private final JButton startButton;
@@ -44,7 +59,7 @@ public class StartGameGui extends JFrame {
 
         setTitle("Unibo Party");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 600);
+        setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         setLocationRelativeTo(null);
 
         final Image background = new ImageIcon(
@@ -65,30 +80,30 @@ public class StartGameGui extends JFrame {
             @Override
             protected void paintComponent(final Graphics g) {
                 super.paintComponent(g);
-                final int width = 500;
-                final int height = 120;
+                final int width = LOGO_WIDTH;
+                final int height = LOGO_HEIGHT;
                 final int x = (getWidth() - width) / 2;
                 g.drawImage(logo, x, 10, width, height, this);
             }
         };
         logoPanel.setOpaque(false);
-        logoPanel.setPreferredSize(new Dimension(800, 150));
+        logoPanel.setPreferredSize(new Dimension(WINDOW_WIDTH, LOGO_PANEL_HEIGHT));
         mainPanel.add(logoPanel, BorderLayout.NORTH);
 
-        final JPanel playerPanel = new JPanel(new GridLayout(5, 2, 15, 15));
+        final JPanel playerPanel = new JPanel(new GridLayout(PLAYER_GRID_ROWS, 2, GRID_GAP, GRID_GAP));
         playerPanel.setOpaque(false);
-        playerPanel.setBorder(BorderFactory.createEmptyBorder(40, 150, 40, 150));
+        playerPanel.setBorder(BorderFactory.createEmptyBorder(BORDER_PADDING, SIDE_PADDING, BORDER_PADDING, SIDE_PADDING));
 
         playerFields = new ArrayList<>();
-        for (int i = 1; i <= 5; i++) {
+        for (int i = 1; i <= PLAYER_GRID_ROWS; i++) {
             final JLabel label = new JLabel("Giocatore " + i + ": ");
             label.setFont(LABEL_FONT);
             label.setForeground(Color.BLACK);
 
             final JTextField field = new JTextField();
             field.setFont(FIELD_FONT);
-            field.setFont(new Font(FONT_NAME, Font.PLAIN, 20));
-            field.setBackground(new Color(255, 255, 255, 220));
+            field.setFont(new Font(FONT_NAME, Font.PLAIN, SIZE));
+            field.setBackground(FIELD_BG_COLOR);
             field.setBorder(BorderFactory.createLineBorder(Color.PINK, 2, true));
 
             playerFields.add(field);
@@ -100,8 +115,8 @@ public class StartGameGui extends JFrame {
         final JPanel buttonPanel = new JPanel();
         buttonPanel.setOpaque(false);
 
-        startButton = createButton(" Avvia Gioco ", new Color(144, 238, 144));
-        exitButton = createButton(" Esci", new Color(255, 99, 71));
+        startButton = createButton(" Avvia Gioco ", START_GAME_COLOR);
+        exitButton = createButton(" Esci", EXIT_GAME_COLOR);
 
         buttonPanel.add(startButton);
         buttonPanel.add(exitButton);
@@ -114,10 +129,10 @@ public class StartGameGui extends JFrame {
     private JButton createButton(final String text, final Color color) {
         final JButton button = new JButton(text);
         button.setBackground(color);
-        button.setFont(new Font(FONT_NAME, Font.BOLD, 20));
+        button.setFont(new Font(FONT_NAME, Font.BOLD, SIZE));
         button.setFocusPainted(false);
         button.setBorder(BorderFactory.createLineBorder(Color.WHITE, 3, true));
-        button.setPreferredSize(new Dimension(220, 60));
+        button.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
         return button;
     }
 
