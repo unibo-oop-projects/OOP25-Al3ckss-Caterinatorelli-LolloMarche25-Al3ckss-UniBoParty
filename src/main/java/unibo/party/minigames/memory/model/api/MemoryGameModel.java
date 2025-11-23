@@ -3,38 +3,43 @@ package unibo.party.minigames.memory.model.api;
 import java.util.List;
 
 /**
- * API del model del gioco Memory.
+ * Main model API for hte Memory game.
+ * It contains the core logic: flipping cards, checking matches, and tracking the game progress.
  */
 public interface MemoryGameModel {
     
     /**
-     * Rivela la carta all'indice indicato.
-     * @return true se la mossa è accettata ed eseguita.
+     * Reveals the card at given index.
+     * @param index the position of the card in the deck.
+     * @return true if the move is valid and the card is flipped.
+     * Returns false if the move cannot be done (for example if the card is already revealed).
      */
     boolean flipCard(int index);
     
     /**
-     * Se l'ultimo turno è un mismatch "in sospeso", ricopre entrambe le carte e chiude il turno.
+     * If the last turn produced a mismatch that is still waiting, this method hides the two cards again and closes the turn.
      */
     void resolveMismatch();
 
     /**
-     * @return true se c'è un mismatch in sospeso da risolvere.
+     * @return true if there is a mismatch waiting to be resolved.
      */
     boolean hasMismatchPending();
 
     /**
-     * @return true se tutte le coppie sono state trovate.
+     * @return true if all pairs have been found and the game is finished.
      */
     boolean isGameOver();
 
     /**
-     * @return lista immutabile delle carte sul tavolo (read-only per il chiamante).
+     * @return an immutable list of all cards on the table.
+     * The caller cannot modify the cards directly.
      */
     List<Card> getCards();
 
     /**
-     * Snapshot dello stato corrente.
+     * Returns a snapshot of the current game state.
+     * Useful for the controller or UI to read data safely.
      */
     MemoryGameReadOnlyState getGameState();
 }

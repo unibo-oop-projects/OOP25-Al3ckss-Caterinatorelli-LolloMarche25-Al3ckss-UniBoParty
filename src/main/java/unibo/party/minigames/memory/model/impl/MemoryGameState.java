@@ -6,9 +6,9 @@ import unibo.party.minigames.memory.model.api.CardReadOnly;
 import unibo.party.minigames.memory.model.api.MemoryGameReadOnlyState;
 
 /**
- * Rappresenta uno snapshot immutabile dello stato attuale del gioco Memory.
- * È pensato per essere letto dal controller o dalla GUI,
- * senza possibilità di modificare lo stato del gioco reale.
+ * Immutable snapshot of the current Memory game state.
+ * Mean to be read by the controller or the UI,
+ * without giving access to modify the real model.
  */
 public final class MemoryGameState implements MemoryGameReadOnlyState {
     
@@ -20,6 +20,10 @@ public final class MemoryGameState implements MemoryGameReadOnlyState {
     private final String message;
     private final int moves;
 
+    /**
+     * Creates a new immutable game state snapshot.
+     * A defensive copy of the card list is made to keep it read-only.
+     */
     public MemoryGameState(
         final int matchedPairs,
         final int totalPairs,

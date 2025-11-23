@@ -3,18 +3,20 @@ package unibo.party.minigames.memory.controller.api;
 import unibo.party.minigames.memory.view.api.MemoryGameView;
 
 /**
- * API del controller del Memory.
- * La View chiama i metodi di questa interfaccia.
+ * Controller API for the Memory game.
+ * The View calls these methods to notify user actions.
  */
 public interface MemoryGameController {
     
     /**
-     * Gestisce il click su una carta alla posizione (r, c) nella griglia.
+     * Handles a click on the card at position (r, c) in the grid.
+     * @param r the row index of the clicked card.
+     * @param c the column index of the clicked card.
      */
     void onCardClicked(int r, int c);
 
     /**
-     * @return la View associata, da inserire nella Scene dell'app.
+     * @return the View connected to this controller, so it can be added to the application's Scene.
      */
     MemoryGameView getView();
 }

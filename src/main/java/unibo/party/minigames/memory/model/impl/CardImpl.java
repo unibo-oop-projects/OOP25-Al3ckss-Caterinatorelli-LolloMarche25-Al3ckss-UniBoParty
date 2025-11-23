@@ -9,6 +9,7 @@ public class CardImpl implements Card {
     private final Symbol symbol;
     private boolean revealed;
 
+    // Creates a new hidden card with the given id and symbol
     public CardImpl(final int id, final Symbol symbol) {
         this.id = id;
         this.symbol = symbol;

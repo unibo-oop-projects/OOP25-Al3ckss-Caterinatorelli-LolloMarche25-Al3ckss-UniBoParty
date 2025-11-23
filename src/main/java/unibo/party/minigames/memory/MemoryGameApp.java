@@ -9,6 +9,10 @@ import unibo.party.minigames.memory.controller.impl.MemoryGameControllerImpl;
 import unibo.party.minigames.memory.view.api.MemoryGameView;
 import unibo.party.minigames.memory.view.impl.MemoryGameViewImpl;
 
+/**
+ * Main JavaFX application class for the Memory game.
+ * It creates the View and the Controller, and starts the UI.
+ */
 public class MemoryGameApp extends Application {
 
     @SuppressWarnings("unused")
@@ -16,12 +20,13 @@ public class MemoryGameApp extends Application {
 
     @Override
     public void start(Stage stage) {
-        // Crea la View
+        // Create the View
         final MemoryGameView view = new MemoryGameViewImpl();
 
-        // Crea il controller e collega Model con View
+        // Create the Controller and connect Model with View
         this.controller = new MemoryGameControllerImpl(view); // collega model↔view
 
+        // Create the main scene with the view
         final Scene scene = new Scene((MemoryGameViewImpl) view, 600, 700);
         stage.setTitle("Memory Game");
         stage.setScene(scene);

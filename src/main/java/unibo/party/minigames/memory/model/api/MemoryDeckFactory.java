@@ -3,17 +3,16 @@ package unibo.party.minigames.memory.model.api;
 import java.util.List;
 
 /** 
- * Interfaccia per la creazione di mazzi di carte Memory.
- * Permette implementazioni diverse (casuale, ordinato, ecc.)
+ * Interface for creating Memory card decks.
 */
 public interface MemoryDeckFactory {
     
     /**
-     * Crea e mescola un mazzo di carte con il numero di coppie specificato.
+     * Creates and shuffles a deck with the given number of pairs.
      * 
-     * @param numberOffPairs numero di coppie di carte da generare
-     * @return lista immutabile di carte
-     * @throws IllegalArgumentException se il numero di coppie è invalido
+     * @param numberOffPairs the number of card pairs to generate.
+     * @return an immutable list of cards for the game.
+     * @throws IllegalArgumentException if the number of pairs is not valid.
      */
     List<Card> createShuffledDeck(int numberOfPairs);
 }

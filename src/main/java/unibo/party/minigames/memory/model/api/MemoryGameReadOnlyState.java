@@ -3,7 +3,8 @@ package unibo.party.minigames.memory.model.api;
 import java.util.List;
 
 /**
- * Snapshot immutabile e read-only dello stato del gioco.
+ * Immutable and read-only snapshot of the game state.
+ * Used by the controller or UI to read information without modifying the model.
  */
 public interface MemoryGameReadOnlyState {
     int getMatchedPairs();

@@ -16,16 +16,16 @@ import unibo.party.minigames.memory.model.api.MemoryGameReadOnlyState;
 import unibo.party.minigames.memory.view.api.MemoryGameView;
 
 /**
- * Implementazione JavaFX della View del Memory.
- * Mostra la griglia di carte, il timer e i messaggi di stato.
- * Dipende solo dalle API (controller/model).
+ * Implementation of the Memory game view.
+ * It shows the card grid, the timer and small status messages.
+ * It only depends on the public APIs (controller/model).
  */
 public class MemoryGameViewImpl extends BorderPane implements MemoryGameView {
 
     private static final int ROWS = 4;
     private static final int COLS = 4;
 
-    // dimensione grafica dell'immagine dentro la carta
+    // Graphic size of the card image
     private static final double CARD_IMG_SIZE = 60.0;
 
     private final GridPane grid;
@@ -38,24 +38,24 @@ public class MemoryGameViewImpl extends BorderPane implements MemoryGameView {
 
     public MemoryGameViewImpl() {
 
-        // Creo la griglia che conterrà le carte
+        // Create the grid that will contain the cards
         this.grid = new GridPane();
-        this.grid.setHgap(10); // Spazio orizzontale tra le celle
-        this.grid.setVgap(10); // Spazio verticale tra le celle
-        this.grid.setPadding(new Insets(20)); // margine interno della griglia
-        this.grid.setAlignment(Pos.CENTER); // la griglia sta centrata
+        this.grid.setHgap(10); // horizontal space between cells
+        this.grid.setVgap(10); // vertical space between cells
+        this.grid.setPadding(new Insets(20)); 
+        this.grid.setAlignment(Pos.CENTER); // center the grid
 
-        // Creo una label di stato in basso (per messaggi tipo "Benvenuto")
+        // Status label at the bottom (for messages like "Welcome", etc.)
         this.statusLabel = new Label("Welcome! Let's play!");
         this.statusLabel.setPadding(new Insets(10));
         this.statusLabel.setAlignment(Pos.CENTER);
 
-        // label sopra (timer e mosse)
+        // Info label at the top (timer and moves)
         this.infoLabel = new Label("Time: 0s | Moves: 0");
         this.infoLabel.setPadding(new Insets(5));
         this.infoLabel.setAlignment(Pos.CENTER);
 
-        // contenitore verticale: info sopra, griglia sotto
+        // Vertical box: info label on top, grid below
         VBox centerBox = new VBox(10);
         centerBox.setAlignment(Pos.CENTER);
         centerBox.getChildren().addAll(this.infoLabel, this.grid);
@@ -64,8 +64,10 @@ public class MemoryGameViewImpl extends BorderPane implements MemoryGameView {
         this.setBottom(this.statusLabel);
         this.setPadding(new Insets(20));
 
-        // carte
+        // Create all buttons for the cards
         this.buttons = new Button[ROWS][COLS];
+
+        // Default "question mark" image for hidden cards
         this.questionImage = new Image(getClass().getResourceAsStream("/images/memory/question.png"));
 
         for (int r = 0; r < ROWS; r++) {
@@ -76,11 +78,11 @@ public class MemoryGameViewImpl extends BorderPane implements MemoryGameView {
                 cardButton.setMaxSize(80, 80);
                 cardButton.setAlignment(Pos.CENTER);
 
-                // Salvo r e c in due variabili final per usarle nel listener
+                // Save row and column in final variables for the click handler
                 final int rr = r;
                 final int cc = c;
 
-                // quando clicco la carta, avviso il controller
+                // When the button is clicked, notify the controller
                 cardButton.setOnAction(e -> {
                     if (this.controller != null) {
                         this.controller.onCardClicked(rr, cc);
@@ -88,7 +90,8 @@ public class MemoryGameViewImpl extends BorderPane implements MemoryGameView {
                 });
 
                 this.buttons[r][c] = cardButton;
-                this.grid.add(cardButton, c, r); // Aggiungo il bottone nella posizione giusta della griglia
+                // Add the button to the grid at the correct position
+                this.grid.add(cardButton, c, r);
             }
         }
     }
@@ -98,25 +101,32 @@ public class MemoryGameViewImpl extends BorderPane implements MemoryGameView {
         this.controller = controller;
     }
 
+    /**
+     * Redraws the UI according to the given game state.
+     */
     @Override
     public void render(MemoryGameReadOnlyState state) {
         setStatusMessage(state.getMessage());
         
         final var cards = state.getCards(); // List<CardReadOnly>
 
+        // Update every button according to the card at the same position
         for (int r = 0; r < ROWS; r++) {
             for (int c = 0; c < COLS; c++) {
                 final int index = r * COLS + c;
                 final CardReadOnly card = cards.get(index);
 
                 if (card.isRevealed()) {
+                    // Show the real symbol image
                     showCardWithImage(r, c, card.getSymbol().toString());
                 } else {
+                    // Show the hidden card
                     hideCard(r, c);
                 }
             }
         }
 
+        // If the game is over, disable further input
         if (state.isGameOver()) {
             setAllButtonsDisabled(true);
         }
@@ -137,12 +147,15 @@ public class MemoryGameViewImpl extends BorderPane implements MemoryGameView {
     }
 
     /**
-     * Mostra il simbolo vero della carta, caricando l'immagine del classpath.
+     * Shows the real symbol of the card by loading the corresponding image
+     * @param r row of the card
+     * @param c column of the card
+     * @param imageName name of the image file
      */
     public void showCardWithImage(final int r, final int c, final String imageName) {
         Button b = this.buttons[r][c];
 
-        // carica l'immagine dalla cartella resources/images
+        // Load the image from resources/images/memory
         Image img = new Image(
             getClass().getResourceAsStream("/images/memory/" + imageName + ".png")
         );
@@ -153,11 +166,11 @@ public class MemoryGameViewImpl extends BorderPane implements MemoryGameView {
         imgView.setPreserveRatio(true);
 
         b.setGraphic(imgView);
-        b.setText(""); // niente testo, solo immagine
+        b.setText(""); // no text, only image
     }
 
     /**
-     * Nasconde la carta (rimette "?").
+     * Hides the card and shows the default "question mark" image
      */
     public void hideCard(final int r, final int c) {
         Button b = this.buttons[r][c];
@@ -170,7 +183,7 @@ public class MemoryGameViewImpl extends BorderPane implements MemoryGameView {
     }
 
     /**
-     * Aggiorna il messaggio in basso.
+     * Updates the status message at the bottom of the window.
      */
     public void setStatusMessage(final String msg) {
         this.statusLabel.setText(msg);

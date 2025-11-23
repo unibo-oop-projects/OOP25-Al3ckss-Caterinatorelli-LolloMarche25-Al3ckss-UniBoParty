@@ -1,23 +1,37 @@
 package unibo.party.minigames.memory.model.api;
 
 /**
- * Interfaccia che definisce il comportamento di una carta del Memory.
- * Fornisce metodi di accesso e controllo dello stato "coperta/rivelata".
+ * Interface that represents a single card in the Memory game.
+ * It provides basic methods to know the card data and to change its state (covered or revealed).
  */
 public interface Card extends CardReadOnly {
     
-    /** @return identificatore univoco della carta */
+    /** 
+     * @return the unique identifier of the card.
+     * This id helps to distinguish cards in the deck. 
+     */
     int getId();
 
-    /** @return il simbolo associato alla carta */
+    /** 
+     * @return the symbol shown by the card when it is revealed.
+     * Cards with the same symbol form a pair. 
+     */
     Symbol getSymbol();
 
-    /** @return true se la carta è attualmente rivelata */
+    /** 
+     * @return true if the card is currently revealed (face up), false if it is covered. 
+     */
     boolean isRevealed();
 
-    /** Imposta la carta come rivelata */
+    /**
+     * Sets the card state to revealed.
+     * Used when the player clicks on the card.
+     */
     void reveal();
 
-    /** Imposta la carta come coperta */
+    /** 
+     * Sets the card back to hidden (face down).
+     * Usually called when two cards do not match.
+     */
     void hide();
 }

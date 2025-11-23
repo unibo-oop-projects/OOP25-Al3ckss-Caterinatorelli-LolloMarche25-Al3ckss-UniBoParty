@@ -7,21 +7,58 @@ import unibo.party.minigames.memory.model.api.MemoryGameModel;
 import unibo.party.minigames.memory.model.api.MemoryGameReadOnlyState;
 
 /**
- * Implementazione concreta del modello logico del Memory. 
+ * Concrete implementation of the MemoryGameModel.
+ * This class contains the core logic of the Memory game:
+ * flipping cards, checking for matches, tracking game state, etc. 
  */
 public class MemoryGameImpl implements MemoryGameModel {
     
-    private final List<Card> cards;   
-    private final int totalPairs;      
+    /**
+     * All the cards in the current game.
+     */
+    private final List<Card> cards; 
+    
+    /**
+     * Total number of pairs in the game.
+     */
+    private final int totalPairs;
+
+    /**
+     * Number of pairs matched so far.
+     */
     private int matchedPairs;           
 
-    private Card firstSelectedCard;   
-    private Card secondSelectedCard;  
+    /**
+     * First selected card in the current turn.
+     */
+    private Card firstSelectedCard;
+
+    /**
+     * Second selected card in the current turn.
+     */
+    private Card secondSelectedCard;
+
+    /**
+     * True when the player has just revealed two different cards (mismatch)
+     * and they must be hidden again.
+     */
     private boolean mismatchPending;  
 
+    /**
+     * Short feedback message for the player.
+     */
     private String lastMessage;   
+
+    /**
+     * Number of moves made by the player (each move = two flips).
+     */
     private int moves;
 
+    /**
+     * Creates a new Memory game using the given deck.
+     * All cards are assumed to be initially hidden at the beginning.
+     * @param deck the list of cards to use in the game
+     */
     public MemoryGameImpl(final List<Card> deck) {
         this.cards = deck;
         this.totalPairs = deck.size() / 2;
@@ -36,27 +73,32 @@ public class MemoryGameImpl implements MemoryGameModel {
     @Override
      public boolean flipCard(final int index) {
 
-        // se c'è un mismatch ancora aperto, non accetto altri click
+        // Do not accept new clicks if there is a mismatch still visible
         if(this.mismatchPending) {
             this.lastMessage = "Are you in a hurry?";
             return false;
         }
 
+        // Check that the index is inside the deck bounds
         if(!isValidIndex(index)) {
             this.lastMessage = "You are not supposed to be here!";
             return false;
         }
 
         final Card selected = this.cards.get(index);
+        
+        /**
+         * Ignore clicks on already revealed cards
+         */
         if(selected.isRevealed()) {
             this.lastMessage = "This card is already revealed. U blind?";
             return false;
         }
 
-        // Rivela la scelta
+        // Reveal the chosen card
         selected.reveal();
 
-        // Caso 1: è la prima carta del turno
+        // First card of the turn
         if(this.firstSelectedCard == null) {
             this.firstSelectedCard = selected;
             this.secondSelectedCard = null;
@@ -64,10 +106,10 @@ public class MemoryGameImpl implements MemoryGameModel {
             return true;
         }
 
-        // Seconda carta del turno
+        // Second card of the turn
         this.secondSelectedCard = selected;
 
-        // ogni volta che giri la SECONDA carta, conta come una mossa
+        // Every time you flip the second card, it count as a move
         this.moves++;         
         
         if(checkForMatch(this.firstSelectedCard, this.secondSelectedCard)) {
@@ -79,20 +121,24 @@ public class MemoryGameImpl implements MemoryGameModel {
                 this.lastMessage = "It's a match!";
             }
 
-            // turno finito, nessun mismatch
+            // Turn is finished, no mismatch to resolve
             endTurn();
         } else {
             // NO MATCH:
-            // Non le chiudo subito
+            // Keep both cards visible and wait for resolveMismatch()
             this.mismatchPending = true;
             this.lastMessage = "No match. Memorize them!";
-            // NOTA: non chiudiamo qui
-            // non chiamiamo ancora endTurn()
+            // We do not close the turn here
+            // endTurn() will be called later in resolveMismatch()
         }
         
         return true;
      }
 
+     /**
+      * Hides the two previously revealed cards if they do not match, 
+      * ends the current turn and updates the feedback message.
+      */
      @Override
      public void resolveMismatch() {
         if(this.mismatchPending && this.firstSelectedCard != null && this.secondSelectedCard != null) {
@@ -114,13 +160,19 @@ public class MemoryGameImpl implements MemoryGameModel {
         return this.mismatchPending;
      }
 
+     /**
+      * Checks if the two given cards form a matching pair.
+      * @param a first card
+      * @param b second card
+      * @return true if the two cards match, false otherwise
+      */
      private boolean checkForMatch(final Card a, final Card b) {
-        return a.getSymbol() == b.getSymbol(); // non va bene usare equals() qui perché Symbol è un enum
-     }
+        // We can use == here because Symbol is an enum
+        return a.getSymbol() == b.getSymbol();
 
      /**
-      * Termina il turno corrente, azzerando la carta selezionata in memeoria.
-      * Dopo questa chiamata il prossimo click sarà considerato come "prima carta".
+      * Ends the current turn by clearing the selected cards.
+      * After this call, the next click will be considered as "first card".
       */
      private void endTurn() {
         this.firstSelectedCard = null;
@@ -137,6 +189,10 @@ public class MemoryGameImpl implements MemoryGameModel {
         return List.copyOf(this.cards); // restituisco una copia per evitare modifiche esterne
      }
 
+     /**
+      * Returns a read-only snapshot of the current game state,
+      * meant to be used by the GUI or the controller.
+      */
     @Override
      public MemoryGameReadOnlyState getGameState() {
         return new MemoryGameState(
@@ -151,7 +207,9 @@ public class MemoryGameImpl implements MemoryGameModel {
      }
 
      /**
-      * Controlla se l'indice passato punta a una carta del mazzo.
+      * Checks if the given index is valid for the current deck.
+      * @param index the index to check
+      * @return true if the index is inside [0, cards.size()-1]
       */
      private boolean isValidIndex(final int index) {
         return index >= 0 && index < this.cards.size();
