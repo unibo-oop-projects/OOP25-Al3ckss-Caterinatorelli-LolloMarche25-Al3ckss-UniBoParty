@@ -1,4 +1,4 @@
-package dinosaurgame.model;
+package it.unibo.UniBoParty.model.minigames.dinosaurGame.api;
 
 /**
  * Interfaccia che definisce le operazioni principali di un ostacolo.

@@ -1,6 +1,10 @@
-package dinosaurgame.model;
+package it.unibo.UniBoParty.model.minigames.dinosaurGame.impl;
+
+import it.unibo.UniBoParty.model.minigames.dinosaurGame.api.Model;
+import it.unibo.UniBoParty.model.minigames.dinosaurGame.api.Obstacle;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class ModelImpl implements Model {
@@ -19,7 +23,7 @@ public class ModelImpl implements Model {
     private boolean isJumping = false;
     private boolean isHoldingJump = false;
 
-    public ArrayList<ObstacleImpl> obstacles;
+    private final List<Obstacle> obstacles;
     private int difficulty = 0;
 
     private Random random = new Random();
@@ -68,26 +72,26 @@ public class ModelImpl implements Model {
             isJumping = false;
         }
 
-        for (ObstacleImpl o : obstacles) {
+        for (Obstacle o : obstacles) {
             if (o.getObstX() > nearestX) nearestX = o.getObstX();
         }
 
         for (int i = 0; i < obstacles.size(); i++) {
-            ObstacleImpl o = obstacles.get(i);
+            Obstacle o = obstacles.get(i);
             o.moveObstacle();
             if (o.getObstX() + o.getObstWidth() < 0) {
                 obstacles.set(i, generateRandomObstacle(nearestX));
             }
         }
 
-        for (ObstacleImpl o : obstacles) {
+        for (Obstacle o : obstacles) {
             boolean overlapX = dinoX + dinoWidth > o.getObstX() && dinoX < o.getObstX() + o.getObstWidth();
             boolean overlapY = dinoY > o.getObstY() - o.getObstHeight();
             if (overlapX && overlapY) System.out.println("Game over");
         }
 
         if (difficulty % 500 == 0) {
-            for (ObstacleImpl o : obstacles) o.setObstSpeed(o.getObstSpeed() + 1);
+            for (Obstacle o : obstacles) o.setObstSpeed(o.getObstSpeed() + 1);
             System.out.println("Difficulty Up");
         }
     }
@@ -108,5 +112,5 @@ public class ModelImpl implements Model {
     public int getDinoY() { return dinoY; }
     public int getDinoWidth() { return dinoWidth; }
     public int getDinoHeight() { return dinoHeight; }
-    public ArrayList<ObstacleImpl> getObstacles() { return obstacles; }
+    public List<Obstacle> getObstacles() { return new ArrayList<>(obstacles); }
 }

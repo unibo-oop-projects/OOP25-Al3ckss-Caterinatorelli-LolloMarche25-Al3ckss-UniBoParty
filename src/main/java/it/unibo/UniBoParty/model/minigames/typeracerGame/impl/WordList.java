@@ -1,4 +1,4 @@
-package typeracerGame.model;
+package it.unibo.UniBoParty.model.minigames.typeracerGame.impl;
 
 import java.util.Arrays;
 import java.util.List;

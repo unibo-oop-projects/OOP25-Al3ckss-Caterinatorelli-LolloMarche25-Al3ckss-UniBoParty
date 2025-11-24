@@ -1,8 +1,8 @@
-package it.unibo.uniboparty.application;
+package it.unibo.UniBoParty.application;
 
-import dinosaurgame.controller.ControllerImpl;
-import dinosaurgame.model.ModelImpl;
-import dinosaurgame.view.ViewImpl;
+import it.unibo.UniBoParty.controller.minigames.dinosaurGame.impl.ControllerImpl;
+import it.unibo.UniBoParty.model.minigames.dinosaurGame.impl.ModelImpl;
+import it.unibo.UniBoParty.view.minigames.dinosaurGame.impl.ViewImpl;
 
 public class App {
     public static void main(String[] args) {

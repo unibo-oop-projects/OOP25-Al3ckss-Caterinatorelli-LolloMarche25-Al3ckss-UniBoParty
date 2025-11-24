@@ -1,7 +1,9 @@
-package typeracerGame.model;
+package it.unibo.UniBoParty.model.minigames.typeracerGame.impl;
 
 import java.util.List;
 import java.util.Random;
+
+import it.unibo.UniBoParty.model.minigames.typeracerGame.api.Model;
 
 public class ModelImpl implements Model {
 

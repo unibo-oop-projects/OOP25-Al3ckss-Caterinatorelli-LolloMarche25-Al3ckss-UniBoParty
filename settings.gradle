@@ -11,4 +11,5 @@ plugins {
 }
 
 rootProject.name = 'TestDinosauro'
-include('app')
+// Single-project build: no subprojects to include
+rootProject.name = 'OOP24-UniBoParty'

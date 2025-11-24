@@ -1,20 +1,21 @@
-package typeracerGame.controller;
+package it.unibo.UniBoParty.controller.minigames.typeracerGame.impl;
 
 import javax.swing.Timer;
 import javax.swing.SwingUtilities;
 
-import typeracerGame.model.ModelImpl;
-import typeracerGame.view.ViewImpl;
-import typeracerGame.model.GameConfig;
-import typeracerGame.model.GameState;
+import it.unibo.UniBoParty.model.minigames.typeracerGame.api.Model;
+import it.unibo.UniBoParty.view.minigames.typeracerGame.api.View;
+import it.unibo.UniBoParty.model.minigames.typeracerGame.impl.GameConfig;
+import it.unibo.UniBoParty.model.minigames.typeracerGame.impl.GameState;
+import it.unibo.UniBoParty.controller.minigames.typeracerGame.api.Controller;
 
 public class ControllerImpl implements Controller {
 
-    private final ModelImpl model;
-    private final ViewImpl view;
+    private final Model model;
+    private final View view;
     private Timer timer;
 
-    public ControllerImpl(ModelImpl model, ViewImpl view) {
+    public ControllerImpl(Model model, View view) {
         this.model = model;
         this.view = view;
 

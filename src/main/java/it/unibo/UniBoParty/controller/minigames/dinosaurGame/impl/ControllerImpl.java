@@ -1,11 +1,13 @@
-package dinosaurgame.controller;
+package it.unibo.UniBoParty.controller.minigames.dinosaurGame.impl;
 
 import javax.swing.Timer;
+
+import it.unibo.UniBoParty.controller.minigames.dinosaurGame.api.Controller;
+import it.unibo.UniBoParty.model.minigames.dinosaurGame.api.Model;
+import it.unibo.UniBoParty.view.minigames.dinosaurGame.api.View;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
-import dinosaurgame.model.ModelImpl;
-import dinosaurgame.view.ViewImpl;
 
 /**
  * Implementazione concreta del controller del gioco.
@@ -13,8 +15,8 @@ import dinosaurgame.view.ViewImpl;
  */
 public class ControllerImpl implements Controller {
 
-    private final ModelImpl model;
-    private final ViewImpl view;
+    private final Model model;
+    private final View view;
     private Timer timer;
 
     /**
@@ -24,7 +26,7 @@ public class ControllerImpl implements Controller {
      * @param model il modello del gioco
      * @param view  la vista del gioco
      */
-    public ControllerImpl(ModelImpl model, ViewImpl view) {
+    public ControllerImpl(Model model, View view) {
         this.model = model;
         this.view = view;
 

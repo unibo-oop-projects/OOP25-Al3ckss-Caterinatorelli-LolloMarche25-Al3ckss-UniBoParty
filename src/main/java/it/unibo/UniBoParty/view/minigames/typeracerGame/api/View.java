@@ -1,4 +1,4 @@
-package typeracerGame.view;
+package it.unibo.UniBoParty.view.minigames.typeracerGame.api;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;

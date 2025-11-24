@@ -1,4 +1,4 @@
-package dinosaurgame.view;
+package it.unibo.UniBoParty.view.minigames.dinosaurGame.api;
 
 /**
  * Interfaccia per il pannello di gioco.

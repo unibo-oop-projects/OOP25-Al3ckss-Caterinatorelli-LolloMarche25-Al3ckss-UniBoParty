@@ -1,4 +1,4 @@
-package typeracerGame.view;
+package it.unibo.UniBoParty.view.minigames.typeracerGame.impl;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -8,7 +8,8 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-import typeracerGame.model.GameConfig;
+import it.unibo.UniBoParty.model.minigames.typeracerGame.impl.GameConfig;
+import it.unibo.UniBoParty.view.minigames.typeracerGame.api.View;
 
 public class ViewImpl implements View {
 

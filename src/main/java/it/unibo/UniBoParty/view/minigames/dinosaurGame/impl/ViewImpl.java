@@ -1,10 +1,10 @@
-package dinosaurgame.view;
+package it.unibo.UniBoParty.view.minigames.dinosaurGame.impl;
 
 import java.awt.Dimension;
 import javax.swing.JFrame;
 
-import dinosaurgame.model.ModelImpl;
-
+import it.unibo.UniBoParty.model.minigames.dinosaurGame.api.Model;
+import it.unibo.UniBoParty.view.minigames.dinosaurGame.api.View;
 /**
  * Implementazione concreta della vista del gioco.
  * <p>
@@ -13,13 +13,12 @@ import dinosaurgame.model.ModelImpl;
 public class ViewImpl implements View {
 
     private GamePanelImpl panel1;
-
     /**
      * Crea una nuova finestra di gioco con il pannello principale.
      *
      * @param model il modello del gioco, necessario per disegnare dinosauro e ostacoli.
      */
-    public ViewImpl(ModelImpl model){
+    public ViewImpl(Model model){
         JFrame frame = new JFrame("Dino Game");
         panel1 = new GamePanelImpl(model);
         frame.setMinimumSize(new Dimension(600, 500));
@@ -39,7 +38,7 @@ public class ViewImpl implements View {
     }
 
     @Override
-    public GamePanelImpl getPanel(){
+    public javax.swing.JPanel getPanel(){
         return panel1;
     }
 }

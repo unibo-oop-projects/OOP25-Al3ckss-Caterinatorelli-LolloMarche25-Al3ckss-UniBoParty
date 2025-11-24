@@ -1,4 +1,4 @@
-package typeracerGame.controller;
+package it.unibo.UniBoParty.controller.minigames.typeracerGame.api;
 
 /**
  * Interfaccia del Controller del gioco TypeRacer.

@@ -1,5 +1,6 @@
-package typeracerGame.model;
+package it.unibo.UniBoParty.model.minigames.typeracerGame.api;
 
+import it.unibo.UniBoParty.model.minigames.typeracerGame.impl.GameState;
 /**
  * Rappresenta la logica di gioco principale del TypeRacer.
  * Gestisce stato, punteggio, parola corrente e timer.

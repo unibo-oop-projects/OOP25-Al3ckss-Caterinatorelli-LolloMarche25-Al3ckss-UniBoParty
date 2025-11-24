@@ -1,5 +1,6 @@
-package dinosaurgame.model;
+package it.unibo.UniBoParty.model.minigames.dinosaurGame.impl;
 
+import it.unibo.UniBoParty.model.minigames.dinosaurGame.api.Obstacle;
 
 public class ObstacleImpl implements Obstacle {
 

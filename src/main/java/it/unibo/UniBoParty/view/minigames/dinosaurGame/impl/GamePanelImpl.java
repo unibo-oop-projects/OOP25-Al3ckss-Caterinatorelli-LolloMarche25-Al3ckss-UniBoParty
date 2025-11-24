@@ -1,12 +1,13 @@
-package dinosaurgame.view;
+package it.unibo.UniBoParty.view.minigames.dinosaurGame.impl;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 
-import dinosaurgame.model.ModelImpl;
-import dinosaurgame.model.ObstacleImpl;
+import it.unibo.UniBoParty.model.minigames.dinosaurGame.api.Obstacle;
+import it.unibo.UniBoParty.model.minigames.dinosaurGame.api.Model;
+import it.unibo.UniBoParty.view.minigames.dinosaurGame.api.GamePanel;
 
 /**
  * Pannello principale del gioco.
@@ -22,9 +23,9 @@ public class GamePanelImpl extends JPanel implements GamePanel{
     private static final Color DINO_COLOR = Color.BLACK;
     private static final Color OBSTACLE_COLOR = Color.GREEN;
 
-    private final ModelImpl model;
+    private final Model model;
 
-    public GamePanelImpl(ModelImpl model) {
+    public GamePanelImpl(Model model) {
         this.model = model;
         setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
         setBackground(BACKGROUND_COLOR);
@@ -48,7 +49,7 @@ public class GamePanelImpl extends JPanel implements GamePanel{
 
         // Disegna gli ostacoli
         g.setColor(OBSTACLE_COLOR);
-        for (ObstacleImpl o : model.getObstacles()) {
+        for (Obstacle o : model.getObstacles()) {
             g.fillRect(o.getObstX(),
                        o.getObstY() - o.getObstHeight(),
                        o.getObstWidth(),

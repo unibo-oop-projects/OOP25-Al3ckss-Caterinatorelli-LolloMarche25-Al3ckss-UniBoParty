@@ -1,7 +1,6 @@
-package dinosaurgame.model;
+package it.unibo.UniBoParty.model.minigames.dinosaurGame.api;
 
 import java.util.List;
-
 /**
  * Interfaccia che definisce le operazioni principali del modello del gioco.
  * Il modello gestisce il dinosauro, gli ostacoli e la logica del gioco.
@@ -67,5 +66,5 @@ public interface Model {
      *
      * @return lista di oggetti Obstacle
      */
-    List<ObstacleImpl> getObstacles();
+    List<Obstacle> getObstacles();
 }

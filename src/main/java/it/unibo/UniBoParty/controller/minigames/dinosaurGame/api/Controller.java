@@ -1,4 +1,4 @@
-package dinosaurgame.controller;
+package it.unibo.UniBoParty.controller.minigames.dinosaurGame.api;
 
 /**
  * Interfaccia per il controller del gioco.
