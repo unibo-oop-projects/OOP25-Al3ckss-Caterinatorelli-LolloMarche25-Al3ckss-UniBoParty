@@ -169,6 +169,7 @@ public class MemoryGameImpl implements MemoryGameModel {
      private boolean checkForMatch(final Card a, final Card b) {
         // We can use == here because Symbol is an enum
         return a.getSymbol() == b.getSymbol();
+     }
 
      /**
       * Ends the current turn by clearing the selected cards.
