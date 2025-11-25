@@ -6,8 +6,13 @@ plugins {
     // You can run your app via task "run": ./gradlew run
     application
 
-    // Note: quality plugins (Checkstyle/PMD/SpotBugs) removed to allow build
-    // You can re-enable static analysis by adding a quality plugin and configuring rules.
+    /*
+     * Adds tasks to export a runnable jar.
+     * In order to create it, launch the "shadowJar" task.
+     * The runnable jar will be found in build/libs/projectname-all.jar
+     */
+    id("com.gradleup.shadow") version "9.2.2"
+    id("org.danilopianini.gradle-java-qa") version "1.151.0"
 }
 
 repositories { // Where to search for dependencies
@@ -32,26 +37,18 @@ dependencies {
     runtimeOnly("ch.qos.logback:logback-classic:1.5.20")
 
     // JUnit API and testing engine
-    // Use JUnit 5 (JUnit Jupiter)
-    testImplementation(platform("org.junit:junit-bom:5.10.0"))
+    testImplementation(platform("org.junit:junit-bom:6.0.0"))
     testImplementation("org.junit.jupiter:junit-jupiter-api")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
 application {
     // Define the main class for the application.
-    mainClass.set("it.unibo.UniBoParty.application.App")
+    mainClass.set("it.unibo.UniBoParty.application.MainApp")
 }
 
-// Use Java toolchain to ensure consistent compilation on different machines
-java {
-    toolchain {
-        languageVersion.set(org.gradle.jvm.toolchain.JavaLanguageVersion.of(21))
-    }
-}
-
-// Configure tests to use JUnit Platform and detailed logging
-tasks.withType<Test> {
+tasks.test {
     useJUnitPlatform()
     testLogging {
         events(*org.gradle.api.tasks.testing.logging.TestLogEvent.values())
