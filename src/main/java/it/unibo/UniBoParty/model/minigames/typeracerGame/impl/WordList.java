@@ -3,9 +3,10 @@ package it.unibo.uniboparty.model.minigames.typeracergame.impl;
 import java.util.Arrays;
 import java.util.List;
 
-
+/**
+ * Collection of possible words
+ */
 public final class WordList {
-    private WordList() {    }
 
     public static final List<String> WORDS = Arrays.asList(
         "auto", "casa", "sole", "luna", "mare", "vento", "pioggia", "neve", "montagna", "fiume",
@@ -19,4 +20,6 @@ public final class WordList {
         "oggi", "domani", "ieri", "sempre", "mai", "subito", "dopo", "prima", "spesso", "quasi",
         "andare", "venire", "stare", "vedere", "sapere", "volere", "potere", "dire", "parlare", "ascoltare"
     );
+
+    private WordList() {    }
 }

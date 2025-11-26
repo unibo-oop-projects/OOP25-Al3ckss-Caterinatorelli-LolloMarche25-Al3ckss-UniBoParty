@@ -10,6 +10,10 @@ import it.unibo.uniboparty.view.minigames.typeracergame.api.View;
 
 import javax.swing.SwingUtilities;
 
+/**
+ * Implementation of Typeracer's Controller.
+ * Handles the connection between Model and View and the timing.
+ */
 public class ControllerImpl implements Controller {
 
     private final Model model;

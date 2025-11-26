@@ -5,6 +5,9 @@ import java.util.Random;
 
 import it.unibo.uniboparty.model.minigames.typeracergame.api.Model;
 
+/**
+ * Implementation of the game mechanics
+ */
 public class ModelImpl implements Model {
 
     private int points;
@@ -44,8 +47,7 @@ public class ModelImpl implements Model {
     @Override
     public void decreaseTime() {
         if (time > 0) {
-            time--;
-            
+            time--;            
             if (time == 0) {
                 state = GameState.GAME_OVER;
             }
@@ -58,7 +60,7 @@ public class ModelImpl implements Model {
     }
 
     @Override
-    public void setState(GameState state) {
+    public void setState(final GameState state) {
         this.state = state;
     }
 

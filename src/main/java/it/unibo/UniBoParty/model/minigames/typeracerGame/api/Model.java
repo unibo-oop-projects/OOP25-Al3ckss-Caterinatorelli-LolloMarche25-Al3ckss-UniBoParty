@@ -3,63 +3,62 @@ package it.unibo.uniboparty.model.minigames.typeracergame.api;
 import it.unibo.uniboparty.model.minigames.typeracergame.impl.GameState;
 
 /**
- * Rappresenta la logica di gioco principale del TypeRacer.
- * Gestisce stato, punteggio, parola corrente e timer.
+ * Interface of the logic of TypeRacer.
  */
 public interface Model {
 
     /**
-     * Genera e imposta una nuova parola da scrivere.
+     * Generates and sets a new word.
      */
     void setNewWord();
 
     /**
-     * Restituisce la parola attualmente da digitare.
+     * Returns the current word that needs to be typed.
      *
-     * @return parola corrente
+     * @return current word
      */
     String getCurrentWord();
 
     /**
-     * Incrementa il punteggio del giocatore.
+     * Increments player's points.
      */
     void incrementPoints();
 
     /**
-     * Restituisce il punteggio totale del giocatore.
+     * Returns the sum of the points the player has collected.
      *
-     * @return punteggio attuale
+     * @return current score
      */
     int getPoints();
 
     /**
-     * Restituisce il tempo rimanente di gioco.
+     * Returns the remaining time the player has left.
      *
-     * @return tempo in secondi
+     * @return time(s)
      */
     int getTime();
 
     /**
-     * Decrementa il timer di gioco di un'unità (es. 1 secondo).
+     * Decrements the game timer of one unit (1s)
      */
     void decreaseTime();
 
     /**
-     * Restituisce lo stato corrente della partita.
+     * Returns the current state of the game.
      *
      * @return stato di gioco
      */
     GameState getState();
 
     /**
-     * Imposta un nuovo stato di gioco.
+     * Sets the game's states
      *
-     * @param state nuovo GameState
+     * @param state new GameState
      */
     void setState(GameState state);
 
     /**
-     * Termina la partita e imposta lo stato su GAME_OVER.
+     * Ends the match and sets the game state to GAME_OVER.
      */
     void gameOver();
 }

@@ -12,7 +12,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 /**
- * Controller handling input events and game loop updates.
+ * Controller implementation that handles input events and game loop updates.
  */
 public final class ControllerImpl implements Controller {
 

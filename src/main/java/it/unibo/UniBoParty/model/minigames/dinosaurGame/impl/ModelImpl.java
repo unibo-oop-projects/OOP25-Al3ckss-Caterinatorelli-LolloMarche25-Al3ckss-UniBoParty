@@ -1,6 +1,7 @@
 package it.unibo.uniboparty.model.minigames.dinosaurgame.impl;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import it.unibo.uniboparty.model.minigames.dinosaurgame.api.Model;
 
@@ -9,14 +10,14 @@ import it.unibo.uniboparty.model.minigames.dinosaurgame.api.Model;
  */
 public class ModelImpl implements Model {
 
-    private final int dinoX = GameConfig.INIT_DINO_X;
+    private static final int dinoX = GameConfig.INIT_DINO_X;
     private int dinoY = GameConfig.GROUND_Y;
 
-    private final int dinoWidth = GameConfig.DINO_WIDTH;
-    private final int dinoHeight = GameConfig.DINO_HEIGHT;
+    private static final int dinoWidth = GameConfig.DINO_WIDTH;
+    private static final int dinoHeight = GameConfig.DINO_HEIGHT;
 
     private double velY;
-    private final double gravity = GameConfig.GRAVITY;
+    static private final double gravity = GameConfig.GRAVITY;
 
     private int nearestX;
     private boolean isJumping;
@@ -27,7 +28,7 @@ public class ModelImpl implements Model {
     /**
      * List of active obstacles in the game.
      */
-    public final ArrayList<ObstacleImpl> obstacles = new ArrayList<>();
+    public final List<ObstacleImpl> obstacles = new ArrayList<>();
 
     private GameState gameState = GameState.RUNNING;
 
@@ -37,7 +38,7 @@ public class ModelImpl implements Model {
     public ModelImpl() {
         int lastX = GameConfig.PANEL_WIDTH;
         for (int i = 0; i < GameConfig.NUM_INITIAL_OBSTACLES; i++) {
-            ObstacleImpl o = ObstacleFactory.create(
+            final ObstacleImpl o = ObstacleFactory.create(
                 lastX,
                 GameConfig.GROUND_Y,
                 GameConfig.INIT_OBSTACLE_MIN_DISTANCE,
@@ -144,7 +145,7 @@ public class ModelImpl implements Model {
     }
 
     @Override
-    public ArrayList<ObstacleImpl> getObstacles() {
+    public List<ObstacleImpl> getObstacles() {
         return obstacles;
     }
 

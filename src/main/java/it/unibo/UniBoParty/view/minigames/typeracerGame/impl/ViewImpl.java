@@ -18,8 +18,12 @@ public class ViewImpl implements View {
     private final JLabel timeLabel = new JLabel();
     private final JTextField textField = new JTextField();
 
+    
+    /**
+    * Implementation of View to show the window
+    */
     public ViewImpl() {
-        // costruzione GUI sul EDT
+        
         SwingUtilities.invokeLater(() -> {
             frame.setBounds(100, 100, GameConfig.FRAME_WIDTH, GameConfig.FRAME_HEIGHT);
 

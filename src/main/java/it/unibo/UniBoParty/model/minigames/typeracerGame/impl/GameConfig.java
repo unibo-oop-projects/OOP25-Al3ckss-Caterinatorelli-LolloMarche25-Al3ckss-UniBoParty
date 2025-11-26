@@ -1,5 +1,8 @@
 package it.unibo.uniboparty.model.minigames.typeracergame.impl;
 
+/**
+ * Collection of TypeRacer's constants to avoid magic numbers
+ */
 public final class GameConfig {
 
     public static final String DEFAULT_FONT = "Arial";

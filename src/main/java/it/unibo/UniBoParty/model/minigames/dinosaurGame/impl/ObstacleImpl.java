@@ -2,6 +2,9 @@ package it.unibo.uniboparty.model.minigames.dinosaurgame.impl;
 
 import it.unibo.uniboparty.model.minigames.dinosaurgame.api.Obstacle;
 
+/**
+ * Implementation of obstacles
+ */
 public class ObstacleImpl implements Obstacle {
 
     private int obstX;
@@ -28,7 +31,7 @@ public class ObstacleImpl implements Obstacle {
     }
 
     @Override
-    public void setObstX(int obstX) {
+    public void setObstX(final int obstX) {
         this.obstX = obstX;
     }
 
@@ -53,7 +56,7 @@ public class ObstacleImpl implements Obstacle {
     }
 
     @Override
-    public void setObstSpeed(int obstSpeed) {
+    public void setObstSpeed(final int obstSpeed) {
         this.obstSpeed = obstSpeed;
     }
 }

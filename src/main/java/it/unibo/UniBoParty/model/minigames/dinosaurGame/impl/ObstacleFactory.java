@@ -2,18 +2,22 @@ package it.unibo.uniboparty.model.minigames.dinosaurgame.impl;
 
 import java.util.Random;
 
-public class ObstacleFactory {
+/**
+ * Factory to create obstacles
+ */
+public final class ObstacleFactory {
 
-    private ObstacleFactory(){ };
-
+    
+    private static final Random random = new Random();
+    
     private static final int[][] OBSTACLE_TYPES = {
         {20, 50},
         {50, 40},
         {35, 70}
     };
 
-    private static final Random random = new Random();
-
+    private ObstacleFactory(){ }
+    
     public static ObstacleImpl create(
             final int startX,
             final int groundY,
