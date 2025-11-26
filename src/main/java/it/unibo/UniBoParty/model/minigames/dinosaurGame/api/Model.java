@@ -65,4 +65,9 @@ public interface Model {
      * @return the current game state (RUNNING or GAME_OVER).
      */
     GameState getGameState();
+
+    /**
+     * @return the difficulty
+     */
+    int getDifficulty();
 }

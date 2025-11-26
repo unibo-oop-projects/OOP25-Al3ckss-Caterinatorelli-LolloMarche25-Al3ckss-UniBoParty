@@ -45,7 +45,9 @@ public class ControllerImpl implements Controller {
 
     private void setupInputField() {
         view.getTextField().addActionListener(e -> {
-            if (model.getState() != GameState.RUNNING) { return; }
+            if (model.getState() != GameState.RUNNING) { 
+                return; 
+            }
 
             final String typed = view.getTextField().getText();
             final String current = model.getCurrentWord();

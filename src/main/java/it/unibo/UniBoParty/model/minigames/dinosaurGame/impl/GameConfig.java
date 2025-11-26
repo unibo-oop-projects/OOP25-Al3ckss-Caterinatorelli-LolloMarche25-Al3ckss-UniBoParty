@@ -1,7 +1,7 @@
 package it.unibo.uniboparty.model.minigames.dinosaurgame.impl;
 
 /**
- * Collection of DinoRun's constants to avoid magic numbers
+ * Collection of DinoRun's constants to avoid magic numbers.
  */
 public final class GameConfig {
 

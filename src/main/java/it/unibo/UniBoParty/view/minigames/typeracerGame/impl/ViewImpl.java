@@ -11,19 +11,20 @@ import javax.swing.SwingUtilities;
 import it.unibo.uniboparty.model.minigames.typeracergame.impl.GameConfig;
 import it.unibo.uniboparty.view.minigames.typeracergame.api.View;
 
-public class ViewImpl implements View {
+/**
+ * Implementation of View to show the TypeRacer window.
+ */
+public final class ViewImpl implements View {
 
     private final JFrame frame = new JFrame("TypeRacer");
     private final JLabel label1 = new JLabel();
     private final JLabel timeLabel = new JLabel();
     private final JTextField textField = new JTextField();
 
-    
     /**
-    * Implementation of View to show the window
-    */
+     * Creates and initializes the TypeRacer window and components.
+     */
     public ViewImpl() {
-        
         SwingUtilities.invokeLater(() -> {
             frame.setBounds(100, 100, GameConfig.FRAME_WIDTH, GameConfig.FRAME_HEIGHT);
 
@@ -52,7 +53,7 @@ public class ViewImpl implements View {
 
     @Override
     public void updateTimeLabel(final int t) {
-        timeLabel.setText("Tempo rimanente: " + t);
+        timeLabel.setText("Remaining time: " + t);
         timeLabel.revalidate();
         timeLabel.repaint();
     }

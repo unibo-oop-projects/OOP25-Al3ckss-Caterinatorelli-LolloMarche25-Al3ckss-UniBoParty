@@ -39,7 +39,7 @@ public interface Model {
     int getTime();
 
     /**
-     * Decrements the game timer of one unit (1s)
+     * Decrements the game timer of one unit (1s).
      */
     void decreaseTime();
 
@@ -51,7 +51,7 @@ public interface Model {
     GameState getState();
 
     /**
-     * Sets the game's states
+     * Sets the game's states.
      *
      * @param state new GameState
      */

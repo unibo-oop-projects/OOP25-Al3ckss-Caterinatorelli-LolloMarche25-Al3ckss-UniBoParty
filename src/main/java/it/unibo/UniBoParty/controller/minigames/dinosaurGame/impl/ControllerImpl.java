@@ -45,7 +45,8 @@ public final class ControllerImpl implements Controller {
 
                 if (model.getGameState() == GameState.GAME_OVER) {
                     timer.stop();
-                    // Game over reached
+                    System.out.print("GAME OVER. Punteggio: " + model.getDifficulty());
+                    // Game over reached. Used Difficulty increment as score
                 }
             }
         });

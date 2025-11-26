@@ -5,9 +5,13 @@ import it.unibo.uniboparty.model.minigames.dinosaurgame.impl.ModelImpl;
 import it.unibo.uniboparty.view.minigames.dinosaurgame.impl.ViewImpl;
 
 /**
- * Main file to run the game
+ * Main class to run the game.
  */
-public class App {
+class App {
+
+    /**
+    * Main file that creates an instance of the Model, View, Controller
+    */
     public static void main(final String[] args) {
         final ModelImpl model = new ModelImpl();
         final ViewImpl view = new ViewImpl(model);

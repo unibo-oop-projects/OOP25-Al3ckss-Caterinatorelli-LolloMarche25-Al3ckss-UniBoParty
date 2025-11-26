@@ -3,15 +3,19 @@ package it.unibo.uniboparty.model.minigames.dinosaurgame.impl;
 import it.unibo.uniboparty.model.minigames.dinosaurgame.api.Obstacle;
 
 /**
- * Implementation of obstacles
+ * Implementation of obstacles.
  */
 public class ObstacleImpl implements Obstacle {
 
     private int obstX;
     private final int obstY;
-    private final int obstWidth, obstHeight;
+    private final int obstWidth;
+    private final int obstHeight;
     private int obstSpeed;
 
+    /**
+    *  Implementation of the Obstacle's properties.
+    */
     public ObstacleImpl(final int obstX, final int obstY, final int obstWidth, final int obstHeight, final int obstSpeed) {
         this.obstX = obstX;
         this.obstY = obstY;
@@ -22,7 +26,8 @@ public class ObstacleImpl implements Obstacle {
 
     @Override
     public int moveObstacle() {
-        return obstX -= obstSpeed;
+        obstX -= obstSpeed;
+        return obstX;
     }
 
     @Override

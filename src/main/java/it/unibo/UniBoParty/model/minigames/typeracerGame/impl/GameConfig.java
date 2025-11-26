@@ -1,7 +1,7 @@
 package it.unibo.uniboparty.model.minigames.typeracergame.impl;
 
 /**
- * Collection of TypeRacer's constants to avoid magic numbers
+ * Collection of TypeRacer's constants to avoid magic numbers.
  */
 public final class GameConfig {
 

@@ -8,7 +8,7 @@ import java.util.Random;
 public final class ObstacleFactory {
 
     
-    private static final Random random = new Random();
+    private static final Random RANDOM = new Random();
     
     private static final int[][] OBSTACLE_TYPES = {
         {20, 50},
@@ -16,8 +16,18 @@ public final class ObstacleFactory {
         {35, 70}
     };
 
-    private ObstacleFactory(){ }
+    private ObstacleFactory() { }
     
+    /**
+     * Creates an obstacle.
+     * 
+     * @param startX
+     * @param groundY
+     * @param minDistance
+     * @param maxVariation
+     * @param speed
+     * @return
+     */
     public static ObstacleImpl create(
             final int startX,
             final int groundY,
@@ -25,11 +35,11 @@ public final class ObstacleFactory {
             final int maxVariation,
             final int speed
     ) {
-        final int[] type = OBSTACLE_TYPES[random.nextInt(OBSTACLE_TYPES.length)];
+        final int[] type = OBSTACLE_TYPES[RANDOM.nextInt(OBSTACLE_TYPES.length)];
         final int width = type[0];
         final int height = type[1];
 
-        final int x = startX + minDistance + random.nextInt(maxVariation);
+        final int x = startX + minDistance + RANDOM.nextInt(maxVariation);
 
         return new ObstacleImpl(x, groundY, width, height, speed);
     }

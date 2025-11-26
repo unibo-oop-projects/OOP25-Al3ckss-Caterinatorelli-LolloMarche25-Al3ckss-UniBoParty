@@ -34,6 +34,13 @@ public class GamePanelImpl extends JPanel {
         this.model = model;
         setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
         setBackground(BACKGROUND_COLOR);
+        initFocusable();
+    }
+
+    /**
+     * Initializes focusability in a safe way to avoid calling overridable methods in constructor.
+     */
+    private void initFocusable() {
         setFocusable(true);
     }
 

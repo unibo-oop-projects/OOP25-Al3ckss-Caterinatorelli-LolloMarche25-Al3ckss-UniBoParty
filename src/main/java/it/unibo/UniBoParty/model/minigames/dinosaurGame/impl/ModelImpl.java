@@ -10,14 +10,14 @@ import it.unibo.uniboparty.model.minigames.dinosaurgame.api.Model;
  */
 public class ModelImpl implements Model {
 
-    private static final int dinoX = GameConfig.INIT_DINO_X;
+    private static final int DINO_X = GameConfig.INIT_DINO_X;
     private int dinoY = GameConfig.GROUND_Y;
 
-    private static final int dinoWidth = GameConfig.DINO_WIDTH;
-    private static final int dinoHeight = GameConfig.DINO_HEIGHT;
+    private static final int DINO_WIDTH = GameConfig.DINO_WIDTH;
+    private static final int DINO_HEIGHT = GameConfig.DINO_HEIGHT;
 
     private double velY;
-    static private final double gravity = GameConfig.GRAVITY;
+    private static final double GRAVITY = GameConfig.GRAVITY;
 
     private int nearestX;
     private boolean isJumping;
@@ -61,7 +61,7 @@ public class ModelImpl implements Model {
 
         if (isJumping) {
             dinoY += velY;
-            velY += isHoldingJump ? gravity * GameConfig.JUMP_GRAVITY : gravity;
+            velY += isHoldingJump ? GRAVITY * GameConfig.JUMP_GRAVITY : GRAVITY;
         }
 
         if (dinoY >= GameConfig.GROUND_Y) {
@@ -93,8 +93,8 @@ public class ModelImpl implements Model {
         }
 
         for (final ObstacleImpl o : obstacles) {
-            final boolean overlapX = dinoX + dinoWidth > o.getObstX()
-                    && dinoX < o.getObstX() + o.getObstWidth();
+            final boolean overlapX = DINO_X + DINO_WIDTH > o.getObstX()
+                    && DINO_X < o.getObstX() + o.getObstWidth();
             final boolean overlapY = dinoY > o.getObstY() - o.getObstHeight();
 
             if (overlapX && overlapY) {
@@ -126,7 +126,7 @@ public class ModelImpl implements Model {
 
     @Override
     public int getDinoX() {
-        return dinoX;
+        return DINO_X;
     }
 
     @Override
@@ -136,12 +136,12 @@ public class ModelImpl implements Model {
 
     @Override
     public int getDinoWidth() {
-        return dinoWidth;
+        return DINO_WIDTH;
     }
 
     @Override
     public int getDinoHeight() {
-        return dinoHeight;
+        return DINO_HEIGHT;
     }
 
     @Override
@@ -153,4 +153,11 @@ public class ModelImpl implements Model {
     public GameState getGameState() {
         return gameState;
     }
+
+    @Override
+    public int getDifficulty() {
+        return difficulty;
+    }
+
+    
 }
