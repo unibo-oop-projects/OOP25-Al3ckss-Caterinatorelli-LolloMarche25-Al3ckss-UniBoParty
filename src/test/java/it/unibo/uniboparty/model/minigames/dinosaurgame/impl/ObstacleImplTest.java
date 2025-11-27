@@ -1,4 +1,4 @@
-package dinosaurgame.model;
+package it.unibo.uniboparty.model.minigames.dinosaurgame.impl;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,18 +27,22 @@ class ObstacleImplTest {
     void testMoveObstacle() {
         int xBefore = obstacle.getObstX();
         obstacle.moveObstacle();
-        assertEquals(xBefore - obstacle.getObstSpeed(), obstacle.getObstX());
+        assertEquals(xBefore - 5, obstacle.getObstX());
     }
 
     @Test
-    void testSetAndGetX() {
+    void testSetObstX() {
         obstacle.setObstX(200);
         assertEquals(200, obstacle.getObstX());
     }
 
     @Test
-    void testSetAndGetSpeed() {
+    void testSetObstSpeed() {
         obstacle.setObstSpeed(10);
         assertEquals(10, obstacle.getObstSpeed());
+        
+        int xBefore = obstacle.getObstX();
+        obstacle.moveObstacle();
+        assertEquals(xBefore - 10, obstacle.getObstX());
     }
 }
