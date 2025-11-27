@@ -1,4 +1,4 @@
-package it.unibo.uniboparty.view.board;
+package it.unibo.uniboparty.view.board.impl;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -13,20 +13,23 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import it.unibo.uniboparty.controller.board.BoardController;
-import it.unibo.uniboparty.model.board.BoardModel;
+import it.unibo.uniboparty.controller.board.api.BoardController;
+import it.unibo.uniboparty.controller.board.impl.BoardControllerImpl;
 import it.unibo.uniboparty.model.board.CellType;
+import it.unibo.uniboparty.model.board.api.BoardModel;
+import it.unibo.uniboparty.model.board.impl.BoardModelImpl;
+import it.unibo.uniboparty.view.board.api.BoardView;
 
 /**
  * Swing view of the main board.
  *
  * <p>
  * Displays the board as a grid arranged in a snake-like pattern.
- * The view higlights the start cell, the finish cell, minigame cells,
+ * The view highlights the start cell, the finish cell, minigame cells,
  * and the cell where the player currently stands.
  * </p>
  */
-public final class BoardView extends JPanel {
+public final class BoardViewImpl extends JPanel implements BoardView {
 
     /** Number of columns of the board. */
     private static final int COLUMNS = 8;
@@ -70,9 +73,9 @@ public final class BoardView extends JPanel {
     /**
      * Creates the view for the main board using its own model and controller.
      */
-    public BoardView() {
-        final BoardModel model = new BoardModel();
-        this.controller = new BoardController(model);
+    public BoardViewImpl() {
+        final BoardModel model = new BoardModelImpl();
+        this.controller = new BoardControllerImpl(model);
 
         this.setLayout(new BorderLayout());
 
@@ -81,14 +84,14 @@ public final class BoardView extends JPanel {
 
         this.add(this.boardGrid, BorderLayout.CENTER);
 
-        this.drawBoard();
+        this.refresh();
     }
 
     /**
-     * Redraws the whole board grid according to the current model
+     * Rebuilds the whole board grid according to the current model
      * and player position.
      */
-    private void drawBoard() {
+    private void refresh() {
         this.boardGrid.removeAll();
 
         final int size = this.controller.getBoardSize();
@@ -96,18 +99,7 @@ public final class BoardView extends JPanel {
 
         for (int i = 0; i < size; i++) {
             final CellType type = this.controller.getCellTypeAt(i);
-
-            // Text to be displayed in the cell
-            final String text;
-            if (i == 0) {
-                text = "Start";
-            } else if (i == lastIndex) {
-                text = "Finish";
-            } else if (type == CellType.MINIGAME) {
-                text = "MG";
-            } else {
-                text = "";
-            }
+            final String text = this.getCellText(i, lastIndex, type);
 
             final JLabel cellLabel = new JLabel(text);
             cellLabel.setPreferredSize(new Dimension(CELL_WIDTH, CELL_HEIGHT));
@@ -116,28 +108,10 @@ public final class BoardView extends JPanel {
             cellLabel.setOpaque(true);
             cellLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-            final Color bg;
-            if (i == this.playerPosition) {
-                bg = COLOR_PLAYER;
-            } else if (i == 0) {
-                bg = COLOR_START;
-            } else if (i == lastIndex) {
-                bg = COLOR_FINISH;
-            } else if (type == CellType.MINIGAME) {
-                bg = COLOR_MINIGAME;
-            } else {
-                bg = COLOR_NORMAL;
-            }
-            cellLabel.setBackground(bg);
+            cellLabel.setBackground(this.getBackgroundColor(i, lastIndex, type));
 
             final int row = i / COLUMNS;
-
-            final int col;
-            if (row % 2 == 0) {
-                col = i % COLUMNS;
-            } else {
-                col = COLUMNS - 1 - (i % COLUMNS);
-            }
+            final int col = this.computeColumn(i, row);
 
             final GridBagConstraints gbc = new GridBagConstraints();
             gbc.gridx = col;
@@ -153,20 +127,78 @@ public final class BoardView extends JPanel {
     }
 
     /**
-     * Updates the logical position of the player and redraws the board.
+     * Computes the column index for a given logical index and row,
+     * using a snake-like (serpentine) pattern.
      *
-     * @param position the index of the cell where the player is currently located
+     * @param index the logical cell index
+     * @param row   the row index
+     * @return the column where the cell should be placed
      */
-    public void setPlayerPosition(final int position) {
-        this.playerPosition = position;
-        this.drawBoard();
+    private int computeColumn(final int index, final int row) {
+        if (row % 2 == 0) {
+            // even row: left to right
+            return index % COLUMNS;
+        }
+        // odd row: right to left
+        return COLUMNS - 1 - (index % COLUMNS);
     }
 
     /**
-     * Returns the controller used by this view.
+     * Returns the text to display inside the cell.
      *
-     * @return the board controller
+     * @param index     cell index
+     * @param lastIndex last cell index
+     * @param type      type of the cell
+     * @return the text for that cell
      */
+    private String getCellText(final int index, final int lastIndex, final CellType type) {
+        if (index == 0) {
+            return "Start";
+        }
+        if (index == lastIndex) {
+            return "Finish";
+        }
+        if (type == CellType.MINIGAME) {
+            return "MG";
+        }
+        return "";
+    }
+
+    /**
+     * Computes the background color for the given cell index.
+     *
+     * @param index     cell index
+     * @param lastIndex last cell index
+     * @param type      cell type
+     * @return the background color to use
+     */
+    private Color getBackgroundColor(final int index, final int lastIndex, final CellType type) {
+        if (index == this.playerPosition) {
+            return COLOR_PLAYER;
+        }
+        if (index == 0) {
+            return COLOR_START;
+        }
+        if (index == lastIndex) {
+            return COLOR_FINISH;
+        }
+        if (type == CellType.MINIGAME) {
+            return COLOR_MINIGAME;
+        }
+        return COLOR_NORMAL;
+    }
+
+    @Override
+    public void setPlayerPosition(final int position) {
+        // semplice guard-rail, così se qualcuno passa un indice sbagliato non esplode tutto
+        if (position < 0 || position >= this.controller.getBoardSize()) {
+            throw new IllegalArgumentException("Invalid player position: " + position);
+        }
+        this.playerPosition = position;
+        this.refresh();
+    }
+
+    @Override
     public BoardController getController() {
         return this.controller;
     }

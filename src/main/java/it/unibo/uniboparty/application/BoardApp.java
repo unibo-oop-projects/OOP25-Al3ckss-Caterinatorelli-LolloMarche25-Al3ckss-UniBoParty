@@ -3,7 +3,7 @@ package it.unibo.uniboparty.application;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import it.unibo.uniboparty.view.board.BoardView;
+import it.unibo.uniboparty.view.board.impl.BoardViewImpl;
 
 /**
  * Swing application entry point for the UniBoParty main board.
@@ -11,11 +11,12 @@ import it.unibo.uniboparty.view.board.BoardView;
  */
 public final class BoardApp {
 
-    /** Width of the application window. */
-    private static final int WINDOW_WIDTH = 650;
-
-    /** Height of the application window. */
-    private static final int WINDOW_HEIGHT = 250;
+    /**
+     * Private constructor to prevent instantiation.
+     */
+    private BoardApp() {
+        // Utility class: no instances allowed
+    }
 
     /**
      * Main entry point.
@@ -24,9 +25,7 @@ public final class BoardApp {
      */
     public static void main(final String[] args) {
         // Always start Swing applications on the Event Dispatch Thread
-        SwingUtilities.invokeLater(() -> {
-            createAndShowWindow();
-        });
+        SwingUtilities.invokeLater(BoardApp::createAndShowWindow);
     }
 
     /**
@@ -36,9 +35,9 @@ public final class BoardApp {
         final JFrame frame = new JFrame("UniBoParty - Board");
 
         // Add the BoardView (Swing version)
-        frame.setContentPane(new BoardView());
+        frame.setContentPane(new BoardViewImpl());
 
-        frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+        frame.pack();                  // Calculate size based on content
         frame.setLocationRelativeTo(null); // Center on screen
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);

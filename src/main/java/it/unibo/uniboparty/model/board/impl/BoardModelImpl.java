@@ -1,24 +1,26 @@
-package it.unibo.uniboparty.model.board;
+package it.unibo.uniboparty.model.board.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import it.unibo.uniboparty.model.board.CellModel;
+import it.unibo.uniboparty.model.board.CellType;
+import it.unibo.uniboparty.model.board.api.BoardModel;
 import it.unibo.uniboparty.utilities.MinigameId;
 
 /**
- * Model representing the main game board as a list of {@link CellModel} objects.
- * Each cell may be a normal cell or one that triggers a minigame.
+ * Default implementation of the BoardModel.
+ * The board is represented as an ordered list of cells.
  */
-public final class BoardModel {
+public final class BoardModelImpl implements BoardModel {
 
     private final List<CellModel> cells;
 
     /**
      * Creates the default configuration of the board.
-     * The board is internally represented as an ordered list of cells.
      */
-    public BoardModel() {
+    public BoardModelImpl() {
         this.cells = new ArrayList<>();
 
         this.cells.add(new CellModel(CellType.NORMAL, null));
@@ -39,30 +41,17 @@ public final class BoardModel {
         this.cells.add(new CellModel(CellType.MINIGAME, MinigameId.GAME_8));
     }
 
-    /**
-     * Returns the number of cells of the board.
-     *
-     * @return the size of the board
-     */
+    @Override
     public int getSize() {
         return this.cells.size();
     }
 
-    /**
-     * Returns the cell at the given index.
-     *
-     * @param index the position of the desired cell
-     * @return the {@link CellModel} at that position
-     */
+    @Override
     public CellModel getCellAt(final int index) {
         return this.cells.get(index);
     }
 
-    /**
-     * Returns an unmodifiable view of the list of cells.
-     *
-     * @return an unmodifiable list of cells
-     */
+    @Override
     public List<CellModel> getCells() {
         return Collections.unmodifiableList(this.cells);
     }
