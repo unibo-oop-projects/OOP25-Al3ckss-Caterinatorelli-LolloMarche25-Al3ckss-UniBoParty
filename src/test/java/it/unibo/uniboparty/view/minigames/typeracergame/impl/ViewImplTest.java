@@ -3,7 +3,8 @@ package it.unibo.uniboparty.view.minigames.typeracergame.impl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 /**
  * Test class for TypeRacer Game ViewImpl.
@@ -50,10 +51,14 @@ class ViewImplTest {
      */
     @Test
     void testUpdateTimeLabel() {
+        final int time1 = 15;
+        final int time2 = 10;
+        final int time3 = 0;
+
         assertDoesNotThrow(() -> {
-            view.updateTimeLabel(15);
-            view.updateTimeLabel(10);
-            view.updateTimeLabel(0);
+            view.updateTimeLabel(time1);
+            view.updateTimeLabel(time2);
+            view.updateTimeLabel(time3);
         });
     }
 }

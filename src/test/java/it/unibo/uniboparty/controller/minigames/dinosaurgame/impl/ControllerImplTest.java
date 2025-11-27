@@ -2,10 +2,12 @@ package it.unibo.uniboparty.controller.minigames.dinosaurgame.impl;
 
 import it.unibo.uniboparty.model.minigames.dinosaurgame.impl.ModelImpl;
 import it.unibo.uniboparty.view.minigames.dinosaurgame.impl.ViewImpl;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test class for Dinosaur Game ControllerImpl.
@@ -41,8 +43,8 @@ class ControllerImplTest {
      */
     @Test
     void testStartAndStop() {
-        assertDoesNotThrow(() -> controller.start());
-        assertDoesNotThrow(() -> controller.stop());
+        assertDoesNotThrow(controller::start);
+        assertDoesNotThrow(controller::stop);
     }
 
     /**

@@ -2,10 +2,13 @@ package it.unibo.uniboparty.controller.minigames.typeracergame.impl;
 
 import it.unibo.uniboparty.model.minigames.typeracergame.impl.ModelImpl;
 import it.unibo.uniboparty.view.minigames.typeracergame.impl.ViewImpl;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test class for TypeRacer Game ControllerImpl.

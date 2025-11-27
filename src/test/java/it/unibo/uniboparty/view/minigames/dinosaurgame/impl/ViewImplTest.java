@@ -1,10 +1,14 @@
 package it.unibo.uniboparty.view.minigames.dinosaurgame.impl;
 
 import it.unibo.uniboparty.model.minigames.dinosaurgame.impl.ModelImpl;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test class for Dinosaur Game ViewImpl.
@@ -12,14 +16,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class ViewImplTest {
 
     private ViewImpl view;
-    private ModelImpl model;
 
     /**
      * Set up model and view before each test.
      */
     @BeforeEach
     void setUp() {
-        model = new ModelImpl();
+        final ModelImpl model = new ModelImpl();
         view = new ViewImpl(model);
     }
 

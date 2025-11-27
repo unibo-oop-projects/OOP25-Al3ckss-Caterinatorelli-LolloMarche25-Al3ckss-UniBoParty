@@ -1,9 +1,12 @@
 package it.unibo.uniboparty.model.minigames.typeracergame.impl;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test class for TypeRacer Game ModelImpl.
@@ -37,8 +40,8 @@ class ModelImplTest {
     @Test
     void testSetNewWordGeneratesValidWord() {
         model.setNewWord();
-        String word = model.getCurrentWord();
-        
+        final String word = model.getCurrentWord();
+
         assertNotNull(word);
         assertTrue(WordList.WORDS.contains(word));
     }
@@ -51,7 +54,7 @@ class ModelImplTest {
         model.incrementPoints();
         model.incrementPoints();
         model.incrementPoints();
-        
+
         assertEquals(3, model.getPoints());
     }
 
@@ -61,15 +64,15 @@ class ModelImplTest {
     @Test
     void testDecreaseTimeAndGameOver() {
         model.setState(GameState.RUNNING);
-        int initialTime = model.getTime();
-        
+        final int initialTime = model.getTime();
+
         model.decreaseTime();
         assertEquals(initialTime - 1, model.getTime());
-        
+
         while (model.getTime() > 0) {
             model.decreaseTime();
         }
-        
+
         assertEquals(GameState.GAME_OVER, model.getState());
     }
 
@@ -80,7 +83,7 @@ class ModelImplTest {
     void testSetState() {
         model.setState(GameState.RUNNING);
         assertEquals(GameState.RUNNING, model.getState());
-        
+
         model.setState(GameState.GAME_OVER);
         assertEquals(GameState.GAME_OVER, model.getState());
     }

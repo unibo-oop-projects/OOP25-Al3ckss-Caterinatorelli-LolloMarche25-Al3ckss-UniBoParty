@@ -3,11 +3,18 @@ package it.unibo.uniboparty.model.minigames.dinosaurgame.impl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.List;
 
 class ModelImplTest {
+
+    private static final int INIT_DINO_X = 50;
+    private static final int INIT_DINO_Y = 350;
+    private static final int DINO_WIDTH = 40;
+    private static final int DINO_HEIGHT = 50;
 
     private ModelImpl model;
 
@@ -18,25 +25,25 @@ class ModelImplTest {
 
     @Test
     void testInitialDinoPosition() {
-        assertEquals(50, model.getDinoX());
-        assertEquals(350, model.getDinoY());
+        assertEquals(INIT_DINO_X, model.getDinoX());
+        assertEquals(INIT_DINO_Y, model.getDinoY());
     }
 
     @Test
     void testDinoDimensions() {
-        assertEquals(40, model.getDinoWidth());
-        assertEquals(50, model.getDinoHeight());
+        assertEquals(DINO_WIDTH, model.getDinoWidth());
+        assertEquals(DINO_HEIGHT, model.getDinoHeight());
     }
 
     @Test
     void testObstaclesAreCreated() {
-        ArrayList<ObstacleImpl> obstacles = (ArrayList<ObstacleImpl>) model.getObstacles();
-        assertTrue(obstacles.size() > 0);
+        final List<ObstacleImpl> obstacles = model.getObstacles(); // no cast
+        assertFalse(obstacles.isEmpty());
     }
 
     @Test
     void testJumpChangesPosition() {
-        int yBefore = model.getDinoY();
+        final int yBefore = model.getDinoY();
         model.jump();
         model.update();
         assertTrue(model.getDinoY() < yBefore);
@@ -49,9 +56,9 @@ class ModelImplTest {
 
     @Test
     void testObstacleMovement() {
-        ArrayList<ObstacleImpl> obstacles = (ArrayList<ObstacleImpl>) model.getObstacles();
-        ObstacleImpl obstacle = obstacles.get(0);
-        int xBefore = obstacle.getObstX();
+        final List<ObstacleImpl> obstacles = model.getObstacles(); // no cast
+        final ObstacleImpl obstacle = obstacles.get(0);
+        final int xBefore = obstacle.getObstX();
         obstacle.moveObstacle();
         assertTrue(obstacle.getObstX() < xBefore);
     }
