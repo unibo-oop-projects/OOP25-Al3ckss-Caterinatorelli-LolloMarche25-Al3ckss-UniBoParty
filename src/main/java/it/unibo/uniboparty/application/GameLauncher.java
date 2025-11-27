@@ -1,5 +1,6 @@
 package it.unibo.uniboparty.application;
 
+import it.unibo.uniboparty.controller.dice.impl.DiceControllerImpl;
 import it.unibo.uniboparty.controller.end_screen.impl.LeaderboardControllerImpl;
 import it.unibo.uniboparty.controller.minigames.hangman.impl.HangmanControllerImpl;
 import it.unibo.uniboparty.controller.minigames.sudoku.impl.SudokuControllerImpl;
@@ -27,7 +28,7 @@ public final class GameLauncher {
      */
     public static void main(final String[] args) {
         SwingUtilities.invokeLater(() -> {
-            final String[] options = {"Sudoku", "Impiccato", "Classifica"};
+            final String[] options = {"Sudoku", "Impiccato", "Classifica", "Dadi"};
             final int choice = JOptionPane.showOptionDialog(
                     null,
                     "Quale gioco vuoi avviare?",
@@ -48,6 +49,9 @@ public final class GameLauncher {
                     break;
                 case 2:
                     LeaderboardLauncher.startLeaderboard();
+                    break;
+                case 3:
+                    DiceLauncher.startDice();
                     break;
                 default:
                     LOGGER.log(Level.INFO, "Application closed by user.");
@@ -107,6 +111,22 @@ public final class GameLauncher {
          */
         public static void startLeaderboard() {
             SwingUtilities.invokeLater(LeaderboardControllerImpl::new);
+        }
+    }
+
+    /**
+     * Helper to open the dice interface.
+     */
+    public static final class DiceLauncher {
+        private DiceLauncher() {
+            throw new UnsupportedOperationException(UTILITY);
+        }
+
+        /**
+         * Helper to throw the dice.
+         */
+        public static void startDice() {
+            SwingUtilities.invokeLater(DiceControllerImpl::new);
         }
     }
 }
