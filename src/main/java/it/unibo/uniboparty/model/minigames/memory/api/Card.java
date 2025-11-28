@@ -1,37 +1,48 @@
 package it.unibo.uniboparty.model.minigames.memory.api;
 
 /**
- * Interface that represents a single card in the Memory game.
- * It provides basic methods to know the card data and to change its state (covered or revealed).
+ * Writable Memory card.
+ * 
+ * <p>
+ * This interface extends {@link CardReadOnly} by adding the methods needed to modify the card state {reveal or hide}. 
+ * The View usually interacts only with read-only interface, while the Controller and the Model use this writable version.
+ * </p> 
  */
 public interface Card extends CardReadOnly {
     
     /** 
-     * @return the unique identifier of the card.
-     * This id helps to distinguish cards in the deck. 
+     * {@inheritDoc} 
      */
+    @Override
     int getId();
 
     /** 
-     * @return the symbol shown by the card when it is revealed.
-     * Cards with the same symbol form a pair. 
+     * {@inheritDoc}
      */
+    @Override
     Symbol getSymbol();
 
     /** 
-     * @return true if the card is currently revealed (face up), false if it is covered. 
+     * {@inheritDoc}
      */
+    @Override
     boolean isRevealed();
 
     /**
-     * Sets the card state to revealed.
-     * Used when the player clicks on the card.
+     * Reveals the card (face up).
+     * 
+     * <p>
+     * Typically called when the player selects the card.
+     * </p>
      */
     void reveal();
 
     /** 
-     * Sets the card back to hidden (face down).
-     * Usually called when two cards do not match.
+     * Hides the card again (face down).
+     * 
+     * <p>
+     * Usually called when two revealed cards do not match.
+     * </p>
      */
     void hide();
 }

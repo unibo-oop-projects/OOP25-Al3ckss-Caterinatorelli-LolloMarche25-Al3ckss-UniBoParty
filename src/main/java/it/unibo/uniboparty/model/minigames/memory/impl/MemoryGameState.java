@@ -7,8 +7,11 @@ import it.unibo.uniboparty.model.minigames.memory.api.MemoryGameReadOnlyState;
 
 /**
  * Immutable snapshot of the current Memory game state.
- * Mean to be read by the controller or the UI,
- * without giving access to modify the real model.
+ * 
+ * <p>
+ * The Controller and the View use this class to read information about the match without modifying the actual Model. 
+ * All fields are final, and a defensive copy of the card list is stored.
+ * </p>
  */
 public final class MemoryGameState implements MemoryGameReadOnlyState {
     
@@ -22,7 +25,14 @@ public final class MemoryGameState implements MemoryGameReadOnlyState {
 
     /**
      * Creates a new immutable game state snapshot.
-     * A defensive copy of the card list is made to keep it read-only.
+     * 
+     * @param matchedPairs number of pairs already found
+     * @param totalPairs total number of pairs in the game
+     * @param gameOver whether the game is finished
+     * @param waitingSecondFlip {@code true} if only one card is currently revealed
+     * @param cards list of all cards (a defensive copy will be made)
+     * @param message short message describing the current situation
+     * @param moves number of moves performed by the player
      */
     public MemoryGameState(
         final int matchedPairs,
@@ -42,36 +52,57 @@ public final class MemoryGameState implements MemoryGameReadOnlyState {
         this.moves = moves;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getMatchedPairs() {
         return this.matchedPairs;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getTotalPairs() {
         return this.totalPairs;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isGameOver() {
         return this.gameOver;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isWaitingSecondFlip() {
         return this.waitingSecondFlip;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<CardReadOnly> getCards() {
         return this.cards;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getMessage() {
         return this.message;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getMoves() {
         return this.moves;

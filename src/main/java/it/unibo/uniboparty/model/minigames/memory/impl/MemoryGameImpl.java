@@ -7,11 +7,14 @@ import it.unibo.uniboparty.model.minigames.memory.api.MemoryGameModel;
 import it.unibo.uniboparty.model.minigames.memory.api.MemoryGameReadOnlyState;
 
 /**
- * Concrete implementation of the MemoryGameModel.
+ * Concrete implementation of the {@link MemoryGameModel} interface.
+ * 
+ * <p>
  * This class contains the core logic of the Memory game:
- * flipping cards, checking for matches, tracking game state, etc. 
+ * flipping cards, checking for matches, tracking the game state and exposing a read-only snapshot for the UI.
+ * </p> 
  */
-public class MemoryGameImpl implements MemoryGameModel {
+public final class MemoryGameImpl implements MemoryGameModel {
     
     /**
      * All the cards in the current game.
@@ -39,8 +42,7 @@ public class MemoryGameImpl implements MemoryGameModel {
     private Card secondSelectedCard;
 
     /**
-     * True when the player has just revealed two different cards (mismatch)
-     * and they must be hidden again.
+     * {@code true} when the player has just revealed two different cards (mismatch) and they must be hidden again.
      */
     private boolean mismatchPending;  
 
@@ -57,6 +59,7 @@ public class MemoryGameImpl implements MemoryGameModel {
     /**
      * Creates a new Memory game using the given deck.
      * All cards are assumed to be initially hidden at the beginning.
+     * 
      * @param deck the list of cards to use in the game
      */
     public MemoryGameImpl(final List<Card> deck) {
@@ -70,6 +73,9 @@ public class MemoryGameImpl implements MemoryGameModel {
         this.moves = 0;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
      public boolean flipCard(final int index) {
 
@@ -87,9 +93,7 @@ public class MemoryGameImpl implements MemoryGameModel {
 
         final Card selected = this.cards.get(index);
         
-        /**
-         * Ignore clicks on already revealed cards
-         */
+        // Ignore clicks on already revealed cards
         if(selected.isRevealed()) {
             this.lastMessage = "This card is already revealed. U blind?";
             return false;
@@ -136,8 +140,7 @@ public class MemoryGameImpl implements MemoryGameModel {
      }
 
      /**
-      * Hides the two previously revealed cards if they do not match, 
-      * ends the current turn and updates the feedback message.
+      * {@inheritDoc}
       */
      @Override
      public void resolveMismatch() {
@@ -155,6 +158,9 @@ public class MemoryGameImpl implements MemoryGameModel {
         }
      }
 
+     /**
+      * {@inheritDoc}
+      */
      @Override
      public boolean hasMismatchPending() {
         return this.mismatchPending;
@@ -162,9 +168,10 @@ public class MemoryGameImpl implements MemoryGameModel {
 
      /**
       * Checks if the two given cards form a matching pair.
+      * 
       * @param a first card
       * @param b second card
-      * @return true if the two cards match, false otherwise
+      * @return {@code true} if the two cards match, {@code false} otherwise
       */
      private boolean checkForMatch(final Card a, final Card b) {
         // We can use == here because Symbol is an enum
@@ -180,19 +187,25 @@ public class MemoryGameImpl implements MemoryGameModel {
         this.secondSelectedCard = null;
      }
 
+     /**
+      * {@inheritDoc}
+      */
      @Override
      public boolean isGameOver() {
         return this.matchedPairs == this.totalPairs;
      }
 
+     /**
+      * {@inheritDoc}
+      */
      @Override
      public List<Card> getCards() {
-        return List.copyOf(this.cards); // restituisco una copia per evitare modifiche esterne
+        // Returns a defensive copy to avoid external modifications
+        return List.copyOf(this.cards);
      }
 
      /**
-      * Returns a read-only snapshot of the current game state,
-      * meant to be used by the GUI or the controller.
+      * {@inheritDoc}
       */
     @Override
      public MemoryGameReadOnlyState getGameState() {
@@ -209,8 +222,9 @@ public class MemoryGameImpl implements MemoryGameModel {
 
      /**
       * Checks if the given index is valid for the current deck.
+      * 
       * @param index the index to check
-      * @return true if the index is inside [0, cards.size()-1]
+      * @return {@code true} if the index is inside [0, cards.size() - 1]
       */
      private boolean isValidIndex(final int index) {
         return index >= 0 && index < this.cards.size();

@@ -3,43 +3,59 @@ package it.unibo.uniboparty.model.minigames.memory.api;
 import java.util.List;
 
 /**
- * Main model API for hte Memory game.
- * It contains the core logic: flipping cards, checking matches, and tracking the game progress.
+ * Main modl API for the Memory game.
+ * 
+ * <p>
+ * This interface defines the core logic of the game:
+ * flipping cards, checking for matches, resolving mismatches, and tracking the overall game progress.
+ * </p>
  */
 public interface MemoryGameModel {
     
     /**
-     * Reveals the card at given index.
-     * @param index the position of the card in the deck.
-     * @return true if the move is valid and the card is flipped.
-     * Returns false if the move cannot be done (for example if the card is already revealed).
+     * Tries to reveal the card at the given index.
+     * 
+     * <p>
+     * The move is valid only if the card is currently hidden and the game is not waiting for a mismatch to be resolved.
+     * </p>
+     * 
+     * @param index the position of the card inside the deck
+     * @return {@code true} if the card has been flipped successfully; {@code false} if the move is not allowed
      */
     boolean flipCard(int index);
     
     /**
-     * If the last turn produced a mismatch that is still waiting, this method hides the two cards again and closes the turn.
+     * Resolves the last mismatch, if any.
+     * 
+     * <p>
+     * When two flipped cards do not match, the model keeps them revealed until the controller calls this method, which hides them again and closes the turn.
+     * </p>
      */
     void resolveMismatch();
 
     /**
-     * @return true if there is a mismatch waiting to be resolved.
+     * @return {@code true} if two non-matching cards are currently revealed
      */
     boolean hasMismatchPending();
 
     /**
-     * @return true if all pairs have been found and the game is finished.
+     * @return {@code true} if all pairs have been found
      */
     boolean isGameOver();
 
     /**
      * @return an immutable list of all cards on the table.
-     * The caller cannot modify the cards directly.
      */
     List<Card> getCards();
 
     /**
-     * Returns a snapshot of the current game state.
-     * Useful for the controller or UI to read data safely.
+     * Returns a read-only snapshot of the current game state.
+     * 
+     * <p>
+     * Useful for the controller or the UI to read the game data without modifying the model
+     * </p>
+     * 
+     * @return the current {@link MemoryGameReadOnlyState}
      */
     MemoryGameReadOnlyState getGameState();
 }

@@ -2,6 +2,8 @@ package it.unibo.uniboparty.controller.minigames.memory.impl;
 
 import java.util.List;
 
+import javax.swing.Timer;
+
 import it.unibo.uniboparty.controller.minigames.memory.api.MemoryGameController;
 import it.unibo.uniboparty.model.minigames.memory.api.Card;
 import it.unibo.uniboparty.model.minigames.memory.api.MemoryDeckFactory;
@@ -10,10 +12,6 @@ import it.unibo.uniboparty.model.minigames.memory.api.MemoryGameReadOnlyState;
 import it.unibo.uniboparty.model.minigames.memory.impl.MemoryDeckFactoryImpl;
 import it.unibo.uniboparty.model.minigames.memory.impl.MemoryGameImpl;
 import it.unibo.uniboparty.view.minigames.memory.api.MemoryGameView;
-import javafx.animation.Timeline;
-import javafx.animation.KeyFrame;
-import javafx.animation.PauseTransition;
-import javafx.util.Duration;
 
 /**
  * Implementation of the Memory Game controller.
@@ -23,7 +21,16 @@ public class MemoryGameControllerImpl implements MemoryGameController {
 
     private static final int ROWS = 4;
     private static final int COLS = 4;
-    private static final double MISMATCH_DELAY_SECONDS = 1.0;
+
+    /**
+     * Delay (in milliseconds) before hiding mismatching cards.
+     */
+    private static final int MISMATCH_DELAY_MILLIS = 1_000;
+
+    /**
+     * Interval (in milliseconds) between two time updates.
+     */
+    private static final int TIME_TICK_MILLIS = 1_000;
 
     /**
      * The game model that contains the core logic.
@@ -43,11 +50,12 @@ public class MemoryGameControllerImpl implements MemoryGameController {
     /**
      * Timer that updates the time and the info panel evry second.
      */
-    private Timeline timer;
+    private final Timer timer;
 
     /**
-     * Creates the controller, initializes the model and connects the view
-     * @param view a concrete implementation of MemoryGameView
+     * Creates the controller, initializes the model and connects it to the view.
+     * 
+     * @param view a concrete implementation of {@link MemoryGameView}
      */
     public MemoryGameControllerImpl(final MemoryGameView view) {
         // Create a shuffled deck (8 pairs for a 4x4 grid)
@@ -58,7 +66,7 @@ public class MemoryGameControllerImpl implements MemoryGameController {
         // Create the model
         this.game = new MemoryGameImpl(deck);
 
-        // Create the view and connect it to this controller
+        // Store the view and connect controller to the view
         this.view = view;
         this.view.setController(this);
 
@@ -70,16 +78,13 @@ public class MemoryGameControllerImpl implements MemoryGameController {
         this.secondsPassed = 0;
         this.view.updateInfoPanel(this.secondsPassed, initialState.getMoves());
 
-        // Timeline that fires every second to update the info panel
-        this.timer = new Timeline(
-            new KeyFrame(Duration.seconds(1), e -> {
-                this.secondsPassed++;
-                final MemoryGameReadOnlyState current = this.game.getGameState();
-                this.view.updateInfoPanel(this.secondsPassed, current.getMoves());
-            })
-        );
-        this.timer.setCycleCount(Timeline.INDEFINITE);
-        this.timer.play();
+        // TSwing timer that fires every second to update the info panel
+        this.timer = new Timer(TIME_TICK_MILLIS, e -> {
+            this.secondsPassed++;
+            final MemoryGameReadOnlyState current = this.game.getGameState();
+            this.view.updateInfoPanel(this.secondsPassed, current.getMoves());
+        });
+        this.timer.start();
     }
 
     /**
@@ -109,7 +114,7 @@ public class MemoryGameControllerImpl implements MemoryGameController {
             return;
         }
 
-        // Decide if the turn i complete.
+        // Decide if the turn is complete.
         // waitingSecondFlip == true -> only the first card of the turn has been flipped
         // waitingSecondFlip == false -> the turn is complete (2 cards flipped)
         final boolean closedTurn = !stateAfterFlip.isWaitingSecondFlip();
@@ -131,14 +136,17 @@ public class MemoryGameControllerImpl implements MemoryGameController {
 
     /**
      * Handles the case when the player revealed two different cards (mismatch).
-     * It waits for a short delay, hides the cards in the model, and updates the view.
+     * 
+     * <p>
+     * It waits for a short delay, hides the cards in the model, and then updates the view.
+     * </p>
      */
     private void handleMismatch() {
         // Disable all buttons while we wait to hide the cards
         this.view.setAllButtonsDisabled(true);
 
-        final PauseTransition pause = new PauseTransition(Duration.seconds(MISMATCH_DELAY_SECONDS));
-        pause.setOnFinished(ev -> {
+        // Single-shot Swing Timer that waits before hiding the mismatch
+        final Timer mismatchTimer = new Timer(MISMATCH_DELAY_MILLIS, e -> {
             // Ask the model to hide the mismatching cards and end the turn
             this.game.resolveMismatch();
 
@@ -153,8 +161,11 @@ public class MemoryGameControllerImpl implements MemoryGameController {
                 // Otherwise, re-enable the buttons to continue playing
                 this.view.setAllButtonsDisabled(false);
             }
+
+            ((Timer) e.getSource()).stop();
         });
-        pause.play();
+        mismatchTimer.setRepeats(false);
+        mismatchTimer.start();
     }
 
     /**
@@ -166,14 +177,5 @@ public class MemoryGameControllerImpl implements MemoryGameController {
             this.timer.stop();
         }
         this.view.setAllButtonsDisabled(true);
-    }
-
-    /**
-     * Used by the application to get the view to put into the Scene.
-     * @return the view managed by this controller
-     */
-    @Override
-    public MemoryGameView getView() {
-        return this.view;
     }
 }
