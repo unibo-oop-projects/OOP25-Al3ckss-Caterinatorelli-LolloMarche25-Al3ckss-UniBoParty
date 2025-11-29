@@ -107,8 +107,7 @@ public final class GridModelImpl implements GridModel {
         for (final Point rel : piece.getCells()) {
             grid[topR + rel.y][leftC + rel.x] = true;
         }
-        //clearFullLines();
-        //fireChange();
+
     }
 
     /**
