@@ -7,7 +7,7 @@ import it.unibo.uniboparty.utilities.MinigameId;
  * High-level API for interacting with the main board.
  */
 public interface BoardController {
-    
+
     /**
      * @return the number of cells of the board
      */

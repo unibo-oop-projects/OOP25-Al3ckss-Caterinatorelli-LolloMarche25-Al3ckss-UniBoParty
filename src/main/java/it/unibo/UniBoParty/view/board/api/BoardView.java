@@ -6,7 +6,7 @@ import it.unibo.uniboparty.controller.board.api.BoardController;
  * Public API for the main board view.
  */
 public interface BoardView {
-    
+
     /**
      * Updates the logical position of the player and refreshes the view.
      * 
