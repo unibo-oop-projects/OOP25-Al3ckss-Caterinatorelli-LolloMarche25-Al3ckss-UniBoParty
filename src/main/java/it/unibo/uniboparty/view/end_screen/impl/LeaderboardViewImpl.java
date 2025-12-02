@@ -10,7 +10,12 @@ import java.awt.Dimension;
 import java.util.List;
 
 /**
- * Concrete implementation of the View.
+ * Concrete implementation of the {@link LeaderboardView} interface.
+ *
+ * <p>
+ * This class manages the main window for the game's final leaderboard.
+ * It sets up a frame with a central area for the podium display and a
+ * bottom navigation bar to return to the main menu.
  */
 public class LeaderboardViewImpl implements LeaderboardView {
 
@@ -22,7 +27,11 @@ public class LeaderboardViewImpl implements LeaderboardView {
     private final JButton backButton;
 
     /**
-     * Comment.
+     * Constructs the Leaderboard View.
+     *
+     * <p>
+     * Initializes the main {@link JFrame}, sets its dimensions and layout,
+     * and prepares the bottom panel containing the "Back to Menu" button.
      */
     public LeaderboardViewImpl() {
         frame = new JFrame("Classifica - Podio");
@@ -43,9 +52,13 @@ public class LeaderboardViewImpl implements LeaderboardView {
     }
 
     /**
-     * Shows the podium.
+     * Displays the podium with the top players.
      *
-     * @param players The list of top players.
+     * <p>
+     * It creates a new {@link PodiumPanel}, adds it to the center of the frame,
+     * and forces a UI refresh to ensure the graphics are rendered correctly.
+     *
+     * @param players The list of {@link Player} objects to be displayed on the podium.
      */
     @Override
     public void showPodium(final List<Player> players) {
@@ -56,9 +69,9 @@ public class LeaderboardViewImpl implements LeaderboardView {
     }
 
     /**
-     * Registers a back listener.
+     * Registers a listener for the "Back" button.
      *
-     * @param listener The action to perform.
+     * @param listener The {@link java.awt.event.ActionListener} to handle the button click.
      */
     @Override
     public void addBackListener(final java.awt.event.ActionListener listener) {
@@ -66,7 +79,7 @@ public class LeaderboardViewImpl implements LeaderboardView {
     }
 
     /**
-     * Closes the frame.
+     * Closes the leaderboard window and releases its resources.
      */
     @Override
     public void close() {

@@ -18,7 +18,12 @@ import java.util.logging.Logger;
 import java.util.ArrayList;
 
 /**
- * Panel that draws the podium graphics with a background and title.
+ * Custom {@link JPanel} responsible for rendering the graphical podium.
+ *
+ * <p>
+ * This panel draws a background image, a congratulatory title, and graphical bars
+ * representing the top players (1st, 2nd, and 3rd place). It uses Java 2D Graphics
+ * for custom rendering and precise positioning.
  */
 public class PodiumPanel extends JPanel {
 
@@ -29,7 +34,7 @@ public class PodiumPanel extends JPanel {
 
     private static final String BG_IMAGE_PATH = "sudoku_icons/background.jpeg";
 
-    private static final int BASE_Y_OFFSET = 100; // Distanza dal fondo
+    private static final int BASE_Y_OFFSET = 100;
     private static final int BAR_WIDTH = 100;
     private static final int FIRST_HEIGHT = 160;
     private static final int SECOND_HEIGHT = 110;
@@ -38,44 +43,52 @@ public class PodiumPanel extends JPanel {
     private static final int PLAYER_TEXT_OFFSET = 25;
     private static final Font PLAYER_FONT = new Font("Arial", Font.BOLD, 16);
 
-    private static final String TITLE_TEXT = "Congratulazioni!";
+    private static final String TITLE_TEXT = "Congratulations!";
     private static final int TITLE_Y_POS = 60;
     private static final Font TITLE_FONT = new Font("SansSerif", Font.BOLD | Font.ITALIC, 42);
-    private static final Color TITLE_COLOR = new Color(50, 50, 50); // Grigio scuro
+    private static final Color TITLE_COLOR = new Color(50, 50, 50);
 
     private final List<Player> topPlayers;
     private final transient Image backgroundImage;
 
     /**
-     * @param topPlayers List of top 3 players.
+     * Constructs the podium panel.
+     *
+     * <p>
+     * It creates a defensive copy of the player list and attempts to load the
+     * background image from the resources. If the image is not found, a warning
+     * is logged and the background will be rendered as a solid color.
+     *
+     * @param topPlayers the list of {@link Player} objects representing the winners.
      */
     public PodiumPanel(final List<Player> topPlayers) {
-        // FIX SPOTBUGS: Creiamo una NUOVA ArrayList copiando i dati.
-        // In questo modo, il pannello è "blindato" da modifiche esterne.
+
         this.topPlayers = new ArrayList<>(topPlayers);
 
         final URL imgUrl = getClass().getClassLoader().getResource(BG_IMAGE_PATH);
         if (imgUrl != null) {
-            // FIX SPOTBUGS: Copia difensiva dell'immagine tramite ImageIcon
             this.backgroundImage = new ImageIcon(imgUrl).getImage();
         } else {
             this.backgroundImage = null;
-            // FIX CHECKSTYLE: Usa Logger invece di System.err
-            LOGGER.log(Level.WARNING, "Attenzione: Immagine di sfondo ''" + BG_IMAGE_PATH + "'' non trovata.");
+            LOGGER.log(Level.WARNING, "Warning: Background image ''" + BG_IMAGE_PATH + "'' not found.");
         }
     }
 
     /**
-     * Draws the UI.
+     * Paints the component graphics.
      *
-     * @param g the <code>Graphics</code> object to protect
+     * <p>
+     * This method overrides the standard Swing painting. It enables anti-aliasing
+     * for smoother text and shapes, then draws the background, the title, and the
+     * podium bars in sequence.
+     *
+     * @param g the {@code Graphics} object to protect.
      */
     @Override
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
         final Graphics2D g2 = (Graphics2D) g;
 
-        // Attiva l'antialiasing per testi e disegni più fluidi
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         drawBackground(g2);
@@ -88,6 +101,11 @@ public class PodiumPanel extends JPanel {
         drawPodiumBars(g2);
     }
 
+    /**
+     * Draws the background image or a fallback color.
+     *
+     * @param g2 the graphics context.
+     */
     private void drawBackground(final Graphics2D g2) {
         if (backgroundImage != null) {
 
@@ -99,6 +117,11 @@ public class PodiumPanel extends JPanel {
         }
     }
 
+    /**
+     * Renders the "Congratulations!" title centered at the top.
+     *
+     * @param g2 the graphics context.
+     */
     private void drawTitle(final Graphics2D g2) {
         g2.setFont(TITLE_FONT);
         g2.setColor(TITLE_COLOR);
@@ -110,6 +133,15 @@ public class PodiumPanel extends JPanel {
         g2.drawString(TITLE_TEXT, x, TITLE_Y_POS);
     }
 
+    /**
+     * Calculates the position of the podium bars and triggers their drawing.
+     *
+     * <p>
+     * The first place is centered, the second place is to the left, and the third
+     * place is to the right.
+     *
+     * @param g2 the graphics context.
+     */
     private void drawPodiumBars(final Graphics2D g2) {
         final int baseY = getHeight() - BASE_Y_OFFSET;
         final int firstX = (getWidth() / 2) - (BAR_WIDTH / 2);
@@ -129,6 +161,16 @@ public class PodiumPanel extends JPanel {
         }
     }
 
+    /**
+     * Draws a single podium bar with the player's name above it.
+     *
+     * @param g       the graphics context.
+     * @param x       the x-coordinate for the bar.
+     * @param baseY   the base y-coordinate (bottom of the bar).
+     * @param height  the height of the bar (depends on rank).
+     * @param color   the color of the bar (Gold, Silver, or Bronze).
+     * @param text    the text to display (Rank + Name).
+     */
     private void drawSingleBar(final Graphics2D g, final int x, final int baseY,
                                final int height, final Color color, final String text) {
         final int yPos = baseY - height;

@@ -22,22 +22,22 @@ public final class GameLauncher {
     }
 
     /**
-     * Metodo main - punto di avvio dell'applicazione.
+     * Game Launcher startup.
      *
-     * @param args argomenti da riga di comando.
+     * @param args arguments from command line.
      */
     public static void main(final String[] args) {
         SwingUtilities.invokeLater(() -> {
-            final String[] options = {"Sudoku", "Impiccato", "Classifica", "Dadi"};
+            final String[] options = {"Sudoku", "Hangman", "Leaderboard", "Dice"};
             final int choice = JOptionPane.showOptionDialog(
                     null,
-                    "Quale gioco vuoi avviare?",
-                    "Scelta Gioco",
+                    "Which game would you like to play?",
+                    "Game Choice",
                     JOptionPane.DEFAULT_OPTION,
                     JOptionPane.QUESTION_MESSAGE,
                     null,
                     options,
-                    options[0]
+                    0
             );
 
             switch (choice) {
@@ -59,8 +59,6 @@ public final class GameLauncher {
             }
         });
     }
-
-    // --- CLASSI INTERNE (Spostate qui dentro per correggere l'errore) ---
 
     /**
      * Helper per avviare il Sudoku.
@@ -92,7 +90,6 @@ public final class GameLauncher {
          * Avvia l'Impiccato.
          */
         public static void startHangman() {
-            // Corretto: Usa l'interfaccia (IHangman...) come tipo
             SwingUtilities.invokeLater(HangmanControllerImpl::new);
         }
     }

@@ -6,25 +6,28 @@ import java.awt.Graphics;
 import java.awt.Image;
 
 /**
- * Sovrascrive il metodo di disegno standard per mostrare un'immagine di sfondo scalata.
+ * Custom {@link JPanel} implementation that paints a scaled background image.
+ *
+ * <p>
+ * This utility class overrides the standard painting mechanism to display an image
+ * that automatically resizes to fill the entire area of the panel.
  */
 public class ImagePanel extends JPanel {
 
-    // --- AGGIUNGI QUESTA RIGA ---
     private static final long serialVersionUID = 1L;
-    // ----------------------------
-
-    private final transient Image backgroundImage; // 'transient' è opzionale ma corretto qui perché Image non è serializzabile
 
     /**
-     * Costruisce un pannello con un'immagine di sfondo.
+     * The image to be drawn. Marked transient as Image is not Serializable.
+     */
+    private final transient Image backgroundImage;
+
+    /**
+     * Constructs a new {@code ImagePanel} with the specified background.
      *
-     * @param backgroundImage L'immagine da usare come sfondo.
+     * @param backgroundImage The {@link Image} to use as the background. If {@code null}, no background image.
      */
     public ImagePanel(final Image backgroundImage) {
-        // FIX SPOTBUGS EI2: Facciamo una copia difensiva.
-        // Se l'immagine non è nulla, la avvolgiamo in un ImageIcon e la ri-estraiamo.
-        // Questo crea un nuovo riferimento sicuro.
+
         if (backgroundImage != null) {
             this.backgroundImage = new ImageIcon(backgroundImage).getImage();
         } else {
@@ -33,17 +36,18 @@ public class ImagePanel extends JPanel {
     }
 
     /**
-     * Sovrascrive il metodo di disegno standard per mostrare un'immagine di sfondo scalata.
+     * Paints the component graphics.
      *
-     * @param g Il contesto {@link java.awt.Graphics} utilizzato per il disegno.
+     * <p>
+     * This method draws the background image, scaling it to fit the current
+     * width and height of the component.
+     *
+     * @param g The {@link Graphics} context used for drawing.
      */
     @Override
     protected void paintComponent(final Graphics g) {
-        // Chiama il metodo base (importante)
         super.paintComponent(g);
 
-        // Disegna l'immagine di sfondo, allargandola
-        // per coprire l'intero pannello.
         if (backgroundImage != null) {
             g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
         }

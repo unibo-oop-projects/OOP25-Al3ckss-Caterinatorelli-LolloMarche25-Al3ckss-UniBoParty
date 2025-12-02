@@ -19,7 +19,7 @@ public final class MainApp {
     /**
      * Metodo main - punto di avvio dell'applicazione.
      *
-     *  @param args argomenti da riga di comando (non usati).
+     * @param args argomenti da riga di comando (non usati).
      */
     public static void main(final String[] args) {
 

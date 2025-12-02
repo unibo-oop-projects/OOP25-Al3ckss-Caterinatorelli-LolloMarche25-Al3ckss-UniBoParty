@@ -25,12 +25,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Concrete implementation of the Sudoku View using Java Swing.
+ * Concrete implementation of the {@link ISudokuView} interface using Java Swing.
  *
  * <p>
  * This class manages the main application window, the 9x9 game grid,
  * the number selection buttons, and the end-game dialogs (Win/Loss).
- * It loads graphical resources (icons, backgrounds) and handles the layout.
+ * It handles the layout and loading of graphical resources.
  */
 public class SudokuViewImpl implements ISudokuView {
 
@@ -62,9 +62,9 @@ public class SudokuViewImpl implements ISudokuView {
      * Constructs the Sudoku View.
      *
      * <p>
-     * Initializes the main frame settings, loads the icons/images,
-     * and sets up the layout for the title, the game board, and the buttons.
-     * Finally, it makes the frame visible.
+     * It initializes the main frame settings, loads the necessary icons/images from
+     * the classpath, and sets up the layout for the title, the game board, and the
+     * input buttons. Finally, it makes the frame visible.
      */
     public SudokuViewImpl() {
         frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
@@ -131,7 +131,7 @@ public class SudokuViewImpl implements ISudokuView {
      */
     @Override
     public void updateErrorLabel(final int errors) {
-        textlabel.setText("Errori: " + errors);
+        textlabel.setText("Errors: " + errors);
     }
 
     /**
@@ -144,7 +144,7 @@ public class SudokuViewImpl implements ISudokuView {
         panel.setPreferredSize(new Dimension(END_PANEL_WIDTH, END_PANEL_HEIGHT));
 
         final JLabel iconLabel = new JLabel(winIcon);
-        final JLabel textLabel = new JLabel("Congratulazioni!\n Hai vinto!");
+        final JLabel textLabel = new JLabel("Congratulations!\n You Won!");
         textLabel.setFont(new Font(FONT_NAME, Font.BOLD, TILES_FONT));
         textLabel.setForeground(Color.BLACK);
 
@@ -162,7 +162,7 @@ public class SudokuViewImpl implements ISudokuView {
         JOptionPane.showMessageDialog(
                 frame,
                 panel,
-                "Vittoria!",
+                "Victory!",
                 JOptionPane.PLAIN_MESSAGE,
                 null
         );
@@ -179,7 +179,7 @@ public class SudokuViewImpl implements ISudokuView {
         panel.setPreferredSize(new Dimension(END_PANEL_WIDTH, END_PANEL_HEIGHT));
 
         final JLabel iconLabel = new JLabel(loseIcon);
-        final JLabel textLabel = new JLabel("Hai commesso 3 errori. Hai perso!");
+        final JLabel textLabel = new JLabel("3 errors were made. You Lost!");
         textLabel.setFont(new Font(FONT_NAME, Font.BOLD, TILES_FONT));
         textLabel.setForeground(Color.BLACK);
 
@@ -254,35 +254,30 @@ public class SudokuViewImpl implements ISudokuView {
      * Loads and scales the icons and background images from the resources.
      */
     private void loadIcons() {
-        // 1. Definiamo i percorsi
         final URL winUrl = getClass().getClassLoader().getResource("sudoku_icons/win.png");
         final URL loseUrl = getClass().getClassLoader().getResource("sudoku_icons/lose.png");
         final URL bgUrl = getClass().getClassLoader().getResource("sudoku_icons/background.jpeg");
 
-        // 2. Controlliamo e carichiamo lo sfondo
         if (bgUrl != null) {
             background = new ImageIcon(bgUrl).getImage();
         } else {
-            LOGGER.log(Level.WARNING, "Sfondo 'background.jpeg' non trovato!");
+            LOGGER.log(Level.WARNING, "background 'background.jpeg' not found!");
         }
 
-        // 3. Controlliamo e carichiamo l'icona vittoria
         if (winUrl != null) {
-            // Carichiamo e scaliamo in sicurezza
             final ImageIcon original = new ImageIcon(winUrl);
             final Image scaled = original.getImage().getScaledInstance(64, 64, Image.SCALE_SMOOTH);
             winIcon = new ImageIcon(scaled);
         } else {
-            LOGGER.log(Level.WARNING, "Icona 'win.png' non trovata!");
+            LOGGER.log(Level.WARNING, "Icon 'win.png' not found!");
         }
 
-        // 4. Controlliamo e carichiamo l'icona sconfitta
         if (loseUrl != null) {
             final ImageIcon original = new ImageIcon(loseUrl);
             final Image scaled = original.getImage().getScaledInstance(64, 64, Image.SCALE_SMOOTH);
             loseIcon = new ImageIcon(scaled);
         } else {
-            LOGGER.log(Level.WARNING, "Icona 'lose.png' non trovata!");
+            LOGGER.log(Level.WARNING, "Icon 'lose.png' not found!");
         }
     }
 

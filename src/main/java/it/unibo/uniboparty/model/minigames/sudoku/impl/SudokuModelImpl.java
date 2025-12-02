@@ -1,6 +1,5 @@
 package it.unibo.uniboparty.model.minigames.sudoku.impl;
 
-// Importa l'interfaccia dal package aggiornato
 import it.unibo.uniboparty.model.minigames.sudoku.api.ISudokuModel;
 
 import java.io.BufferedReader;
@@ -97,57 +96,45 @@ public final class SudokuModelImpl implements ISudokuModel {
                 return;
             }
 
-            // 1. Specifica UTF_8 nel costruttore
             try (BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
 
-                // 2. Leggi la prima riga FUORI dal while
                 String line = br.readLine();
 
-                // 2. Condizione pulita senza assegnazione
                 while (line != null) {
 
-                    // 3. Usa isBlank() (Java 11+) e 4. Aggiungi le graffe { }
                     if (line.isBlank()) {
-                        line = br.readLine(); // Leggi la prossima e salta
+                        line = br.readLine();
                         continue;
                     }
 
                     final String[] puzzleLines = line.split(",");
 
-                    // Leggiamo la soluzione (la riga successiva)
                     final String solutionLine = br.readLine();
                     if (solutionLine != null) {
                         final String[] solutionLines = solutionLine.split(",");
                         puzzles.add(new String[]{String.join(",", puzzleLines), String.join(",", solutionLines)});
                     }
 
-                    // 2. Leggi la prossima riga alla FINE del ciclo per continuare
                     line = br.readLine();
                 }
             }
 
         } catch (final IOException e) {
-            // CORREGGE RIGHE 107 e 108:
-            // Invece di System.err e printStackTrace, usiamo il Logger.
-            // Passando 'e' come ultimo parametro, il logger stampa anche lo stack trace in modo pulito.
-            LOGGER.log(Level.SEVERE, "ERRORE DI LETTURA 'puzzles.txt'! Uso il puzzle di fallback.", e);
+            LOGGER.log(Level.SEVERE, "READING ERROR 'puzzles.txt'! Using fallback puzzle.", e);
 
             loadFallbackPuzzle();
             return;
         }
 
-        // CASO 4: File trovato ma vuoto
         if (puzzles.isEmpty()) {
             // CORREGGE RIGA 114:
-            LOGGER.log(Level.WARNING, "'puzzles.txt' è vuoto! Uso il puzzle di fallback.");
+            LOGGER.log(Level.WARNING, "'puzzles.txt' is empty! Using fallback puzzle.");
 
             loadFallbackPuzzle();
             return;
         }
 
-        // Se tutto è andato bene
-        // CORREGGE RIGA 119:
-        LOGGER.log(Level.INFO, "Caricamento da 'puzzles.txt' riuscito.");
+        LOGGER.log(Level.INFO, "Import from 'puzzles.txt' successful.");
 
         final int index = RANDOM.nextInt(puzzles.size());
         puzzle = puzzles.get(index)[0].split(",");
@@ -155,8 +142,7 @@ public final class SudokuModelImpl implements ISudokuModel {
     }
 
     /**
-     * Carica un puzzle/soluzione predefiniti SOLO SE
-     * il caricamento da file fallisce.
+     * Load Fallback puzzle only if importing from the file fails.
      */
     private void loadFallbackPuzzle() {
         puzzle = new String[]{

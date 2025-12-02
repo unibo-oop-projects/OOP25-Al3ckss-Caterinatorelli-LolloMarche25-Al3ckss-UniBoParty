@@ -19,7 +19,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Comment.
+ * Concrete implementation of the {@link HangmanView} interface using Java Swing.
+ *
+ * <p>
+ * This class provides the Graphical User Interface (GUI) for the Hangman game.
+ * It organizes the visual components into three main areas:
+ *
+ * <ul>
+ * <li><b>Center:</b> The {@link HangmanDrawPanel} which draws the stick figure.</li>
+ * <li><b>North:</b> The display for the secret word (masked or revealed).</li>
+ * <li><b>South:</b> The control panel containing the virtual keyboard and the full-word guess input.</li>
+ * </ul>
  */
 public final class HangmanViewImpl implements HangmanView {
 
@@ -39,13 +49,21 @@ public final class HangmanViewImpl implements HangmanView {
     private final JButton guessButton;
     private final JPanel keyboardPanel;
 
+    /**
+     * Maps each character ('A'-'Z') to its corresponding JButton to allow easy disabling.
+     */
     private final Map<Character, JButton> letterButtons = new HashMap<>();
 
     /**
-     * Comment.
+     * Constructs the Hangman View.
+     *
+     * <p>
+     * Initializes the main frame, sets up the layout including the custom drawing panel,
+     * the masked word display, and the interaction panel (virtual keyboard and text input).
+     * Finally, it makes the frame visible to the user.
      */
     public HangmanViewImpl() {
-        frame = new JFrame("L'Impiccato");
+        frame = new JFrame("Hangman");
         frame.setSize(WIDTH, HEIGHT);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLayout(new BorderLayout());
@@ -76,7 +94,7 @@ public final class HangmanViewImpl implements HangmanView {
         final JPanel guessPanel = new JPanel();
         guessPanel.add(new JLabel("O indovina la parola:"));
         guessField = new JTextField(TEXT_FIELD);
-        guessButton = new JButton("Prova!");
+        guessButton = new JButton("Guess!");
         guessPanel.add(guessField);
         guessPanel.add(guessButton);
         southPanel.add(guessPanel, BorderLayout.SOUTH);
@@ -123,14 +141,14 @@ public final class HangmanViewImpl implements HangmanView {
     @Override
     public void showVictory(final String secretWord) {
         JOptionPane.showMessageDialog(frame,
-                "Hai Vinto! La parola era: " + secretWord, "Vittoria", JOptionPane.INFORMATION_MESSAGE);
+                "You Won! The word was: " + secretWord, "Victory", JOptionPane.INFORMATION_MESSAGE);
         frame.dispose();
     }
 
     @Override
     public void showDefeat(final String secretWord) {
         JOptionPane.showMessageDialog(frame,
-                "Hai Perso! La parola era: " + secretWord, "Sconfitta", JOptionPane.ERROR_MESSAGE);
+                "You Lost! The word was: " + secretWord, "Lost", JOptionPane.ERROR_MESSAGE);
         frame.dispose();
     }
 }

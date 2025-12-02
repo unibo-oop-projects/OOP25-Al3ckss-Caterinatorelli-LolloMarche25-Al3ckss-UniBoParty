@@ -9,12 +9,13 @@ import it.unibo.uniboparty.view.minigames.sudoku.impl.SudokuViewImpl;
 import javax.swing.JToggleButton;
 
 /**
- * Concrete implementation of the Sudoku Controller.
+ * Concrete implementation of the {@link ISudokuController} interface.
  *
  * <p>
- * It initializes the game state by querying the model and setting up the view.
- * It also manages event listeners to handle user inputs (number selection and tile clicks).
- * </p>
+ * This class manages the flow of the Sudoku minigame. It handles the initialization
+ * of the grid based on the model's data, manages the currently selected number
+ * from the input palette, and processes user interactions with the game board
+ * (validating moves and checking for game-over conditions).
  */
 public class SudokuControllerImpl implements ISudokuController {
 
@@ -23,15 +24,20 @@ public class SudokuControllerImpl implements ISudokuController {
     private final ISudokuModel model;
     private final ISudokuView view;
 
+    /**
+     * Stores the number currently selected by the user from the side panel.
+     * Default is -1 (no selection).
+     */
     private int selectedNumber = -1;
 
     /**
-     * Constructs the controller and starts the game initialization.
+     * Constructs the controller and immediately initializes the game components.
+     *
+     * <p>
+     * It internally instantiates the {@link SudokuModelImpl} and {@link SudokuViewImpl}
+     * to satisfy strict MVC encapsulation and static analysis requirements.
      */
     public SudokuControllerImpl() {
-        // FIX PER SPOTBUGS (EI2):
-        // Creiamo gli oggetti qui dentro. Così nessuno fuori ha il riferimento
-        // e SpotBugs sa che sono "al sicuro" dentro il Controller.
         this.model = new SudokuModelImpl();
         this.view = new SudokuViewImpl();
 
@@ -40,7 +46,11 @@ public class SudokuControllerImpl implements ISudokuController {
     }
 
     /**
-     * Populates the View with the initial puzzle data from the Model.
+     * Populates the View with the initial puzzle data retrieved from the Model.
+     *
+     * <p>
+     * It iterates through the grid and marks non-empty cells as "fixed" in the view,
+     * ensuring the user cannot modify the starting numbers.
      */
     private void initView() {
         for (int r = 0; r < GRID_SIZE; r++) {

@@ -8,7 +8,13 @@ import it.unibo.uniboparty.view.end_screen.api.LeaderboardView;
 import it.unibo.uniboparty.view.end_screen.impl.LeaderboardViewImpl;
 
 /**
- * Concretw implementation of the leaderboard.
+ * Concrete implementation of the {@link LeaderboardController} interface.
+ *
+ * <p>
+ * This class serves as the controller for the end-game screen. It mediates
+ * between the {@link LeaderboardModel} to retrieve rankings and the
+ * {@link LeaderboardView} to display the podium. It also manages the application
+ * flow when the user decides to exit the leaderboard.
  */
 public class LeaderboardControllerImpl implements LeaderboardController {
 
@@ -16,7 +22,12 @@ public class LeaderboardControllerImpl implements LeaderboardController {
     private final LeaderboardView view;
 
     /**
-     * Constructor. Instantiates Model and View internally to satisfy SpotBugs/MVC rules.
+     * Constructs a new {@code LeaderboardControllerImpl}.
+     *
+     * <p>
+     * This constructor instantiates the concrete {@link LeaderboardModelImpl} and
+     * {@link LeaderboardViewImpl} internally. This approach ensures strict MVC
+     * encapsulation and satisfies static analysis requirements (e.g., SpotBugs).
      */
     public LeaderboardControllerImpl() {
         this.model = new LeaderboardModelImpl();
@@ -25,14 +36,19 @@ public class LeaderboardControllerImpl implements LeaderboardController {
         initController();
     }
 
+    /**
+     * Initializes the controller logic.
+     *
+     * <p>
+     * This method retrieves the top players from the model to populate the podium view.
+     * Additionally, it registers a listener for the "Back" action, which handles closing
+     * the current view and restarting the application via {@link GameLauncher}.
+     */
     private void initController() {
-        // 1. Prendi i dati dal model e mostrali nella view
         view.showPodium(model.getTopPlayers());
 
-        // 2. Gestisci il tasto "Indietro"
         view.addBackListener(e -> {
-            view.close(); // Chiudi questa finestra
-            // Riapri il launcher principale
+            view.close();
             GameLauncher.main(new String[]{});
         });
     }

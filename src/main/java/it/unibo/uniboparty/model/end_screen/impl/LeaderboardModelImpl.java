@@ -7,14 +7,27 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * Concrete implementation of the Leaderboard Model.
+ * Concrete implementation of the {@link LeaderboardModel} interface.
+ *
+ * <p>
+ * This class provides the data logic for the end-game leaderboard.
+ * Currently, it uses mock data (hardcoded players and scores) to simulate
+ * a game session result, sorting them to determine the winners.
  */
 public final class LeaderboardModelImpl implements LeaderboardModel {
 
+    /**
+     * Retrieves the top ranked players.
+     *
+     * <p>
+     * This method generates a list of dummy players with pre-defined scores.
+     * It sorts the list in descending order (highest score first) and returns
+     * a sublist containing up to the top 3 players (the podium).
+     *
+     * @return a {@link List} of {@link Player} objects representing the top 3 players.
+     */
     @Override
     public List<Player> getTopPlayers() {
-        // Qui potresti caricare da file in futuro.
-        // Per ora usiamo dati mock.
         final int playerOne = 150;
         final int playerTwo = 120;
         final int playerThree = 200;
@@ -27,10 +40,8 @@ public final class LeaderboardModelImpl implements LeaderboardModel {
         allPlayers.add(new Player("Rachele", playerFour));
         allPlayers.add(new Player("Anna", playerFive));
 
-        // Ordina per punteggio decrescente
         allPlayers.sort(Comparator.comparingInt(Player::getScore).reversed());
 
-        // Ritorna solo i primi 3
         return allPlayers.subList(0, Math.min(allPlayers.size(), 3));
     }
 }
