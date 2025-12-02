@@ -8,12 +8,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import it.unibo.uniboparty.model.startgamemenu.api.LogicStartGame;
 import it.unibo.uniboparty.model.startgamemenu.impl.LogicStartGameImpl;
+import it.unibo.uniboparty.view.board.impl.BoardViewImpl;
 
 import java.awt.Graphics;
 import java.awt.BorderLayout;
@@ -36,7 +36,7 @@ public final class StartGameGui extends JFrame {
     private static final int LOGO_WIDTH = 500;
     private static final int LOGO_HEIGHT = 120;
     private static final int LOGO_PANEL_HEIGHT = 150;
-    private static final int PLAYER_GRID_ROWS = 5;
+    private static final int PLAYER_GRID_ROWS = 4;
     private static final int GRID_GAP = 15;
     private static final int BORDER_PADDING = 40;
     private static final int SIDE_PADDING = 150;
@@ -147,6 +147,13 @@ public final class StartGameGui extends JFrame {
         }
 
         logic.setPlayers(names);
-        JOptionPane.showMessageDialog(this, logic.getStartMessage());
+        final JFrame frame = new JFrame("UniBo Party - Board");
+        frame.setContentPane(new BoardViewImpl());
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        this.dispose();
+        //JOptionPane.showMessageDialog(this, logic.getStartMessage());
     }
 }

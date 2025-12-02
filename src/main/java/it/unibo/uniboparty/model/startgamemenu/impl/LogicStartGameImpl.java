@@ -11,8 +11,8 @@ import java.util.ArrayList;
  */
 public class LogicStartGameImpl implements LogicStartGame {
 
-    private static final int MIN_PLAYERS = 3;
-    private static final int MAX_PLAYERS = 5;
+    private static final int MIN_PLAYERS = 2;
+    private static final int MAX_PLAYERS = 4;
     private List<String> players = new ArrayList<>();
 
     /**
@@ -23,7 +23,7 @@ public class LogicStartGameImpl implements LogicStartGame {
         if (canStartGame()) {
             return "Gioco avviato con " + players.size() + " giocatori!";
         } else {
-            return "Inserisci da 3 a 5 giocatori per iniziare!";
+            return "Inserisci da 2 a 4 giocatori per iniziare!";
         }
     }
 
