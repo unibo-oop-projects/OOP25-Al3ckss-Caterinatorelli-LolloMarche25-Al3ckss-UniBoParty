@@ -53,6 +53,8 @@ public final class ControllerImpl implements Controller {
                 if (model.getTime() <= 0) {
                     model.gameOver();
                     timer.stop();
+                    // Show final score when game ends
+                    view.showFinalScore(model.getPoints());
                 }
             }
         });
@@ -60,7 +62,9 @@ public final class ControllerImpl implements Controller {
 
     private void setupInputField() {
         view.getTextField().addActionListener(e -> {
-            if (model.getState() != GameState.RUNNING) { return; }
+            if (model.getState() != GameState.RUNNING) {
+                return;
+            }
 
             final String typed = view.getTextField().getText();
             final String current = model.getCurrentWord();

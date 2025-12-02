@@ -45,4 +45,11 @@ public interface View {
      * @param model the model to bind to
      */
     void bindModel(Model model);
+
+    /**
+     * Displays the final score when the game ends.
+     *
+     * @param finalScore the player's final score
+     */
+    void showFinalScore(int finalScore);
 }

@@ -21,7 +21,6 @@ import it.unibo.uniboparty.view.minigames.dinosaurgame.api.View;
 public final class ViewImpl implements View, GameObserver {
 
     private final GamePanelImpl panel1;
-    private final ModelImpl model;
     private boolean showGameOver;
 
     /**
@@ -31,7 +30,6 @@ public final class ViewImpl implements View, GameObserver {
      */
     public ViewImpl(final ModelImpl model) {
         final JFrame frame = new JFrame("Dino Game");
-        this.model = model;
         this.panel1 = new GamePanelImpl(model);
 
         frame.setMinimumSize(new Dimension(GameConfig.PANEL_WIDTH, GameConfig.PANEL_HEIGHT));

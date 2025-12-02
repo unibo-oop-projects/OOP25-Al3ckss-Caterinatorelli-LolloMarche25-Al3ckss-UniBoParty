@@ -53,7 +53,7 @@ public class GameplayControllerImpl implements GameplayController {
     }
 
 @Override
-public final void startMinigame(final MinigameId id, final PlayerManager currentPlayer) {
+public final void startMinigame(final MinigameId id, final PlayerManager player) {
 
     switch (id) {
         case GAME_1 -> {

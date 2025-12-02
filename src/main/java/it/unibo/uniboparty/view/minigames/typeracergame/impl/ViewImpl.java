@@ -15,11 +15,12 @@ import it.unibo.uniboparty.model.minigames.typeracergame.api.GameObserver;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-    /**
-     * Implementation of Typeracer view.
-     * 
-     * Creates the window and updates it with a new name.
-     */
+/**
+ * Implementation of Typeracer view.
+ * <p>
+ * Creates the window and updates it with a new name.
+ * </p>
+ */
 public final class ViewImpl implements View, GameObserver {
 
     private final JFrame frame = new JFrame("TypeRacer");
@@ -27,7 +28,7 @@ public final class ViewImpl implements View, GameObserver {
     private final JLabel timeLabel = new JLabel();
     private final JTextField textField = new JTextField();
 
-    private Model model;
+    private Model boundModel;
 
     /**
      * Constructor of ViewImpl.
@@ -58,13 +59,15 @@ public final class ViewImpl implements View, GameObserver {
             frame.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosing(final WindowEvent e) {
-                    if (model != null) {
-                        model.removeObserver(ViewImpl.this);
+                    if (boundModel != null) {
+                        boundModel.removeObserver(ViewImpl.this);
                     }
                 }
             });
         });
     }
+
+    private static final String TIME_PREFIX = "Remaining time: ";
 
     @Override
     public void setLabel1(final String text) {
@@ -73,7 +76,7 @@ public final class ViewImpl implements View, GameObserver {
 
     @Override
     public void updateTimeLabel(final int t) {
-        timeLabel.setText("Remaining time: " + t);
+        timeLabel.setText(TIME_PREFIX + t);
         timeLabel.revalidate();
         timeLabel.repaint();
     }
@@ -90,13 +93,13 @@ public final class ViewImpl implements View, GameObserver {
 
     @Override
     public void bindModel(final Model model) {
-        this.model = model;
-        if (this.model != null) {
-            this.model.addObserver(this);
+        this.boundModel = model;
+        if (this.boundModel != null) {
+            this.boundModel.addObserver(this);
             // initialize view with current state
             SwingUtilities.invokeLater(() -> {
-                label1.setText(this.model.getCurrentWord());
-                timeLabel.setText("Remaining time: " + this.model.getTime());
+                label1.setText(this.boundModel.getCurrentWord());
+                timeLabel.setText(TIME_PREFIX + this.boundModel.getTime());
             });
         }
     }
@@ -104,9 +107,19 @@ public final class ViewImpl implements View, GameObserver {
     @Override
     public void modelUpdated() {
         SwingUtilities.invokeLater(() -> {
-            if (model == null) return;
-            label1.setText(model.getCurrentWord());
-            timeLabel.setText("Remaining time: " + model.getTime());
+            if (boundModel == null) {
+                return;
+            }
+            label1.setText(boundModel.getCurrentWord());
+            timeLabel.setText(TIME_PREFIX + boundModel.getTime());
+        });
+    }
+
+    @Override
+    public void showFinalScore(final int finalScore) {
+        SwingUtilities.invokeLater(() -> {
+            label1.setText("Game Over! Final Score: " + finalScore);
+            textField.setEnabled(false);
         });
     }
 
