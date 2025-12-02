@@ -13,8 +13,17 @@ import org.junit.jupiter.api.Test;
  */
 class PlayerManagerImplTest {
 
-    private PlayerManager playerManager;
     private static final int NUM_PLAYERS = 4;
+    private static final int DEFAULT_STEPS = 5;
+    private static final int DEFAULT_BOARD_SIZE = 20;
+    private static final int SMALL_BOARD_SIZE = 10;
+    private static final int LARGE_STEPS = 15;
+    private static final int SCORE_A = 10;
+    private static final int SCORE_B = 5;
+    private static final int NEG_DELTA = -3;
+    private static final int EXPECTED_SCORE = 7;
+
+    private PlayerManager playerManager;
 
     /**
      * Initialize a new PlayerManager before each test.
@@ -58,8 +67,8 @@ class PlayerManagerImplTest {
      */
     @Test
     void testMoveCurrentPlayer() {
-        final int steps = 5;
-        final int boardSize = 20;
+        final int steps = DEFAULT_STEPS;
+        final int boardSize = DEFAULT_BOARD_SIZE;
         final int newPos = playerManager.moveCurrentPlayer(steps, boardSize);
 
         assertEquals(steps, newPos);
@@ -71,8 +80,8 @@ class PlayerManagerImplTest {
      */
     @Test
     void testPositionCappedAtBoardSize() {
-        final int boardSize = 10;
-        final int steps = 15;
+        final int boardSize = SMALL_BOARD_SIZE;
+        final int steps = LARGE_STEPS;
         final int newPos = playerManager.moveCurrentPlayer(steps, boardSize);
 
         assertEquals(boardSize - 1, newPos);
@@ -106,11 +115,11 @@ class PlayerManagerImplTest {
      */
     @Test
     void testAddScore() {
-        playerManager.addScore(0, 10);
-        assertEquals(10, playerManager.getScore(0));
+        playerManager.addScore(0, SCORE_A);
+        assertEquals(SCORE_A, playerManager.getScore(0));
 
-        playerManager.addScore(1, 5);
-        assertEquals(5, playerManager.getScore(1));
+        playerManager.addScore(1, SCORE_B);
+        assertEquals(SCORE_B, playerManager.getScore(1));
     }
 
     /**
@@ -118,9 +127,9 @@ class PlayerManagerImplTest {
      */
     @Test
     void testAddNegativeScore() {
-        playerManager.addScore(0, 10);
-        playerManager.addScore(0, -3);
-        assertEquals(7, playerManager.getScore(0));
+        playerManager.addScore(0, SCORE_A);
+        playerManager.addScore(0, NEG_DELTA);
+        assertEquals(EXPECTED_SCORE, playerManager.getScore(0));
     }
 
     /**
@@ -129,7 +138,7 @@ class PlayerManagerImplTest {
     @Test
     void testAddScoreInvalidIndex() {
         assertThrows(IllegalArgumentException.class, () -> {
-            playerManager.addScore(-1, 5);
+            playerManager.addScore(-1, SCORE_B);
         });
     }
 

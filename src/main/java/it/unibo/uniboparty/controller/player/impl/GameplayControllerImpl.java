@@ -39,14 +39,12 @@ public final class GameplayControllerImpl implements GameplayController {
     @Override
     public void onDiceRolled(final int steps) {
 
-        // TODO multiple players support (currentPlayerIndex on PlayerManager)
-
         final int currentPlayer = playerManager.getCurrentPlayerIndex();
         final int newPos = playerManager.moveCurrentPlayer(steps, boardController.getBoardSize());
 
         // Update the view with the specific player index so multiple
         // players can be displayed concurrently.
-        boardView.setPlayerPosition(currentPlayer, newPos);
+        boardView.setPlayerPosition(currentPlayer);
 
         final MinigameId mg = boardController.onPlayerLanded(newPos);
 
