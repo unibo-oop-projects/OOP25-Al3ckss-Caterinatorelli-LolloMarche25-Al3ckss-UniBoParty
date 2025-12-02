@@ -124,11 +124,8 @@ public final class ModelImpl implements Model {
                 o.setObstSpeed(o.getObstSpeed() + 1);
             }
         }
-
         // Notify observers
-        for (final GameObserver observer : observers) {
-            observer.modelUpdated();
-        }
+        notifyObservers();
     }
 
     @Override
@@ -137,12 +134,16 @@ public final class ModelImpl implements Model {
             isJumping = true;
             isHoldingJump = true;
             velY = GameConfig.INIT_JUMP_VELOCITY;
+            // notify immediately to update UI responsively
+            notifyObservers();
         }
     }
 
     @Override
     public void releaseJump() {
         isHoldingJump = false;
+        // notify to allow shorter jumps to be reflected in the UI
+        notifyObservers();
     }
 
     @Override
@@ -198,5 +199,14 @@ public final class ModelImpl implements Model {
      */
     public void removeObserver(final GameObserver observer) {
         observers.remove(observer);
+    }
+
+    /**
+     * Notifies all registered observers that the model has been updated.
+     */
+    private void notifyObservers() {
+        for (final GameObserver observer : observers) {
+            observer.modelUpdated();
+        }
     }
 }

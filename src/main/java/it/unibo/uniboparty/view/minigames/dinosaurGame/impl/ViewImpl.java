@@ -2,6 +2,8 @@ package it.unibo.uniboparty.view.minigames.dinosaurgame.impl;
 
 import java.awt.Dimension;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
@@ -19,6 +21,7 @@ import it.unibo.uniboparty.view.minigames.dinosaurgame.api.View;
 public final class ViewImpl implements View, GameObserver {
 
     private final GamePanelImpl panel1;
+    private final ModelImpl model;
     private boolean showGameOver;
 
     /**
@@ -28,6 +31,7 @@ public final class ViewImpl implements View, GameObserver {
      */
     public ViewImpl(final ModelImpl model) {
         final JFrame frame = new JFrame("Dino Game");
+        this.model = model;
         this.panel1 = new GamePanelImpl(model);
 
         frame.setMinimumSize(new Dimension(GameConfig.PANEL_WIDTH, GameConfig.PANEL_HEIGHT));
@@ -41,6 +45,14 @@ public final class ViewImpl implements View, GameObserver {
 
         // Register as observer
         model.addObserver(this);
+
+        // Deregister observer when window is closing to avoid leaks
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(final WindowEvent e) {
+                model.removeObserver(ViewImpl.this);
+            }
+        });
     }
 
     /**

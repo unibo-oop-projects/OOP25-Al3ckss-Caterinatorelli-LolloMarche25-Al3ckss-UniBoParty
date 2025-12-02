@@ -70,4 +70,18 @@ public interface Model {
      * @return the difficulty
      */
     int getDifficulty();
+
+    /**
+     * Adds an observer that will be notified when the model updates.
+     *
+     * @param observer the observer to add
+     */
+    void addObserver(GameObserver observer);
+
+    /**
+     * Removes a previously added observer.
+     *
+     * @param observer the observer to remove
+     */
+    void removeObserver(GameObserver observer);
 }
