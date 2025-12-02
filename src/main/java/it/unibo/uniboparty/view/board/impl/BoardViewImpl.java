@@ -18,18 +18,32 @@ import it.unibo.uniboparty.controller.board.impl.BoardControllerImpl;
 import it.unibo.uniboparty.model.board.CellType;
 import it.unibo.uniboparty.model.board.api.BoardModel;
 import it.unibo.uniboparty.model.board.impl.BoardModelImpl;
+import it.unibo.uniboparty.utilities.MinigameId;
 import it.unibo.uniboparty.view.board.api.BoardView;
+import it.unibo.uniboparty.view.minigames.whacamole.impl.WhacAMoleIntroFrame;
+// import it.unibo.uniboparty.view.minigames.memory.impl.MemoryIntroFrame;
+// import it.unibo.uniboparty.view.minigames.xxx.impl.XxxIntroFrame;
 
 /**
- * Swing view of the main board.
+ * Swing implementation of the {@link BoardView} interface.
  *
- * <p>
- * Displays the board as a grid arranged in a snake-like pattern.
- * The view highlights the start cell, the finish cell, minigame cells,
- * and the cell where the player currently stands.
- * </p>
+ * This view displays the game board using a snake-like layout. It highlights:
+ * <ul>
+ *   <li>the start and finish cells,</li>
+ *   <li>minigame cells,</li>
+ *   <li>the cell currently occupied by the player.</li>
+ * </ul>
+ *
+ * When the player moves onto a MINIGAME cell, the view automatically
+ * launches the intro screen of the corresponding minigame (e.g., Whac-A-Mole).
+ *
+ * The view contains no game logic: all decisions are delegated
+ * to the {@link BoardController}, and the view only reacts to
+ * the information provided by it.
  */
 public final class BoardViewImpl extends JPanel implements BoardView {
+
+    private static final long serialVersionUID = 1L;
 
     /** Number of columns of the board. */
     private static final int COLUMNS = 8;
@@ -61,7 +75,8 @@ public final class BoardViewImpl extends JPanel implements BoardView {
     /** Background color for normal cells. */
     private static final Color COLOR_NORMAL = Color.decode("#ddddff");
 
-    private final BoardController controller;
+    private final transient BoardController controller;
+
     private final JPanel boardGrid;
 
     /**
@@ -71,7 +86,11 @@ public final class BoardViewImpl extends JPanel implements BoardView {
     private int playerPosition;
 
     /**
-     * Creates the view for the main board using its own model and controller.
+     * Creates the Swing view of the main board.
+     *
+     * The view internally builds its own {@link BoardModel} and
+     * {@link BoardController}. It renders the board grid and initializes
+     * the player's position to the Start cell (index 0).
      */
     public BoardViewImpl() {
         final BoardModel model = new BoardModelImpl();
@@ -144,7 +163,10 @@ public final class BoardViewImpl extends JPanel implements BoardView {
     }
 
     /**
-     * Returns the text to display inside the cell.
+     * Returns the text label to display inside a cell.
+     *
+     * Special cells (Start, Finish, Minigame) have predefined labels,
+     * while normal cells remain empty.
      *
      * @param index     cell index
      * @param lastIndex last cell index
@@ -167,6 +189,14 @@ public final class BoardViewImpl extends JPanel implements BoardView {
     /**
      * Computes the background color for the given cell index.
      *
+     * The method highlights:
+     * <ul>
+     *   <li>the player's current position,</li>
+     *   <li>the start and finish cells,</li>
+     *   <li>minigame cells.</li>
+     * </ul>
+     * All other cells use a default color.
+     *
      * @param index     cell index
      * @param lastIndex last cell index
      * @param type      cell type
@@ -188,14 +218,49 @@ public final class BoardViewImpl extends JPanel implements BoardView {
         return COLOR_NORMAL;
     }
 
+    /**
+     * Opens the intro screen of the selected minigame.
+     *
+     * This method is called internally after updating the player's position.
+     * It is triggered only when the destination cell contains a MINIGAME.
+     *
+     * @param minigameId the identifier of the minigame to launch
+     */
+    private void openMinigameIntro(final MinigameId minigameId) {
+        switch (minigameId) {
+        case GAME_1:
+            new WhacAMoleIntroFrame();
+            break;
+
+        default:
+            break;
+        }
+    }
+
+    /**
+     * Updates the logical position of the player, refreshes the board UI,
+     * and automatically opens the intro screen of the corresponding minigame
+     * if the player lands on a MINIGAME cell.
+     *
+     * This method is typically called by the part of the application that manages
+     * player turns and movement (for example, the players/turn manager).
+     *
+     * @param position the index of the destination cell
+     * @throws IllegalArgumentException if {@code position} is outside the board bounds
+     */
     @Override
     public void setPlayerPosition(final int position) {
-        // semplice guard-rail, così se qualcuno passa un indice sbagliato non esplode tutto
+
         if (position < 0 || position >= this.controller.getBoardSize()) {
             throw new IllegalArgumentException("Invalid player position: " + position);
         }
         this.playerPosition = position;
         this.refresh();
+
+        final MinigameId minigame = this.controller.onPlayerLanded(position);
+        if (minigame != null) {
+            this.openMinigameIntro(minigame);
+        }
     }
 
     @Override

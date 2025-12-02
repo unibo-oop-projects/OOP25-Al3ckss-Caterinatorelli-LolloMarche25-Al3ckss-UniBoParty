@@ -8,7 +8,7 @@ import it.unibo.uniboparty.model.board.CellModel;
  * Read-only API for the game board model.
  */
 public interface BoardModel {
-    
+
     /**
      * @return total number of cells in the board
      */
@@ -17,6 +17,7 @@ public interface BoardModel {
     /**
      * @param index the index of the cell
      * @return the cell at the given index
+     * @throws IndexOutOfBoundsException if index is outside the board range
      */
     CellModel getCellAt(int index);
 
