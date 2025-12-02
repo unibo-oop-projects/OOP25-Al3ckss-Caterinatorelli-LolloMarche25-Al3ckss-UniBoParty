@@ -21,7 +21,6 @@ public final class ModelImpl implements Model {
     private GameState state = GameState.READY;
     private String currentWord;
 
-    // Observer list
     private final CopyOnWriteArrayList<GameObserver> observers = new CopyOnWriteArrayList<>();
 
     @Override
@@ -79,11 +78,22 @@ public final class ModelImpl implements Model {
         notifyObservers();
     }
 
-    // Observer methods
+    /**
+     * Adds Observer.
+     * 
+     * @param observer the TypeRacer's Observer
+     */
+    @Override
     public void addObserver(final GameObserver observer) {
         observers.add(observer);
     }
 
+    /**
+     * Removes Observer.
+     * 
+     * @param observer the TypeRacer's Observer
+     */
+    @Override
     public void removeObserver(final GameObserver observer) {
         observers.remove(observer);
     }

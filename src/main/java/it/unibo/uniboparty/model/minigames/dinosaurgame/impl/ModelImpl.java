@@ -188,6 +188,7 @@ public final class ModelImpl implements Model {
      * 
      * @param observer the DinoRun's Observer
      */
+    @Override
     public void addObserver(final GameObserver observer) {
         observers.add(observer);
     }
@@ -197,13 +198,11 @@ public final class ModelImpl implements Model {
      * 
      * @param observer the DinoRun's Observer
      */
+    @Override
     public void removeObserver(final GameObserver observer) {
         observers.remove(observer);
     }
 
-    /**
-     * Notifies all registered observers that the model has been updated.
-     */
     private void notifyObservers() {
         for (final GameObserver observer : observers) {
             observer.modelUpdated();

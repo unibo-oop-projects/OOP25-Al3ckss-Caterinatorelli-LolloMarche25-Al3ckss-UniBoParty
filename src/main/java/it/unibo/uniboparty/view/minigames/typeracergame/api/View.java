@@ -2,6 +2,7 @@ package it.unibo.uniboparty.view.minigames.typeracergame.api;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import it.unibo.uniboparty.model.minigames.typeracergame.api.Model;
 
 /**
  * Interfaccia che rappresenta la parte grafica del gioco.
@@ -37,4 +38,11 @@ public interface View {
      * @return textfield di input
      */
     JTextField getTextField();
+
+    /**
+     * Binds the view to the given model and registers the view as observer.
+     *
+     * @param model the model to bind to
+     */
+    void bindModel(Model model);
 }

@@ -6,23 +6,40 @@ import javax.swing.SwingUtilities;
 
 import it.unibo.uniboparty.controller.minigames.typeracergame.api.Controller;
 import it.unibo.uniboparty.model.minigames.typeracergame.api.Model;
-import it.unibo.uniboparty.model.minigames.typeracergame.api.GameObserver;
 import it.unibo.uniboparty.model.minigames.typeracergame.impl.GameConfig;
 import it.unibo.uniboparty.model.minigames.typeracergame.impl.GameState;
 import it.unibo.uniboparty.view.minigames.typeracergame.api.View;
 
-public final class ControllerImpl implements Controller, GameObserver {
+/**
+ * Implementation of Controller for TypeRacer.
+ * 
+ * <p>
+ * Manages the game loop (timer for time decrement), input handling (text field),
+ * and delegates UI updates to the view via observer pattern.
+ * The view registers itself as observer to the model and updates automatically
+ * when the model state changes.
+ * </p>
+ */
+public final class ControllerImpl implements Controller {
 
     private final Model model;
     private final View view;
     private Timer timer;
 
+    /**
+     * Constructor of ControllerImpl.
+     * Starts the timer and launches the methods to update the window.
+     * 
+     * @param model the TypeRacer's model
+     * @param view the TypeRacer's view
+     */
     public ControllerImpl(final Model model, final View view) {
         this.model = Objects.requireNonNull(model);
         this.view = Objects.requireNonNull(view);
 
         model.setState(GameState.RUNNING);
-        model.addObserver(this);
+        // bind the view to the model so the view will observe updates
+        view.bindModel(model);
 
         setupTimer();
         setupInputField();
@@ -43,7 +60,7 @@ public final class ControllerImpl implements Controller, GameObserver {
 
     private void setupInputField() {
         view.getTextField().addActionListener(e -> {
-            if (model.getState() != GameState.RUNNING) return;
+            if (model.getState() != GameState.RUNNING) { return; }
 
             final String typed = view.getTextField().getText();
             final String current = model.getCurrentWord();
@@ -53,14 +70,6 @@ public final class ControllerImpl implements Controller, GameObserver {
                 model.setNewWord();
                 SwingUtilities.invokeLater(() -> view.getTextField().setText(""));
             }
-        });
-    }
-
-    @Override
-    public void modelUpdated() {
-        SwingUtilities.invokeLater(() -> {
-            view.setLabel1(model.getCurrentWord());
-            view.updateTimeLabel(model.getTime());
         });
     }
 }

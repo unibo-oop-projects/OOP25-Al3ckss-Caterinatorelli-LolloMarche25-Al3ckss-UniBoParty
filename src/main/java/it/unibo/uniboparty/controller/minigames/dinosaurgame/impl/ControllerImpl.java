@@ -14,6 +14,13 @@ import java.awt.event.KeyEvent;
 
 /**
  * Controller implementation that handles input events and game loop updates.
+ * 
+ * <p>
+ * Manages the game loop (timer for physics/state updates), input handling (keyboard),
+ * and delegates UI updates to the view via observer pattern.
+ * The view registers itself as observer to the model and repaints automatically
+ * when the model state changes.
+ * </p>
  */
 public final class ControllerImpl implements Controller {
 
