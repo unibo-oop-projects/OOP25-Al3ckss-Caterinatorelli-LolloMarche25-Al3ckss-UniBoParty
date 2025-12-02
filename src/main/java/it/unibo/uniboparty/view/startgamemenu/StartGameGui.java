@@ -43,7 +43,9 @@ public final class StartGameGui extends JFrame {
     private static final int SIDE_PADDING = 150;
     private static final int BUTTON_WIDTH = 220;
     private static final int BUTTON_HEIGHT = 60;
-    private static final int PLAYER_FIELD_FONT_SIZE = 20; 
+    private static final int PLAYER_FIELD_FONT_SIZE = 20;
+    private static final int MIN_WINDOW_WIDTH = 650;
+    private static final int MIN_WINDOW_HEIGHT = 450;
     private static final Color FIELD_BG_COLOR = new Color(255, 255, 255, 220);
     private static final Color START_GAME_COLOR = new Color(144, 238, 144);
     private static final Color EXIT_GAME_COLOR = new Color(255, 99, 71);
@@ -64,6 +66,7 @@ public final class StartGameGui extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE); 
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         setLocationRelativeTo(null);
+        setMinimumSize(new Dimension(MIN_WINDOW_WIDTH, MIN_WINDOW_HEIGHT));
 
         final Image background = new ImageIcon(
         "/Users/caterinatorelli/Desktop/uniboparty/src/main/resources/background.png").getImage();
