@@ -15,18 +15,16 @@ import javax.swing.JPanel;
 /**
  * Generic intro panel used by each minigame before starting the actual match.
  *
- * <p>This panel displays:</p>
+ * <p>
+ * This panel displays:
+ * </p>
+ * 
  * <ul>
  *   <li>a background image (optional),</li>
  *   <li>the title of the minigame,</li>
  *   <li>a "Play" button to start the game,</li>
  *   <li>a "How to play" button showing the rules in a dialog.</li>
  * </ul>
- *
- * <p>
- * The panel does not contain any game logic: it only handles UI actions and 
- * delegates the actual game launch through a {@link Runnable} callback.
- * </p>
  */
 public final class MinigameIntroPanel extends JPanel {
 
@@ -52,7 +50,7 @@ public final class MinigameIntroPanel extends JPanel {
     ) {
         super(new BorderLayout());
 
-        final URL url = this.getClass().getResource("/images/backgrounds/background.png");
+        final URL url = this.getClass().getResource("/background.png");
         this.backgroundImage = url != null ? new ImageIcon(url).getImage() : null;
 
         final JLabel title = new JLabel(titleText, JLabel.CENTER);

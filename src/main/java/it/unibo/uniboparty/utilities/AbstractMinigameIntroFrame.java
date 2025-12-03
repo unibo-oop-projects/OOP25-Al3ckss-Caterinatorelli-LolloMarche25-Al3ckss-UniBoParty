@@ -3,44 +3,47 @@ package it.unibo.uniboparty.utilities;
 import javax.swing.JFrame;
 
 /**
- * Base frame used as an intro screen for any minigame.
+ * Base frame used as an intro screen for a minigame.
  *
- * <p>The actual UI is initialized by {@link #initIntroFrame()},
- * which must be called by subclasses at the end of their constructor.</p>
+ * <p>The actual window is set up by calling {@link #initIntroFrame()},
+ * which uses the values returned by the abstract methods:</p>
+ * <ul>
+ *   <li>{@link #getMinigameTitle()}</li>
+ *   <li>{@link #getRulesText()}</li>
+ *   <li>{@link #createGameFrame()}</li>
+ * </ul>
  */
 public abstract class AbstractMinigameIntroFrame extends JFrame {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * Protected constructor with no side effects.
-     * Subclasses must call {@link #initIntroFrame()} explicitly.
+     * Empty constructor. The real UI setup is done in {@link #initIntroFrame()}.
      */
     protected AbstractMinigameIntroFrame() {
         super();
     }
 
     /**
-     * Initializes the intro window for the minigame.
+     * Initializes the intro window and makes it visible.
      *
-     * <p>This method builds a {@link MinigameIntroPanel} and configures
-     * the frame (title, size, position and default close operation).</p>
-     *
-     * <p>It must be called once by the subclass constructor.</p>
+     * <p>This method builds a {@link MinigameIntroPanel} using the
+     * title and rules provided by the subclass and connects the
+     * "Play" button to the actual game frame.</p>
      */
     protected final void initIntroFrame() {
         final MinigameIntroPanel panel = new MinigameIntroPanel(
-            this.getMinigameTitle(),
-            this.getRulesText(),
+            getMinigameTitle(),
+            getRulesText(),
             () -> {
-                final JFrame gameFrame = this.createGameFrame();
+                final JFrame gameFrame = createGameFrame();
                 gameFrame.setLocationRelativeTo(null);
                 gameFrame.setVisible(true);
                 this.dispose();
             }
         );
 
-        this.setTitle(this.getMinigameTitle());
+        this.setTitle(getMinigameTitle());
         this.setContentPane(panel);
         this.pack();
         this.setLocationRelativeTo(null);

@@ -12,11 +12,11 @@ public final class WhacAMoleIntroFrame extends AbstractMinigameIntroFrame {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Creates the Whac-A-Mole intro frame and initializes its UI.
+     * Creates the intro window for the Whac-A-Mole minigame.
      */
     public WhacAMoleIntroFrame() {
         super();
-        this.initIntroFrame();
+        initIntroFrame();
     }
 
     @Override
