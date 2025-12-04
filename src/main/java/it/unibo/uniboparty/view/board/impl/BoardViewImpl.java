@@ -21,7 +21,9 @@ import it.unibo.uniboparty.model.board.impl.BoardModelImpl;
 import it.unibo.uniboparty.utilities.MinigameId;
 import it.unibo.uniboparty.view.board.api.BoardView;
 import it.unibo.uniboparty.view.minigames.hangman.impl.HangManIntroFrame;
+import it.unibo.uniboparty.view.minigames.mazegame.impl.MazeIntroFrame;
 import it.unibo.uniboparty.view.minigames.sudoku.impl.SudokuIntroFrame;
+import it.unibo.uniboparty.view.minigames.tetris.impl.TetrisIntroFrame;
 import it.unibo.uniboparty.view.minigames.whacamole.impl.WhacAMoleIntroFrame;
 // import it.unibo.uniboparty.view.minigames.memory.impl.MemoryIntroFrame;
 // import it.unibo.uniboparty.view.minigames.xxx.impl.XxxIntroFrame;
@@ -265,6 +267,12 @@ public final class BoardViewImpl extends JPanel implements BoardView {
             break;
         case GAME_3:
             new HangManIntroFrame();
+            break;
+        case GAME_4:
+            new MazeIntroFrame();
+            break;
+        case GAME_5:
+            new TetrisIntroFrame();
             break;
 
         default:
