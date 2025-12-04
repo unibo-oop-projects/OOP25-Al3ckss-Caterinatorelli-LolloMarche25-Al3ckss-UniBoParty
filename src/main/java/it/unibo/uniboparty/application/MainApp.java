@@ -1,6 +1,7 @@
 package it.unibo.uniboparty.application;
 
 import javax.swing.SwingUtilities;
+
 import it.unibo.uniboparty.view.startgamemenu.StartGameGui;
 
 /**
