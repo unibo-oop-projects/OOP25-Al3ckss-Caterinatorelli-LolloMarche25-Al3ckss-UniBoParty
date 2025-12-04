@@ -12,7 +12,6 @@ import javax.swing.JFrame;
 public final class TetrisViewImpl extends JFrame implements TetrisView {
     private static final long serialVersionUID = 1L;
     private static final int CELL_SIZE = 36;
-    private static final int DELAY = 40;
     private final GridViewImpl gridView;
     private final RackViewImpl rackView;
     private final HUD hud;

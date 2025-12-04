@@ -14,7 +14,7 @@ import it.unibo.uniboparty.view.minigames.mazegame.api.MazeView;
 /**
  * Implementation of the MazeView interface.
  */
-public class MazeViewImpl extends JFrame implements MazeView {
+public final class MazeViewImpl extends JFrame implements MazeView {
     private static final long serialVersionUID = 1L;
     private static final int CELL_SIZE = 40;
     private static final int FRAME_WIDTH_INSET = 16;

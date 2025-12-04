@@ -53,6 +53,9 @@ public class MazeControllerImpl implements MazeController {
         });
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public JFrame getView() {
         return this.view;

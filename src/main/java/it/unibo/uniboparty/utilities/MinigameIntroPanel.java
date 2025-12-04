@@ -30,6 +30,8 @@ import javax.swing.JPanel;
 public final class MinigameIntroPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
+    private static final int WINDOWWIDTH = 600;
+    private static final int WINDOWHEIGHT = 400;
 
     /** Font size of the title label. */
     private static final float TITLE_FONT_SIZE = 26f;
@@ -51,7 +53,7 @@ public final class MinigameIntroPanel extends JPanel {
     ) {
         super(new BorderLayout());
 
-        this.setPreferredSize(new Dimension(600, 400));
+        this.setPreferredSize(new Dimension(WINDOWWIDTH, WINDOWHEIGHT));
 
         final URL url = this.getClass().getResource("/background.png");
         this.backgroundImage = url != null ? new ImageIcon(url).getImage() : null;
