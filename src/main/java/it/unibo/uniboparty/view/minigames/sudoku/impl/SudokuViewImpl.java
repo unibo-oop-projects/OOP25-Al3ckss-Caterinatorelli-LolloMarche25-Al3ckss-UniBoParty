@@ -32,7 +32,7 @@ import java.util.logging.Logger;
  * the number selection buttons, and the end-game dialogs (Win/Loss).
  * It handles the layout and loading of graphical resources.
  */
-public class SudokuViewImpl implements ISudokuView {
+public class SudokuViewImpl extends JFrame implements ISudokuView {
 
     private static final int FRAME_WIDTH = 600;
     private static final int FRAME_HEIGHT = 650;

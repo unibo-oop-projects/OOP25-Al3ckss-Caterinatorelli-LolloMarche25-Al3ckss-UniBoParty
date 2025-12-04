@@ -20,6 +20,8 @@ import it.unibo.uniboparty.model.board.api.BoardModel;
 import it.unibo.uniboparty.model.board.impl.BoardModelImpl;
 import it.unibo.uniboparty.utilities.MinigameId;
 import it.unibo.uniboparty.view.board.api.BoardView;
+import it.unibo.uniboparty.view.minigames.hangman.impl.HangManIntroFrame;
+import it.unibo.uniboparty.view.minigames.sudoku.impl.SudokuIntroFrame;
 import it.unibo.uniboparty.view.minigames.whacamole.impl.WhacAMoleIntroFrame;
 // import it.unibo.uniboparty.view.minigames.memory.impl.MemoryIntroFrame;
 // import it.unibo.uniboparty.view.minigames.xxx.impl.XxxIntroFrame;
@@ -257,6 +259,12 @@ public final class BoardViewImpl extends JPanel implements BoardView {
         switch (minigameId) {
         case GAME_1:
             new WhacAMoleIntroFrame();
+            break;
+        case GAME_2:
+            new SudokuIntroFrame();
+            break;
+        case GAME_3:
+            new HangManIntroFrame();
             break;
 
         default:
