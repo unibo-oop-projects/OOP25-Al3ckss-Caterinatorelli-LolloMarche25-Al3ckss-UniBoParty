@@ -3,8 +3,10 @@ package it.unibo.uniboparty.view.minigames.tetris.impl;
 import it.unibo.uniboparty.model.minigames.tetris.api.TetrisModel;
 import it.unibo.uniboparty.view.minigames.tetris.api.TetrisView;
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.Timer;
 
 /**
@@ -32,11 +34,14 @@ public final class TetrisViewImpl extends JFrame implements TetrisView {
         rackView = new RackViewImpl(model);
         hud = new HUD(model);
 
+        final JPanel centerWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        centerWrapper.add(gridView);
+
+        add(centerWrapper, BorderLayout.CENTER);
         add(hud, BorderLayout.NORTH);
-        add(gridView, BorderLayout.CENTER);
         add(rackView, BorderLayout.SOUTH);
 
-        setResizable(false);
+        setResizable(true);
         pack();
         setLocationRelativeTo(null);
         new Timer(DELAY, e -> gridView.repaint()).start();

@@ -102,7 +102,7 @@ public final class StartGameGui extends JFrame {
 
         playerFields = new ArrayList<>();
         for (int i = 1; i <= PLAYER_GRID_ROWS; i++) {
-            final JLabel label = new JLabel("Giocatore " + i + ": ");
+            final JLabel label = new JLabel("Player " + i + ": ");
             label.setFont(LABEL_FONT);
             label.setForeground(Color.BLACK);
 
@@ -120,8 +120,8 @@ public final class StartGameGui extends JFrame {
         final JPanel buttonPanel = new JPanel();
         buttonPanel.setOpaque(false);
 
-        startButton = createButton(" Avvia Gioco ", START_GAME_COLOR);
-        exitButton = createButton(" Esci", EXIT_GAME_COLOR);
+        startButton = createButton(" Start Game ", START_GAME_COLOR);
+        exitButton = createButton(" Exit ", EXIT_GAME_COLOR);
 
         buttonPanel.add(startButton);
         buttonPanel.add(exitButton);
@@ -161,8 +161,8 @@ public final class StartGameGui extends JFrame {
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(this,
-                "Inserisci da 2 a 4 giocatori per iniziare!",
-                "Numero di giocatori non valido",
+                "Enter 2 to 4 players to start",
+                "Invalid number of players",
                 JOptionPane.WARNING_MESSAGE);
         }
     }
