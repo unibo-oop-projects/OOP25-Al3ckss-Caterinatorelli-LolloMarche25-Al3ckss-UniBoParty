@@ -1,5 +1,7 @@
 package it.unibo.uniboparty.model.player.api;
 
+import java.util.List;
+
 /**
  * API for managing multiple players in the board game.
  */
@@ -14,6 +16,16 @@ public interface PlayerManager {
      * @return the index of the current player
      */
     int getCurrentPlayerIndex();
+
+    /**
+     * @return the current {@link Player}
+     */
+    Player getCurrentPlayer();
+
+    /**
+     * @return an unmodifiable list of all players
+     */
+    List<Player> getPlayers();
 
     /**
      * @return the position of the current player
@@ -44,6 +56,8 @@ public interface PlayerManager {
     int getScore(int playerIndex);
 
     /**
+     * Performs the player's turn by applying the dice roll result.
+     *
      * @param diceRoll the dice result
      * @return a {@link TurnResult} describing the turn outcome
      */
