@@ -105,7 +105,7 @@ public final class TetrisModelImpl implements TetrisModel {
      */
     @Override
     public void notifyAllListeners() {
-        grid.fireChange(); /* no-op but ensures consistency */
+        grid.fireChange(); 
     }
 
     /**

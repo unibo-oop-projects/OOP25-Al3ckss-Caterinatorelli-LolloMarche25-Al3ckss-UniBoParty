@@ -12,4 +12,11 @@ public interface MazeView extends GameObserver {
      * @param model the MazeModel to render
      */
     void render(MazeModel model);
+
+    /**
+     * Gets the current state of the game.
+     * 
+     * @return 2 if there is no result, 1 if the player has won, 0 if the game is over
+     */
+    int getState();
 }

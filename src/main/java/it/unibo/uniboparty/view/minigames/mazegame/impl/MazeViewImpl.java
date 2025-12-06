@@ -21,6 +21,7 @@ public final class MazeViewImpl extends JFrame implements MazeView {
     private static final int FRAME_HEIGHT_INSET = 39;
     private static final int PLAYER_PADDING = 5;
     private static final int PLAYER_DIAMETER_INSET = 10;
+    private int state;
     private final transient MazeModel model;
     private final MazePanel mazePanel;
 
@@ -36,6 +37,7 @@ public final class MazeViewImpl extends JFrame implements MazeView {
     public MazeViewImpl(final MazeModel model) {
         this.model = model;
         this.mazePanel = new MazePanel();
+        this.state = 2;
         setTitle("Maze Game");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -57,9 +59,11 @@ public final class MazeViewImpl extends JFrame implements MazeView {
 
         if (model.checkWin()) {
             JOptionPane.showMessageDialog(this, "Hai vinto!");
+            state = 1;
             this.dispose();
         } else if (model.checkLose()) {
             JOptionPane.showMessageDialog(this, "Hai perso!");
+            state = 0;
             this.dispose();
         }
     }
@@ -70,6 +74,14 @@ public final class MazeViewImpl extends JFrame implements MazeView {
     @Override
     public void render(final MazeModel newModel) {
         mazePanel.repaint();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getState() {
+        return this.state;
     }
 
     /**
