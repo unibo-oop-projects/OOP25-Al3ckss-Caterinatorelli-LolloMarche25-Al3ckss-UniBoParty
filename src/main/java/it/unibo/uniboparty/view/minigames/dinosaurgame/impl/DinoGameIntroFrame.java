@@ -35,7 +35,6 @@ protected String getRulesText() {
         + "- The speed increases over time, so be ready";
 }
 
-
     @Override
     protected JFrame createGameFrame() {
         final JFrame gameFrame = new JFrame("Dinosaur Run");

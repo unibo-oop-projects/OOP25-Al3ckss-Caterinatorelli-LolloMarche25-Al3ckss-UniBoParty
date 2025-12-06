@@ -93,9 +93,6 @@ public final class GameplayControllerImpl implements GameplayController {
             case GAME_6 -> { /* TODO insert game initializer */ }
             case GAME_7 -> { /* TODO insert game initializer */ }
             case GAME_8 -> { /* TODO insert game initializer */ }
-            default -> {
-                // No minigame
-            }
         }
 
         // TODO add score to player after turn ends
