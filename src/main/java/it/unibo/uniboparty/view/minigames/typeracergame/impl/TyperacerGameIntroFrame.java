@@ -37,7 +37,6 @@ protected String getRulesText() {
     @Override
     protected JFrame createGameFrame() {
         final ViewImpl view = new ViewImpl();
-        final JFrame gameFrame = view.createGameFrame();
-        return gameFrame;
+        return view.createGameFrame();
     }
 }

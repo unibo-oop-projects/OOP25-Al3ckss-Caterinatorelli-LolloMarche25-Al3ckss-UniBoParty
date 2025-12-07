@@ -39,7 +39,6 @@ protected String getRulesText() {
         final it.unibo.uniboparty.model.minigames.dinosaurgame.impl.ModelImpl model =
                 new it.unibo.uniboparty.model.minigames.dinosaurgame.impl.ModelImpl();
         final ViewImpl view = new ViewImpl(model);
-        final JFrame gameFrame = view.createGameFrame();
-        return gameFrame;
+        return view.createGameFrame();
     }
 }

@@ -7,6 +7,7 @@ package it.unibo.uniboparty.controller.player.api;
  * Moves players, starts a minigame depending on the position
  * </p>
  */
+@FunctionalInterface
 public interface GameplayController {
 
     /**

@@ -22,9 +22,8 @@ public final class ViewImpl implements View, GameObserver {
 
     private final GamePanelImpl panel1;
     private final JFrame frame;
-    private final it.unibo.uniboparty.model.minigames.dinosaurgame.impl.ModelImpl model;
     private boolean showGameOver;
-
+    private final ModelImpl model;
     /**
      * Creates the view and initializes internal components. The returned frame
      * is not shown automatically; callers should call `createGameFrame()` and

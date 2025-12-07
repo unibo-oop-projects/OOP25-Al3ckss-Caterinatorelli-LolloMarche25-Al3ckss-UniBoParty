@@ -65,11 +65,9 @@ public final class GameplayControllerImpl implements GameplayController {
     @Override
     public void onDiceRolled(final int steps) {
         final TurnResult result = this.playerManager.playTurn(steps);
-
-        // Start minigame if required
-        if (result.minigameToStart() != null) {
-            //TODO start minigame
-        }
+        //TODO Start minigame if required
     }
-    // TODO start new round after turn ends
+    //TODO callback win/lose
+    //TODO start new round after turn ends
+
 }
