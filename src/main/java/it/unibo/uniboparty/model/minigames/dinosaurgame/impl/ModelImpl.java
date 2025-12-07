@@ -28,6 +28,7 @@ public final class ModelImpl implements Model {
 
     // Game state
     private int difficulty;
+    private int survivalTime;
     private GameState gameState = GameState.RUNNING;
 
     // Active obstacles
@@ -56,11 +57,21 @@ public final class ModelImpl implements Model {
 
     @Override
     public void update() {
-        if (gameState == GameState.GAME_OVER) {
+        if (gameState == GameState.GAME_OVER || gameState == GameState.WIN) {
             return;
         }
 
         difficulty++;
+
+        // Check win condition: survived 30 seconds
+        if (difficulty % (1000 / GameConfig.TIMER_DELAY_MS) == 0) {
+            survivalTime++;
+            if (survivalTime >= GameConfig.WIN_TIME_SECONDS) {
+                gameState = GameState.WIN;
+                notifyObservers();
+                return;
+            }
+        }
         int nearestX = 0;
 
         if (isJumping) {

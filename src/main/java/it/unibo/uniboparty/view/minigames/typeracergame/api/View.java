@@ -73,4 +73,11 @@ public interface View {
      * @param finalScore the player's final score
      */
     void showFinalScore(int finalScore);
+
+    /**
+     * Displays a victory message when the player wins.
+     *
+     * @param finalScore the player's final score
+     */
+    void showVictoryMessage(int finalScore);
 }

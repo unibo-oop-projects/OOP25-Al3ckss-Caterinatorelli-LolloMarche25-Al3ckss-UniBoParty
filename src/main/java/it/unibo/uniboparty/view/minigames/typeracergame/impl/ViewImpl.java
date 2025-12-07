@@ -3,8 +3,8 @@ package it.unibo.uniboparty.view.minigames.typeracergame.impl;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
@@ -13,54 +13,32 @@ import it.unibo.uniboparty.model.minigames.typeracergame.impl.GameConfig;
 import it.unibo.uniboparty.model.minigames.typeracergame.api.Model;
 import it.unibo.uniboparty.model.minigames.typeracergame.api.GameObserver;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
 /**
- * Implementation of the TypeRacer minigame view.
+ * Implementation of the TypeRacer minigame view as a JPanel.
  */
-public final class ViewImpl implements View, GameObserver {
+public final class ViewImpl extends JPanel implements View, GameObserver {
 
+    private static final long serialVersionUID = 1L;
     private static final String TIME_PREFIX = "Remaining time: ";
 
-    private final JFrame frame = new JFrame("TypeRacer");
     private final JLabel wordLabel = new JLabel();
     private final JLabel timeLabel = new JLabel();
     private final JTextField textField = new JTextField();
 
-    private Model boundModel;
-    private boolean frameConfigured;
+    private transient Model boundModel;
 
     /**
-     * Empty constructor to allow instantiation without parameters.
+     * Creates the TypeRacer view panel with all UI components configured.
      */
     public ViewImpl() {
-        // empty
+        super(new BorderLayout());
+        configureComponents();
     }
 
     /**
-     * Builds and returns the JFrame hosting the TypeRacer UI.
-     * The frame is configured but not shown; callers should call `setVisible(true)`.
-     * This method can be called only once.
-     *
-     * @return the configured {@link JFrame}
-     * @throws IllegalStateException if called more than once
+     * Configures the panel components and layout.
      */
-    public JFrame createGameFrame() {
-        if (frameConfigured) {
-            throw new IllegalStateException("Frame already configured");
-        }
-        configureFrame();
-        frameConfigured = true;
-        return frame;
-    }
-
-    /**
-     * Configures the internal frame components and layout.
-     */
-    private void configureFrame() {
-        frame.setBounds(100, 100, GameConfig.FRAME_WIDTH, GameConfig.FRAME_HEIGHT);
-
+    private void configureComponents() {
         wordLabel.setFont(new Font(GameConfig.DEFAULT_FONT, Font.BOLD, GameConfig.LABEL_FONT_SIZE));
         timeLabel.setFont(new Font(GameConfig.DEFAULT_FONT, Font.BOLD, GameConfig.LABEL_FONT_SIZE));
         textField.setFont(new Font(GameConfig.DEFAULT_FONT, Font.PLAIN, GameConfig.INPUT_FONT_SIZE));
@@ -69,21 +47,9 @@ public final class ViewImpl implements View, GameObserver {
         timeLabel.setPreferredSize(new Dimension(GameConfig.FRAME_WIDTH, GameConfig.FRAME_HEIGHT / 4));
         textField.setPreferredSize(new Dimension(GameConfig.FRAME_WIDTH, GameConfig.FRAME_HEIGHT / 4));
 
-        frame.add(wordLabel, BorderLayout.NORTH);
-        frame.add(timeLabel, BorderLayout.CENTER);
-        frame.add(textField, BorderLayout.SOUTH);
-
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.pack();
-
-        frame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(final WindowEvent e) {
-                if (boundModel != null) {
-                    boundModel.removeObserver(ViewImpl.this);
-                }
-            }
-        });
+        add(wordLabel, BorderLayout.NORTH);
+        add(timeLabel, BorderLayout.CENTER);
+        add(textField, BorderLayout.SOUTH);
     }
 
     @Override
@@ -130,6 +96,17 @@ public final class ViewImpl implements View, GameObserver {
         }
     }
 
+    /**
+     * Unregisters this view from the bound model.
+     * Should be called when the view is no longer needed (e.g., window closing).
+     */
+    public void unbindModel() {
+        if (boundModel != null) {
+            boundModel.removeObserver(this);
+            boundModel = null;
+        }
+    }
+
     @Override
     public void addTextFieldActionListener(final java.awt.event.ActionListener listener) {
         this.textField.addActionListener(listener);
@@ -160,6 +137,14 @@ public final class ViewImpl implements View, GameObserver {
     public void showFinalScore(final int finalScore) {
         SwingUtilities.invokeLater(() -> {
             wordLabel.setText("Game Over! Final Score: " + finalScore);
+            textField.setEnabled(false);
+        });
+    }
+
+    @Override
+    public void showVictoryMessage(final int finalScore) {
+        SwingUtilities.invokeLater(() -> {
+            wordLabel.setText("You Win! Score: " + finalScore + " words!");
             textField.setEnabled(false);
         });
     }

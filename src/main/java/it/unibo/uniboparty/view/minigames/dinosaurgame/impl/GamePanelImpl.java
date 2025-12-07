@@ -28,6 +28,9 @@ public final class GamePanelImpl extends JPanel {
     private static final Color GROUND_COLOR = Color.GRAY;
     private static final Color DINO_COLOR = Color.BLACK;
     private static final Color OBSTACLE_COLOR = Color.GREEN;
+    private static final int GAME_OVER_FONT_SIZE = 40;
+    private static final int GAME_OVER_TEXT_X_OFFSET = 120;
+    private static final int WIN_TEXT_X_OFFSET = 100;
 
     private final transient Model model;
 
@@ -69,6 +72,17 @@ public final class GamePanelImpl extends JPanel {
                 o.getObstWidth(),
                 o.getObstHeight()
             );
+        }
+
+        // Game Over / Win text
+        if (model.getGameState() == it.unibo.uniboparty.model.minigames.dinosaurgame.impl.GameState.GAME_OVER) {
+            g.setColor(Color.RED);
+            g.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, GAME_OVER_FONT_SIZE));
+            g.drawString("GAME OVER", PANEL_WIDTH / 2 - GAME_OVER_TEXT_X_OFFSET, PANEL_HEIGHT / 2);
+        } else if (model.getGameState() == it.unibo.uniboparty.model.minigames.dinosaurgame.impl.GameState.WIN) {
+            g.setColor(Color.GREEN);
+            g.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, GAME_OVER_FONT_SIZE));
+            g.drawString("YOU WIN!", PANEL_WIDTH / 2 - WIN_TEXT_X_OFFSET, PANEL_HEIGHT / 2);
         }
     }
 

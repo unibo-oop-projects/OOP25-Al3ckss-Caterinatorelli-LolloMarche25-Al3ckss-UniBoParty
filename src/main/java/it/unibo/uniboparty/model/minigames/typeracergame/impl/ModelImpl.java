@@ -37,6 +37,9 @@ public final class ModelImpl implements Model {
     @Override
     public void incrementPoints() {
         points++;
+        if (points >= GameConfig.WIN_WORD_COUNT) {
+            state = GameState.WIN;
+        }
         notifyObservers();
     }
 

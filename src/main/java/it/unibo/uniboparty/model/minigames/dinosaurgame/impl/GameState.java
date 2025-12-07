@@ -7,6 +7,9 @@ public enum GameState {
     /** The game is running normally. */
     RUNNING,
 
+    /** The player won by surviving long enough. */
+    WIN,
+
     /** The game has ended. */
     GAME_OVER
 }

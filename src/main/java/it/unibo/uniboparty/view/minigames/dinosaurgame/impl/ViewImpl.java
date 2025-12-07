@@ -2,11 +2,9 @@ package it.unibo.uniboparty.view.minigames.dinosaurgame.impl;
 
 import java.awt.Dimension;
 import java.awt.event.KeyListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.Objects;
 
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import it.unibo.uniboparty.model.minigames.dinosaurgame.impl.GameConfig;
@@ -15,27 +13,26 @@ import it.unibo.uniboparty.model.minigames.dinosaurgame.api.Model;
 import it.unibo.uniboparty.view.minigames.dinosaurgame.api.View;
 
 /**
- * Implementation of the game view for the Dinosaur Game.
+ * Implementation of the game view for the Dinosaur Game as a JPanel.
  * 
  * <p>
- * Manages the main game window and delegates drawing to GamePanelImpl.
+ * Manages the game panel and delegates drawing to GamePanelImpl.
  */
-public final class ViewImpl implements View, GameObserver {
+public final class ViewImpl extends JPanel implements View, GameObserver {
+
+    private static final long serialVersionUID = 1L;
 
     private final GamePanelImpl gamePanel;
-    private final JFrame frame;
-    private final Model model;
-    private boolean frameConfigured;
+    private final transient Model model;
 
     /**
-     * Creates the view and initializes internal components.
+     * Creates the view panel and initializes internal components.
      *
      * @param model the game model used by the panel (non-null)
      * @throws NullPointerException if model is null
      */
     public ViewImpl(final Model model) {
         this.model = Objects.requireNonNull(model, "Model cannot be null");
-        this.frame = new JFrame("Dino Game");
         this.gamePanel = new GamePanelImpl(this.model);
 
         gamePanel.setFocusable(true);
@@ -43,41 +40,9 @@ public final class ViewImpl implements View, GameObserver {
 
         // Register as observer now so model updates can be observed
         this.model.addObserver(this);
-    }
 
-    /**
-     * Builds and returns the JFrame hosting the dinosaur game.
-     * The frame is configured but not shown; the caller should call `setVisible(true)`.
-     * This method can be called only once.
-     *
-     * @return the configured {@link JFrame}
-     * @throws IllegalStateException if called more than once
-     */
-    public JFrame createGameFrame() {
-        if (frameConfigured) {
-            throw new IllegalStateException("Frame already configured");
-        }
-        configureFrame();
-        frameConfigured = true;
-        return frame;
-    }
-
-    /**
-     * Configures the internal frame components and layout.
-     */
-    private void configureFrame() {
-        frame.setMinimumSize(new Dimension(GameConfig.PANEL_WIDTH, GameConfig.PANEL_HEIGHT));
-        frame.add(this.gamePanel);
-        frame.pack();
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        // Deregister observer when window is closing to avoid memory leaks
-        frame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(final WindowEvent e) {
-                model.removeObserver(ViewImpl.this);
-            }
-        });
+        setPreferredSize(new Dimension(GameConfig.PANEL_WIDTH, GameConfig.PANEL_HEIGHT));
+        add(this.gamePanel);
     }
 
     /**
@@ -90,11 +55,19 @@ public final class ViewImpl implements View, GameObserver {
 
     /**
      * Called by the model when it updates.
-     * Ensures repaint happens on the Swing event dispatch thread.
+     * Ensures repaint happens on Swing event thread.
      */
     @Override
     public void modelUpdated() {
         SwingUtilities.invokeLater(this::repaint);
+    }
+
+    /**
+     * Unregisters this view from the model.
+     * Should be called when the view is no longer needed (e.g., window closing).
+     */
+    public void unbindModel() {
+        model.removeObserver(this);
     }
 
     /**

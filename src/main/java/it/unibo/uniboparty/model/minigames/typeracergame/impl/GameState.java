@@ -6,5 +6,6 @@ package it.unibo.uniboparty.model.minigames.typeracergame.impl;
 public enum GameState {
     READY,
     RUNNING,
+    WIN,
     GAME_OVER
 }

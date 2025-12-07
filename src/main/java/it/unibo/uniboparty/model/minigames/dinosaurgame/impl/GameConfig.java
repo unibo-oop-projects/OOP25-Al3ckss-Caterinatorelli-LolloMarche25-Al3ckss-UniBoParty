@@ -25,5 +25,7 @@ public final class GameConfig {
     public static final int DIFFICULTY_INCREMENT_INTERVAL = 500;
     public static final double JUMP_GRAVITY = 0.65;
 
+    public static final int WIN_TIME_SECONDS = 30;
+
     private GameConfig() { }
 }

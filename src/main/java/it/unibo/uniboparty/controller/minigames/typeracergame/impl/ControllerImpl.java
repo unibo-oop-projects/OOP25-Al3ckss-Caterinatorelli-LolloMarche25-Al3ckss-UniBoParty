@@ -56,9 +56,14 @@ public final class ControllerImpl implements Controller {
                 if (model.getTime() <= 0) {
                     model.gameOver();
                     timer.stop();
-                    // Show final score when game ends
                     view.showFinalScore(model.getPoints());
+                } else if (model.getState() == GameState.WIN) {
+                    timer.stop();
+                    view.showVictoryMessage(model.getPoints());
                 }
+            } else if (model.getState() == GameState.WIN) {
+                timer.stop();
+                view.showVictoryMessage(model.getPoints());
             }
         });
     }
@@ -200,6 +205,11 @@ public final class ControllerImpl implements Controller {
         @Override
         public void showFinalScore(final int finalScore) {
             delegate.showFinalScore(finalScore);
+        }
+
+        @Override
+        public void showVictoryMessage(final int finalScore) {
+            delegate.showVictoryMessage(finalScore);
         }
     }
 }

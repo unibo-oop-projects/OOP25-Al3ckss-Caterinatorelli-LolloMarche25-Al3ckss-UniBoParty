@@ -2,6 +2,8 @@ package it.unibo.uniboparty.view.minigames.typeracergame.impl;
 
 import javax.swing.JFrame;
 
+import it.unibo.uniboparty.controller.minigames.typeracergame.impl.ControllerImpl;
+import it.unibo.uniboparty.model.minigames.typeracergame.impl.ModelImpl;
 import it.unibo.uniboparty.utilities.AbstractMinigameIntroFrame;
 
 /**
@@ -36,7 +38,25 @@ protected String getRulesText() {
 
     @Override
     protected JFrame createGameFrame() {
+        final JFrame gameFrame = new JFrame("TypeRacer - Game");
         final ViewImpl view = new ViewImpl();
-        return view.createGameFrame();
+        final ModelImpl model = new ModelImpl();
+
+        // Controller starts the game in its constructor
+        new ControllerImpl(model, view);
+
+        gameFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        gameFrame.setContentPane(view);
+        gameFrame.pack();
+
+        // Cleanup when window closes
+        gameFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(final java.awt.event.WindowEvent e) {
+                view.unbindModel();
+            }
+        });
+
+        return gameFrame;
     }
 }

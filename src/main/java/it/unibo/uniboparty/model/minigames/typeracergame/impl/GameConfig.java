@@ -15,5 +15,7 @@ public final class GameConfig {
     public static final int LABEL_FONT_SIZE = 24;
     public static final int INPUT_FONT_SIZE = 20;
 
+    public static final int WIN_WORD_COUNT = 20;
+
     private GameConfig() { }
 }
