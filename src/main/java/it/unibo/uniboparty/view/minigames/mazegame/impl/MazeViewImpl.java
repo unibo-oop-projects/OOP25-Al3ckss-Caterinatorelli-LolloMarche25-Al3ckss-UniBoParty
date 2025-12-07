@@ -18,10 +18,6 @@ import it.unibo.uniboparty.view.minigames.mazegame.api.MazeView;
 public final class MazeViewImpl extends JFrame implements MazeView {
     private static final long serialVersionUID = 1L;
     private static final int CELL_SIZE = 40;
-    private static final int FRAME_WIDTH_INSET = 16;
-    private static final int FRAME_HEIGHT_INSET = 39;
-    private static final int PLAYER_PADDING = 5;
-    private static final int PLAYER_DIAMETER_INSET = 10;
     private int state;
     private final transient MazeModel model;
     private final MazePanel mazePanel;
@@ -44,14 +40,13 @@ public final class MazeViewImpl extends JFrame implements MazeView {
         mazePanel.setPreferredSize(new Dimension(
         model.getCols() * CELL_SIZE,
         model.getRows() * CELL_SIZE
-));
+        ));
 
-add(mazePanel);
-pack();  // importante per finestra ridimensionabile
-setLocationRelativeTo(null);
-setVisible(true);
-requestFocus();
-       
+        add(mazePanel);
+        pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
+        requestFocus();
     }
 
     /**
@@ -97,8 +92,8 @@ requestFocus();
         /**
          * {@inheritDoc}
          */
-       @Override
-protected void paintComponent(final Graphics g) {
+        @Override
+        protected void paintComponent(final Graphics g) {
             super.paintComponent(g);
             if (model == null) {
                 return;
