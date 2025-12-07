@@ -2,6 +2,7 @@ package it.unibo.uniboparty.model.minigames.mazegame.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BooleanSupplier;
 
 import it.unibo.uniboparty.model.minigames.mazegame.api.Cell;
 import it.unibo.uniboparty.model.minigames.mazegame.api.MazeGenerator;
@@ -123,9 +124,8 @@ public class MazeModelImpl implements MazeModel {
     }
 
     private void notifyObservers() {
-        for (final GameObserver o : observers) {
-            o.onModelUpdated(this);
-        }
+        this.observers.stream()
+                      .forEach(o -> o.onModelUpdated(this));
     }
 
     /**
@@ -197,9 +197,10 @@ public class MazeModelImpl implements MazeModel {
      */
     @Override
     public boolean checkLose() {
-        final boolean movesExceeded = this.player.getMoves() >= MAX_MOVES_NUM;
-        final boolean timeExceeded = (System.currentTimeMillis() - this.getStartTimeMillis()) >= MINUTE_MILLIS;
-        return movesExceeded || timeExceeded;
+        final BooleanSupplier movesExceeded = () -> this.player.getMoves() >= MAX_MOVES_NUM;
+        final BooleanSupplier timeExceeded = () -> 
+            (System.currentTimeMillis() - this.getStartTimeMillis()) >= MINUTE_MILLIS; 
+        return movesExceeded.getAsBoolean() || timeExceeded.getAsBoolean();
     }
 
 }

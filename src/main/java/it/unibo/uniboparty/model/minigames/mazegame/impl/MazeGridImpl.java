@@ -1,5 +1,9 @@
 package it.unibo.uniboparty.model.minigames.mazegame.impl;
 
+import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.IntStream;
+
 import it.unibo.uniboparty.model.minigames.mazegame.api.Cell;
 import it.unibo.uniboparty.model.minigames.mazegame.api.MazeGrid;
 import it.unibo.uniboparty.utilities.CellType;
@@ -23,28 +27,27 @@ public class MazeGridImpl implements MazeGrid {
         final int rows = layout.length;
         final int cols = layout[0].length;
         this.grid = new Cell[rows][cols];
-        int foundStartRow = -1;
-        int foundStartCol = -1;
-        int foundExitRow = -1;
-        int foundExitCol = -1;
-        for (int r = 0; r < rows; r++) {
-            for (int c = 0; c < cols; c++) {
+
+        final AtomicReference<int[]> startPos = new AtomicReference<>(new int[]{-1, -1});
+        final AtomicReference<int[]> exitPos = new AtomicReference<>(new int[]{-1, -1});
+
+        IntStream.range(0, rows).forEach(r -> {
+            IntStream.range(0, cols).forEach(c -> {
                 final CellType type = layout[r][c];
                 grid[r][c] = new CellImpl(r, c, type);
-                if (type == CellType.START) {
-                    foundStartRow = r;
-                    foundStartCol = c;
-                } else if (type == CellType.EXIT) {
-                    foundExitRow = r;
-                    foundExitCol = c;
-                }
-            }
-        }
-        this.startRow = foundStartRow;
-        this.startCol = foundStartCol;
-        this.exitRow = foundExitRow;
-        this.exitCol = foundExitCol;
 
+                if (type == CellType.START) {
+                    startPos.set(new int[]{r, c});
+                } else if (type == CellType.EXIT) {
+                    exitPos.set(new int[]{r, c});
+                }
+            });
+        });
+
+        this.startRow = startPos.get()[0];
+        this.startCol = startPos.get()[1];
+        this.exitRow = exitPos.get()[0];
+        this.exitCol = exitPos.get()[1];
     }
 
     /**
@@ -52,13 +55,13 @@ public class MazeGridImpl implements MazeGrid {
      */
     @Override
     public Cell[][] getGrid() {
-        final int rows = grid.length;
-        final int cols = grid[0].length;
-        final Cell[][] copy = new Cell[rows][cols];
-        for (int r = 0; r < rows; r++) {
-            System.arraycopy(grid[r], 0, copy[r], 0, cols);
-        }
-        return copy;
+       return Arrays.stream(this.grid)
+                     .map(row -> {
+                         final Cell[] copyRow = new Cell[row.length];
+                         System.arraycopy(row, 0, copyRow, 0, row.length);
+                         return copyRow;
+                     })
+                     .toArray(Cell[][]::new);
     }
 
     /**
