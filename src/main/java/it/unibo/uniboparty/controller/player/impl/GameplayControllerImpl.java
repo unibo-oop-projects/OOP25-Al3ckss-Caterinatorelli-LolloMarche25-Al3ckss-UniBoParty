@@ -45,28 +45,17 @@ public final class GameplayControllerImpl implements GameplayController {
 
     @Override
     public void onDiceRolled(final int steps) {
-
-        final TurnResult result = this.playerManager.playTurn(steps);
-
-        if (result.gameEnded()) {
-            // TODO: Show final leaderboard
-            this.lastTurnResult = result;
-        }
+        this.lastTurnResult = this.playerManager.playTurn(steps);
     }
 
     @Override
     public void onMinigameFinished(final int result, final MinigameId id) {
         if (result == 2) {
-            return; // minigame is not finished
+            return;
         }
 
         final int movement = (result == 1) ? 1 : -1;
-        final TurnResult turnResult = this.playerManager.playTurn(movement);
-
-        if (turnResult.gameEnded()) {
-            // TODO: Show final leaderboard
-            this.lastTurnResult = turnResult;
-        }
+        this.lastTurnResult = this.playerManager.playTurn(movement);
     }
 
     /**
@@ -76,5 +65,14 @@ public final class GameplayControllerImpl implements GameplayController {
      */
     public TurnResult getLastTurnResult() {
         return this.lastTurnResult;
+    }
+
+    /**
+     * Checks if the game has ended.
+     *
+     * @return true if the game has ended, false otherwise
+     */
+    public boolean isGameEnded() {
+        return this.lastTurnResult != null && this.lastTurnResult.gameEnded();
     }
 }
