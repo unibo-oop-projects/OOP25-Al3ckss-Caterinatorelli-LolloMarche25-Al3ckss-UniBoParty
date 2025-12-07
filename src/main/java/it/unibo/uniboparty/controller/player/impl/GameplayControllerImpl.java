@@ -13,11 +13,12 @@ import it.unibo.uniboparty.utilities.MinigameId;
 import it.unibo.uniboparty.view.board.api.BoardView;
 
 /**
- * Default implementation of the GameplayController.
+ * Implementation of the GameplayController.
  */
 public final class GameplayControllerImpl implements GameplayController {
 
     private final PlayerManager playerManager;
+    private TurnResult lastTurnResult;
 
     /**
      * Creates a new GameplayControllerImpl.
@@ -48,7 +49,8 @@ public final class GameplayControllerImpl implements GameplayController {
         final TurnResult result = this.playerManager.playTurn(steps);
 
         if (result.gameEnded()) {
-            // TODO: Show final leaderboard with player scores
+            // TODO: Show final leaderboard
+            this.lastTurnResult = result;
         }
     }
 
@@ -63,6 +65,16 @@ public final class GameplayControllerImpl implements GameplayController {
 
         if (turnResult.gameEnded()) {
             // TODO: Show final leaderboard
+            this.lastTurnResult = turnResult;
         }
+    }
+
+    /**
+     * Gets the last turn result.
+     *
+     * @return the last turn result, or null if no turn has been played yet
+     */
+    public TurnResult getLastTurnResult() {
+        return this.lastTurnResult;
     }
 }
