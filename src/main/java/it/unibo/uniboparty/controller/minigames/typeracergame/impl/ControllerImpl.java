@@ -41,6 +41,7 @@ public final class ControllerImpl implements Controller {
         this.view = new ViewDelegate(view);
 
         model.setState(GameState.RUNNING);
+        model.setNewWord(); // Generate first word before binding view
         // bind the view to the model so the view will observe updates
         view.bindModel(model);
 

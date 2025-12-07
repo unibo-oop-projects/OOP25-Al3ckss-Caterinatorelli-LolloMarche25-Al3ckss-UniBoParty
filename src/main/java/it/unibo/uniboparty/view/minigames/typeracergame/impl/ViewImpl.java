@@ -43,9 +43,15 @@ public final class ViewImpl extends JPanel implements View, GameObserver {
         timeLabel.setFont(new Font(GameConfig.DEFAULT_FONT, Font.BOLD, GameConfig.LABEL_FONT_SIZE));
         textField.setFont(new Font(GameConfig.DEFAULT_FONT, Font.PLAIN, GameConfig.INPUT_FONT_SIZE));
 
+        wordLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        timeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
         wordLabel.setPreferredSize(new Dimension(GameConfig.FRAME_WIDTH, GameConfig.FRAME_HEIGHT / 4));
         timeLabel.setPreferredSize(new Dimension(GameConfig.FRAME_WIDTH, GameConfig.FRAME_HEIGHT / 4));
         textField.setPreferredSize(new Dimension(GameConfig.FRAME_WIDTH, GameConfig.FRAME_HEIGHT / 4));
+
+        wordLabel.setText("Loading...");
+        timeLabel.setText(TIME_PREFIX + "0");
 
         add(wordLabel, BorderLayout.NORTH);
         add(timeLabel, BorderLayout.CENTER);

@@ -46,20 +46,16 @@ public final class ViewImpl extends JPanel implements View, GameObserver {
     }
 
     /**
-     * Repaints the game panel.
-     */
-    @Override
-    public void repaint() {
-        gamePanel.repaint();
-    }
-
-    /**
      * Called by the model when it updates.
      * Ensures repaint happens on Swing event thread.
      */
     @Override
     public void modelUpdated() {
-        SwingUtilities.invokeLater(this::repaint);
+        SwingUtilities.invokeLater(() -> {
+            if (gamePanel != null) {
+                gamePanel.repaint();
+            }
+        });
     }
 
     /**

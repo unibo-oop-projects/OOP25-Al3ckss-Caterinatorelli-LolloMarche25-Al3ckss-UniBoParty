@@ -41,6 +41,8 @@ public final class GamePanelImpl extends JPanel {
      */
     public GamePanelImpl(final Model model) {
         this.model = Objects.requireNonNull(model, "Model cannot be null");
+        setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
+        setBackground(BACKGROUND_COLOR);
     }
 
     /**

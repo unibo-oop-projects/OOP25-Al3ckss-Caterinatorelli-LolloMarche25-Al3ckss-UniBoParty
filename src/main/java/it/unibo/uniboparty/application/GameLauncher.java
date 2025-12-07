@@ -6,6 +6,8 @@ import it.unibo.uniboparty.controller.minigames.hangman.impl.HangmanControllerIm
 import it.unibo.uniboparty.controller.minigames.mazegame.impl.MazeControllerImpl;
 import it.unibo.uniboparty.controller.minigames.sudoku.impl.SudokuControllerImpl;
 import it.unibo.uniboparty.controller.minigames.tetris.impl.TetrisControllerImpl;
+import it.unibo.uniboparty.view.minigames.dinosaurgame.impl.DinoGameIntroFrame;
+import it.unibo.uniboparty.view.minigames.typeracergame.impl.TyperacerGameIntroFrame;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +21,8 @@ public final class GameLauncher {
 
     private static final String UTILITY = "Utility class";
     private static final Logger LOGGER = Logger.getLogger(GameLauncher.class.getName());
+    private static final int TYPERACER_CHOICE = 5;
+    private static final int DINORUN_CHOICE = 6;
 
     private GameLauncher() {
         throw new UnsupportedOperationException("Utility class cannot be instantiated");
@@ -31,7 +35,7 @@ public final class GameLauncher {
      */
     public static void main(final String[] args) {
         SwingUtilities.invokeLater(() -> {
-            final String[] options = {"Sudoku", "Hangman", "Leaderboard", "Tetris", "Maze Game"};
+            final String[] options = {"Sudoku", "Hangman", "Leaderboard", "Tetris", "Maze Game", "TypeRacer", "Dino Run"};
             final int choice = JOptionPane.showOptionDialog(
                     null,
                     "Which game would you like to play?",
@@ -58,6 +62,12 @@ public final class GameLauncher {
                     break;
                 case 4:
                     new MazeControllerImpl().startNewGame();
+                    break;
+                case TYPERACER_CHOICE:
+                    new TyperacerGameIntroFrame();
+                    break;
+                case DINORUN_CHOICE:
+                    new DinoGameIntroFrame();
                     break;
                 default:
                     LOGGER.log(Level.INFO, "Application closed by user.");
