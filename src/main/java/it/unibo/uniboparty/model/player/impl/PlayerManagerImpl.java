@@ -72,7 +72,7 @@ public final class PlayerManagerImpl implements PlayerManager {
     @Override
     public int getCurrentPlayerPosition() {
         if (this.currentPlayerIndex < 0 || this.currentPlayerIndex >= this.numberOfPlayers) {
-            throw new IllegalStateException("Current player index out of range: " + this.currentPlayerIndex);
+            throw new IllegalStateException("Player " + this.currentPlayerIndex + " is out of range");
         }
         return this.players.get(this.currentPlayerIndex).getPosition();
     }
@@ -147,7 +147,7 @@ public final class PlayerManagerImpl implements PlayerManager {
                 minigameToStart = this.boardControllerDelegate.getMinigameAt(newPos);
             }
             default -> {
-                // Normal cell: no additional action needed
+                // Normal cell, no additional action
             }
         }
 

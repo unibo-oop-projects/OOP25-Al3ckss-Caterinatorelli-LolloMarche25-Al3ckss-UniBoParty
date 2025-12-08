@@ -75,4 +75,48 @@ public final class GameplayControllerImpl implements GameplayController {
     public boolean isGameEnded() {
         return this.lastTurnResult != null && this.lastTurnResult.gameEnded();
     }
+
+    /**
+     * Gets the PlayerManager.
+     *
+     * @return the player manager
+     */
+    public PlayerManager getPlayerManager() {
+        return this.playerManager;
+    }
+
+    /**
+     * Gets the index of current player.
+     *
+     * @return the index of the current player
+     */
+    public int getCurrentPlayerIndex() {
+        return this.playerManager.getCurrentPlayerIndex();
+    }
+
+    /**
+     * Gets a list of all the players.
+     *
+     * @return a list of all players
+     */
+    public List<Player> getAllPlayers() {
+        return this.playerManager.getPlayers();
+    }
+
+    /**
+     * Gets the position of the current player.
+     *
+     * @return the position of the current player
+     */
+    public int getCurrentPlayerPosition() {
+        return this.playerManager.getCurrentPlayerPosition();
+    }
+
+    /**
+     * Advances to the next player's turn and clears the last turn result.
+     */
+    public void nextTurn() {
+        this.playerManager.nextPlayer();
+        this.lastTurnResult = null;
+    }
 }
