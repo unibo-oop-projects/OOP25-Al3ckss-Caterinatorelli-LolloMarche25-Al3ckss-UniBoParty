@@ -4,9 +4,9 @@ import java.util.Objects;
 import javax.swing.Timer;
 
 import it.unibo.uniboparty.controller.minigames.dinosaurgame.api.Controller;
+import it.unibo.uniboparty.model.minigames.dinosaurgame.api.Model;
 import it.unibo.uniboparty.model.minigames.dinosaurgame.impl.GameConfig;
 import it.unibo.uniboparty.model.minigames.dinosaurgame.impl.GameState;
-import it.unibo.uniboparty.model.minigames.dinosaurgame.impl.ModelImpl;
 import it.unibo.uniboparty.view.minigames.dinosaurgame.impl.ViewImpl;
 
 import java.awt.event.KeyAdapter;
@@ -24,9 +24,9 @@ import java.awt.event.KeyEvent;
  */
 public final class ControllerImpl implements Controller {
 
-    private final ModelImpl model;
+    private final Model model;
 
-    // We store the view reference directly because the controller needs to update it.
+    // We store the ViewImpl reference because we need specific methods for key listeners
     private final ViewImpl view;
 
     private Timer timer;
@@ -37,7 +37,7 @@ public final class ControllerImpl implements Controller {
      * @param model the game model
      * @param view the game view
      */
-    public ControllerImpl(final ModelImpl model, final ViewImpl view) {
+    public ControllerImpl(final Model model, final ViewImpl view) {
         this.model = Objects.requireNonNull(model, "Model cannot be null");
         this.view = Objects.requireNonNull(view, "View cannot be null");
 
@@ -118,5 +118,15 @@ public final class ControllerImpl implements Controller {
             case GAME_OVER -> 0;
             default -> 2;
         };
+    }
+
+    /**
+     * Stops the timer and cleans up resources.
+     * Should be called when the game is no longer needed.
+     */
+    public void cleanup() {
+        if (timer != null && timer.isRunning()) {
+            timer.stop();
+        }
     }
 }

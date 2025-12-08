@@ -2,6 +2,7 @@ package it.unibo.uniboparty.model.player.impl;
 
 import java.util.List;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.uniboparty.controller.board.api.BoardController;
 import it.unibo.uniboparty.model.board.CellType;
 import it.unibo.uniboparty.model.player.api.Player;
@@ -25,30 +26,50 @@ public final class PlayerManagerImpl implements PlayerManager {
     private final List<Player> players;
     private final int numberOfPlayers;
     private final int[] scores;
-    private final BoardViewDelegate boardViewDelegate;
-    private final BoardControllerDelegate boardControllerDelegate;
+    private final BoardView boardView;
+    private final BoardController boardController;
 
     private int currentPlayerIndex;
 
     /**
      * Creates a new PlayerManager for the given players.
      *
+     * <p>
+     * Note: BoardView and BoardController are stored as interface references,
+     * not concrete implementations. These are shared collaborators in the MVC pattern
+     * that must maintain synchronized state throughout the game lifecycle.
+     * The interfaces already provide a limited, controlled API preventing misuse.
+     * </p>
+     *
      * @param players the list of players in the match
-     * @param boardView the board view for updating player positions
-     * @param boardController the board controller for reading cell types
+     * @param boardView the board view for updating player positions (must not be null)
+     * @param boardController the board controller for reading cell types (must not be null)
+     * @throws IllegalArgumentException if players is null or empty, or if boardView or boardController is null
      */
+    @SuppressFBWarnings(
+        value = "EI_EXPOSE_REP2",
+        justification = "Interfaces used as shared collaborators (MVC pattern). "
+            + "Limited API prevents misuse. Defensive copying not applicable for stateful collaborators."
+    )
     public PlayerManagerImpl(final List<Player> players,
                              final BoardView boardView,
                              final BoardController boardController) {
         if (players == null || players.isEmpty()) {
             throw new IllegalArgumentException("players must not be null or empty");
         }
+        if (boardView == null) {
+            throw new IllegalArgumentException("boardView must not be null");
+        }
+        if (boardController == null) {
+            throw new IllegalArgumentException("boardController must not be null");
+        }
         this.players = List.copyOf(players);
         this.numberOfPlayers = this.players.size();
         this.scores = new int[this.numberOfPlayers];
         this.currentPlayerIndex = 0;
-        this.boardViewDelegate = new BoardViewDelegate(boardView);
-        this.boardControllerDelegate = new BoardControllerDelegate(boardController);
+        // Intentionally storing mutable references - these are shared collaborators
+        this.boardView = boardView;
+        this.boardController = boardController;
     }
 
     @Override
@@ -111,23 +132,23 @@ public final class PlayerManagerImpl implements PlayerManager {
         final Player current = this.players.get(playerIndex);
 
         int newPos = current.getPosition() + diceRoll;
-        final int boardSize = this.boardControllerDelegate.getBoardSize();
+        final int boardSize = this.boardController.getBoardSize();
 
         if (newPos >= boardSize) {
             newPos = boardSize - 1;
         }
 
         current.setPosition(newPos);
-        this.boardViewDelegate.setPlayerPosition(newPos);
+        this.boardView.setPlayerPosition(newPos);
 
-        final CellType cellType = this.boardControllerDelegate.getCellTypeAt(newPos);
+        final CellType cellType = this.boardController.getCellTypeAt(newPos);
         MinigameId minigameToStart = null;
 
         switch (cellType) {
             case BACK_2 -> {
                 newPos = Math.max(0, newPos - 2);
                 current.setPosition(newPos);
-                this.boardViewDelegate.setPlayerPosition(newPos);
+                this.boardView.setPlayerPosition(newPos);
             }
 
             case SWAP -> {
@@ -142,11 +163,11 @@ public final class PlayerManagerImpl implements PlayerManager {
                     other.setPosition(current.getPosition());
                     current.setPosition(tempPos);
 
-                    this.boardViewDelegate.setPlayerPosition(current.getPosition());
+                    this.boardView.setPlayerPosition(current.getPosition());
                 }
 }
             case MINIGAME -> {
-                minigameToStart = this.boardControllerDelegate.getMinigameAt(newPos);
+                minigameToStart = this.boardController.getMinigameAt(newPos);
             }
             default -> {
                 // Normal cell, no additional action
@@ -174,7 +195,7 @@ public final class PlayerManagerImpl implements PlayerManager {
         final Player player = this.players.get(playerIndex);
         final int movement = (resultCode == 1) ? 1 : -1;
         int newPos = player.getPosition() + movement;
-        final int boardSize = this.boardControllerDelegate.getBoardSize();
+        final int boardSize = this.boardController.getBoardSize();
 
         // Ensure position stays within bounds
         if (newPos < 0) {
@@ -184,44 +205,6 @@ public final class PlayerManagerImpl implements PlayerManager {
         }
 
         player.setPosition(newPos);
-        this.boardViewDelegate.setPlayerPosition(newPos);
-    }
-
-    /**
-     * Private delegate for BoardView to prevent exposure of mutable references.
-     */
-    private static final class BoardViewDelegate {
-        private final BoardView delegate;
-
-        BoardViewDelegate(final BoardView delegate) {
-            this.delegate = delegate;
-        }
-
-        void setPlayerPosition(final int position) {
-            this.delegate.setPlayerPosition(position);
-        }
-    }
-
-    /**
-     * Private delegate for BoardController to prevent exposure of mutable references.
-     */
-    private static final class BoardControllerDelegate {
-        private final BoardController delegate;
-
-        BoardControllerDelegate(final BoardController delegate) {
-            this.delegate = delegate;
-        }
-
-        int getBoardSize() {
-            return this.delegate.getBoardSize();
-        }
-
-        CellType getCellTypeAt(final int position) {
-            return this.delegate.getCellTypeAt(position);
-        }
-
-        MinigameId getMinigameAt(final int position) {
-            return this.delegate.getMinigameAt(position);
-        }
+        this.boardView.setPlayerPosition(newPos);
     }
 }
