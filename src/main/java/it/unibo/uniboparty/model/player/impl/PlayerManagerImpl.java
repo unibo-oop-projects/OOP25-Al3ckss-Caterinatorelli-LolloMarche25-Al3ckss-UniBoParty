@@ -118,7 +118,7 @@ public final class PlayerManagerImpl implements PlayerManager {
         }
 
         current.setPosition(newPos);
-        this.boardViewDelegate.setPlayerPosition(playerIndex);
+        this.boardViewDelegate.setPlayerPosition(newPos);
 
         final CellType cellType = this.boardControllerDelegate.getCellTypeAt(newPos);
         MinigameId minigameToStart = null;
@@ -127,7 +127,7 @@ public final class PlayerManagerImpl implements PlayerManager {
             case BACK_2 -> {
                 newPos = Math.max(0, newPos - 2);
                 current.setPosition(newPos);
-                this.boardViewDelegate.setPlayerPosition(playerIndex);
+                this.boardViewDelegate.setPlayerPosition(newPos);
             }
             case SWAP -> {
                 if (this.numberOfPlayers > 1) {
@@ -141,8 +141,8 @@ public final class PlayerManagerImpl implements PlayerManager {
                     other.setPosition(current.getPosition());
                     current.setPosition(tempPos);
 
-                    this.boardViewDelegate.setPlayerPosition(playerIndex);
-                    this.boardViewDelegate.setPlayerPosition(otherIndex);
+                    this.boardViewDelegate.setPlayerPosition(current.getPosition());
+                    this.boardViewDelegate.setPlayerPosition(other.getPosition());
                 }
             }
             case MINIGAME -> {
@@ -184,7 +184,7 @@ public final class PlayerManagerImpl implements PlayerManager {
         }
 
         player.setPosition(newPos);
-        this.boardViewDelegate.setPlayerPosition(playerIndex);
+        this.boardViewDelegate.setPlayerPosition(newPos);
     }
 
     /**
@@ -197,8 +197,8 @@ public final class PlayerManagerImpl implements PlayerManager {
             this.delegate = delegate;
         }
 
-        void setPlayerPosition(final int playerIndex) {
-            this.delegate.setPlayerPosition(playerIndex);
+        void setPlayerPosition(final int position) {
+            this.delegate.setPlayerPosition(position);
         }
     }
 
