@@ -20,6 +20,8 @@ import it.unibo.uniboparty.view.board.api.BoardView;
  */
 public final class PlayerManagerImpl implements PlayerManager {
 
+    private static final String INVALID_PLAYER_INDEX = "Invalid player index: ";
+
     private final List<Player> players;
     private final int numberOfPlayers;
     private final int[] scores;
@@ -80,7 +82,7 @@ public final class PlayerManagerImpl implements PlayerManager {
     @Override
     public int getPlayerPosition(final int playerIndex) {
         if (playerIndex < 0 || playerIndex >= this.numberOfPlayers) {
-            throw new IllegalArgumentException("Invalid player index: " + playerIndex);
+            throw new IllegalArgumentException(INVALID_PLAYER_INDEX + playerIndex);
         }
         return this.players.get(playerIndex).getPosition();
     }
@@ -93,7 +95,7 @@ public final class PlayerManagerImpl implements PlayerManager {
     @Override
     public void addScore(final int playerIndex, final int amount) {
         if (playerIndex < 0 || playerIndex >= this.numberOfPlayers) {
-            throw new IllegalArgumentException("Invalid player index: " + playerIndex);
+            throw new IllegalArgumentException(INVALID_PLAYER_INDEX + playerIndex);
         }
         this.scores[playerIndex] += amount;
     }
@@ -156,6 +158,33 @@ public final class PlayerManagerImpl implements PlayerManager {
         this.nextPlayer();
 
         return new TurnResult(newPos, minigameToStart, gameEnded);
+    }
+
+    @Override
+    public void applyMinigameResult(final int playerIndex, final MinigameId minigameId, final int resultCode) {
+        if (resultCode == 2) {
+            // Game still in progress, no action
+            return;
+        }
+
+        if (playerIndex < 0 || playerIndex >= this.numberOfPlayers) {
+            throw new IllegalArgumentException(INVALID_PLAYER_INDEX + playerIndex);
+        }
+
+        final Player player = this.players.get(playerIndex);
+        final int movement = (resultCode == 1) ? 1 : -1;
+        int newPos = player.getPosition() + movement;
+        final int boardSize = this.boardControllerDelegate.getBoardSize();
+
+        // Ensure position stays within bounds
+        if (newPos < 0) {
+            newPos = 0;
+        } else if (newPos >= boardSize) {
+            newPos = boardSize - 1;
+        }
+
+        player.setPosition(newPos);
+        this.boardViewDelegate.setPlayerPosition(playerIndex);
     }
 
     /**

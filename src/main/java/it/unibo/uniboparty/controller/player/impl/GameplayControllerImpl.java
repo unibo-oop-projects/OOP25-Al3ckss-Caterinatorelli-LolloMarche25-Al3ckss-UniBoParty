@@ -54,8 +54,36 @@ public final class GameplayControllerImpl implements GameplayController {
             return;
         }
 
-        final int movement = (result == 1) ? 1 : -1;
+        final int movement = calculateMovement(result);
         this.lastTurnResult = this.playerManager.playTurn(movement);
+    }
+
+    /**
+     * Applies the result of a minigame to the current player's movement.
+     *
+     * <p>
+     * Call the method after a minigame finishes to move the player.
+     * </p>
+     *
+     * @param result the result of the minigame (1 for win, 0 for loss; 2 is ignored)
+     */
+    public void applyMinigameResult(final int result) {
+        if (result == 2) {
+            return;
+        }
+
+        final int movement = calculateMovement(result);
+        this.lastTurnResult = this.playerManager.playTurn(movement);
+    }
+
+    /**
+     * Calculates the movement amount based on the minigame result.
+     *
+     * @param result the result of the minigame (1 for win, 0 for loss)
+     * @return 1 if result is 1 (win), -1 if result is 0 (loss)
+     */
+    private int calculateMovement(final int result) {
+        return (result == 1) ? 1 : -1;
     }
 
     /**
@@ -74,15 +102,6 @@ public final class GameplayControllerImpl implements GameplayController {
      */
     public boolean isGameEnded() {
         return this.lastTurnResult != null && this.lastTurnResult.gameEnded();
-    }
-
-    /**
-     * Gets the PlayerManager.
-     *
-     * @return the player manager
-     */
-    public PlayerManager getPlayerManager() {
-        return this.playerManager;
     }
 
     /**

@@ -62,4 +62,22 @@ public interface PlayerManager {
      * @return a {@link TurnResult} describing the turn outcome
      */
     TurnResult playTurn(int diceRoll);
+
+    /**
+     * Applies the result of a minigame to the specified player.
+     *
+     * <p>
+     * This method moves the player forward or backward based on the minigame outcome:
+     * <ul>
+     *   <li>resultCode = 1 (win): player moves forward by 1 cell</li>
+     *   <li>resultCode = 0 (loss): player moves backward by 1 cell</li>
+     *   <li>resultCode = 2 (in progress): no action taken</li>
+     * </ul>
+     * </p>
+     *
+     * @param playerIndex the index of the player who played the minigame
+     * @param minigameId the identifier of the minigame that was played
+     * @param resultCode the result of the minigame (0, 1, or 2)
+     */
+    void applyMinigameResult(int playerIndex, it.unibo.uniboparty.utilities.MinigameId minigameId, int resultCode);
 }
