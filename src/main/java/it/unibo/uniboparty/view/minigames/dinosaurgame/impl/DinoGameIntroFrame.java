@@ -31,9 +31,9 @@ protected String getRulesText() {
     return
           "How to play:\n"
         + "- Press SPACE to make the dinosaur jump.\n"
-        + "- Avoid all obstacles: hitting one ends the game.\n"
-        + "- The longer you survive, the higher your score.\n"
-        + "- The speed increases over time, so be ready";
+        + "- Avoid all obstacles, you lose if you touch one of them.\n"
+    + "- Survive for 30 seconds to win.\n"
+    + "- The speed increases over time, so be ready.";
 }
 
     @Override
