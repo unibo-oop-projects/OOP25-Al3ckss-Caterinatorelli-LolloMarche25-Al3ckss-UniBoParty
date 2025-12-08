@@ -87,6 +87,20 @@ public final class ControllerImpl implements Controller {
     }
 
     /**
+     * Returns the current game state.
+     * 
+     * @return 0 if game lost, 1 if game won, 2 if still running
+     */
+    @Override
+    public int getState() {
+        return switch (model.getState()) {
+            case WIN -> 1;
+            case GAME_OVER -> 0;
+            default -> 2;
+        };
+    }
+
+    /**
      * Wrapper for Model to avoid exposing direct mutable object reference.
      */
     private static final class ModelDelegate implements Model {

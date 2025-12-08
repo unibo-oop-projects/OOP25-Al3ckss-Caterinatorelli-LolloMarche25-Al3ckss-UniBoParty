@@ -15,4 +15,11 @@ public interface Controller {
      * Stops the game loop and timers.
      */
     void stop();
+
+    /**
+     * Returns the current game state.
+     * 
+     * @return 0 if game lost, 1 if game won, 2 if still running
+     */
+    int getState();
 }
