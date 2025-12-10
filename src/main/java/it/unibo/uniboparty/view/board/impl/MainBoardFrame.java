@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -17,6 +16,7 @@ import it.unibo.uniboparty.model.player.api.PlayerManager;
 import it.unibo.uniboparty.model.player.api.TurnResult;
 import it.unibo.uniboparty.model.player.impl.PlayerManagerImpl;
 import it.unibo.uniboparty.utilities.MinigameId;
+import it.unibo.uniboparty.controller.end_screen.impl.LeaderboardControllerImpl;
 import it.unibo.uniboparty.view.minigames.whacamole.impl.WhacAMoleIntroFrame;
 import it.unibo.uniboparty.view.minigames.memory.impl.MemoryIntroFrame;
 import it.unibo.uniboparty.view.minigames.dinosaurgame.impl.DinoGameIntroFrame;
@@ -157,33 +157,35 @@ public final class MainBoardFrame extends JFrame {
      * @param minigameId identifier of the minigame to start
      */
     private void launchMinigame(final MinigameId minigameId) {
+        this.rollButton.setEnabled(false);
+
         switch (minigameId) {
         case GAME_1:
             new WhacAMoleIntroFrame(this::handleMinigameResult);
             break;
 
         case GAME_2:
-            new SudokuIntroFrame();
+            new SudokuIntroFrame(this::handleMinigameResult);
             break;
 
         case GAME_3:
-            new HangManIntroFrame();
+            new HangManIntroFrame(this::handleMinigameResult);
             break;
 
         case GAME_4:
-            new MazeIntroFrame();
+            new MazeIntroFrame(this::handleMinigameResult);
             break;
 
         case GAME_5:
-            new TetrisIntroFrame();
+            new TetrisIntroFrame(this::handleMinigameResult);
             break;
 
         case GAME_6:
-            new TyperacerGameIntroFrame();
+            new TyperacerGameIntroFrame(this::handleMinigameResult);
             break;
 
         case GAME_7:
-            new DinoGameIntroFrame();
+            new DinoGameIntroFrame(this::handleMinigameResult);
             break;
 
         case GAME_8:
@@ -230,35 +232,29 @@ public final class MainBoardFrame extends JFrame {
     }
 
     /**
-     * Shows a simple final summary of the players positions.
+     * Opens the final leaderboard window using the current players.
      *
      * <p>
-     * This is a temporary implementation used before the full
-     * leaderboard screen is integrated. It just shows a dialog
-     * with the final position of each player on the board.
+     * For now the "score" is the final position on the board:
+     * the player closer to the finish cell is ranked higher.
      * </p>
      */
     private void showLeaderboard() {
         final int numPlayers = this.playerManager.getNumberOfPlayers();
-        final List<Player> players = this.playerManager.getPlayers();
+        final List<it.unibo.uniboparty.model.end_screen.api.Player> leaderboardPlayers
+            = new ArrayList<>();
 
-        final StringBuilder msg = new StringBuilder("Final positions:\n");
+        final List<Player> players
+            = this.playerManager.getPlayers();
 
         for (int i = 0; i < numPlayers; i++) {
             final Player p = players.get(i);
-            final int pos = this.playerManager.getPlayerPosition(i);
-            msg.append("- ")
-                .append(p.getName())
-                .append(" at cell ")
-                .append(pos + 1)  // +1 se le celle logiche partono da 1
-                .append(System.lineSeparator());
+            final int score = this.playerManager.getPlayerPosition(i);
+            leaderboardPlayers.add(
+                new it.unibo.uniboparty.model.end_screen.api.Player(p.getName(), score)
+            );
         }
 
-        JOptionPane.showMessageDialog(
-            this,
-            msg.toString(),
-            "Game over",
-            JOptionPane.INFORMATION_MESSAGE
-        );
+        new LeaderboardControllerImpl(leaderboardPlayers);
     }
 }
