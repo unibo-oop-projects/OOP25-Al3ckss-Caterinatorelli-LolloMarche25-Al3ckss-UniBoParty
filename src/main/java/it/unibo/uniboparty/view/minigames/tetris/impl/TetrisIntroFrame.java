@@ -1,10 +1,14 @@
 package it.unibo.uniboparty.view.minigames.tetris.impl;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.JFrame;
 
-import it.unibo.uniboparty.controller.minigames.tetris.impl.TetrisControllerImpl;
 import it.unibo.uniboparty.controller.minigames.tetris.api.TetrisController;
+import it.unibo.uniboparty.controller.minigames.tetris.impl.TetrisControllerImpl;
 import it.unibo.uniboparty.utilities.AbstractMinigameIntroFrame;
+import it.unibo.uniboparty.utilities.MinigameResultCallback;
 
 /**
  * Intro window for the Tetris minigame.
@@ -14,10 +18,26 @@ public final class TetrisIntroFrame extends AbstractMinigameIntroFrame {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Creates the Tetris intro frame and initializes its UI.
+     * Optional callback used to notify the board when the minigame ends.
+     */
+    private final transient MinigameResultCallback resultCallback;
+
+    /**
+     * Creates the intro frame without a callback.
      */
     public TetrisIntroFrame() {
+        this(null);
+    }
+
+    /**
+     * Creates the intro frame with a callback.
+     *
+     * @param resultCallback callback that will receive the result code
+     *                       when the game window is closed
+     */
+    public TetrisIntroFrame(final MinigameResultCallback resultCallback) {
         super();
+        this.resultCallback = resultCallback;
         this.initIntroFrame();
     }
 
@@ -31,14 +51,28 @@ public final class TetrisIntroFrame extends AbstractMinigameIntroFrame {
         return
               "How to play:\n"
             + "- Click and drag the piece into the grid.\n"
-            + "- The bigger the piece is, the bigger are the points gained.\n"
-            + "- Each row (vertical/orizzontally) add more points to the score.\n"
-            + "- Reach 100 points to win! If you finish available moves, you lose.";
+            + "- Bigger pieces give you more points.\n"
+            + "- Each completed row adds extra points.\n"
+            + "- Reach 100 points to win. If you run out of moves, you lose.";
     }
 
     @Override
-    public JFrame createGameFrame() {
+    protected JFrame createGameFrame() {
         final TetrisController controller = new TetrisControllerImpl();
-        return controller.getView();
+        final JFrame gameFrame = controller.getView();
+
+        gameFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+        gameFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(final WindowEvent e) {
+                if (resultCallback != null) {
+                    final int resultCode = controller.getState();
+                    resultCallback.onResult(resultCode);
+                }
+            }
+        });
+
+        return gameFrame;
     }
 }

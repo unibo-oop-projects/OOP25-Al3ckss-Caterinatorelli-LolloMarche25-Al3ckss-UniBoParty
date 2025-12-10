@@ -24,7 +24,7 @@ class TetrisModelTest {
         model = new TetrisModelImpl(ROWS, COLS);
         listener = new TestListener();
         model.addListener(listener);
-        listener.reset(); // reset dopo l'inizializzazione di newRack() nel costruttore
+        listener.reset();
     }
 
     /**

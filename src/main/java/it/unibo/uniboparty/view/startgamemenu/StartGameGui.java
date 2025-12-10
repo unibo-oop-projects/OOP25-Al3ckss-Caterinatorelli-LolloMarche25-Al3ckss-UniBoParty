@@ -14,7 +14,7 @@ import javax.swing.JTextField;
 
 import it.unibo.uniboparty.model.startgamemenu.api.LogicStartGame;
 import it.unibo.uniboparty.model.startgamemenu.impl.LogicStartGameImpl;
-import it.unibo.uniboparty.view.board.impl.BoardViewImpl;
+import it.unibo.uniboparty.view.board.impl.MainBoardFrame;
 
 import java.awt.Graphics;
 import java.awt.BorderLayout;
@@ -152,12 +152,7 @@ public final class StartGameGui extends JFrame {
 
         logic.setPlayers(names);
         if (logic.canStartGame()) {
-            final JFrame frame = new JFrame("UniBo Party - Board");
-            frame.setContentPane(new BoardViewImpl());
-            frame.pack();
-            frame.setLocationRelativeTo(null);
-            frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-            frame.setVisible(true);
+            new MainBoardFrame(names);
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(this,
@@ -166,4 +161,5 @@ public final class StartGameGui extends JFrame {
                 JOptionPane.WARNING_MESSAGE);
         }
     }
+
 }

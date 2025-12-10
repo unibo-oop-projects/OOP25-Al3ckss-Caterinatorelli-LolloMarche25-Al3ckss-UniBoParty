@@ -36,7 +36,7 @@ public final class MazeViewImpl extends JFrame implements MazeView {
         this.mazePanel = new MazePanel();
         this.state = 2;
         setTitle("Maze Game");
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         mazePanel.setPreferredSize(new Dimension(
         model.getCols() * CELL_SIZE,
         model.getRows() * CELL_SIZE
