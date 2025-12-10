@@ -8,12 +8,15 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Window;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import it.unibo.uniboparty.controller.minigames.memory.api.MemoryGameController;
 import it.unibo.uniboparty.model.minigames.memory.api.CardReadOnly;
@@ -30,8 +33,6 @@ import it.unibo.uniboparty.view.minigames.memory.api.MemoryGameView;
  *   <li>a top info label with time and moves,</li>
  *   <li>a bottom status label with short messages.</li>
  * </ul>
- * It does not contain game logic: it only reads {@link MemoryGameReadOnlyState}
- * and notifies the {@link MemoryGameController} when the user clicks on a card.
  * </p>
  */
 public final class MemoryGameViewImpl extends JPanel implements MemoryGameView {
@@ -58,6 +59,11 @@ public final class MemoryGameViewImpl extends JPanel implements MemoryGameView {
     private final JButton[][] buttons;
 
     private final ImageIcon questionIcon;
+
+    /**
+     * Used to ensure the end-of-game dialog is shown only once.
+     */
+    private boolean endDialogShown;
 
     private transient MemoryGameController controller;
 
@@ -115,6 +121,8 @@ public final class MemoryGameViewImpl extends JPanel implements MemoryGameView {
         this.add(this.infoLabel, BorderLayout.NORTH);
         this.add(this.gridPanel, BorderLayout.CENTER);
         this.add(this.statusLabel, BorderLayout.SOUTH);
+
+        this.endDialogShown = false;
     }
 
     /**
@@ -148,11 +156,7 @@ public final class MemoryGameViewImpl extends JPanel implements MemoryGameView {
      */
     @Override
     public void render(final MemoryGameReadOnlyState state) {
-        if (state.isGameOver()) {
-            setStatusMessage("Game over. Close the window to return to the board.");
-        } else {
-            setStatusMessage(state.getMessage());
-        }
+        setStatusMessage(state.getMessage());
 
         final List<CardReadOnly> cards = state.getCards();
 
@@ -171,6 +175,23 @@ public final class MemoryGameViewImpl extends JPanel implements MemoryGameView {
 
         if (state.isGameOver()) {
             setAllButtonsDisabled(true);
+
+            if (!this.endDialogShown) {
+                this.endDialogShown = true;
+
+                final Window parent = SwingUtilities.getWindowAncestor(this);
+
+                JOptionPane.showMessageDialog(
+                    parent,
+                    state.getMessage(),
+                    "Memory - Game Over",
+                    JOptionPane.INFORMATION_MESSAGE
+                );
+
+                if (parent != null) {
+                    parent.dispose();
+                }
+            }
         }
     }
 
@@ -199,7 +220,7 @@ public final class MemoryGameViewImpl extends JPanel implements MemoryGameView {
      *
      * @param r         row of the card
      * @param c         column of the card
-     * @param imageName name of the image file (without extension)
+     * @param imageName name of the image file
      */
     private void showCardWithImage(final int r, final int c, final String imageName) {
         final JButton b = this.buttons[r][c];

@@ -81,11 +81,6 @@ public final class WhacAMoleViewImpl extends JPanel implements WhacAMoleView {
 
     /**
      * Creates the Swing GUI for the Whac-A-Mole game.
-     *
-     * <p>
-     * It builds all the components, wires the listeners and
-     * starts a small timer to refresh the UI.
-     * </p>
      */
     public WhacAMoleViewImpl() {
         super(new BorderLayout());
@@ -107,7 +102,6 @@ public final class WhacAMoleViewImpl extends JPanel implements WhacAMoleView {
         this.gameStarted = false;
         this.endDialogShown = false;
 
-        // Load images from resources (same path as in the JavaFX version)
         this.moleIcon = loadScaledIcon("/images/whacamole/mole.png", ICON_SIZE, ICON_SIZE);
         this.bombIcon = loadScaledIcon("/images/whacamole/bomb.png", ICON_SIZE, ICON_SIZE);
 
@@ -127,11 +121,6 @@ public final class WhacAMoleViewImpl extends JPanel implements WhacAMoleView {
     /**
      * Loads an image from the resources folder and resizes it.
      *
-     * <p>
-     * If the file is not found, this method returns {@code null}
-     * so that the game can still work using text instead of icons.
-     * </p>
-     *
      * @param path   resource path of the image
      * @param width  desired width in pixels
      * @param height desired height in pixels
@@ -147,15 +136,6 @@ public final class WhacAMoleViewImpl extends JPanel implements WhacAMoleView {
         return new ImageIcon(scaled);
     }
 
-    /**
-     * Builds the top part of the window.
-     *
-     * <p>
-     * Here we show the current score and the seconds left.
-     * </p>
-     *
-     * @return a panel containing the score and timer labels
-     */
     private JPanel buildTopBar() {
         final JPanel box = new JPanel(new GridLayout(TOP_ROWS, TOP_COLS, TOP_GAP, TOP_GAP));
         box.add(this.scoreLabel);
@@ -163,16 +143,6 @@ public final class WhacAMoleViewImpl extends JPanel implements WhacAMoleView {
         return box;
     }
 
-    /**
-     * Builds the 3x3 grid of holes.
-     *
-     * <p>
-     * Each hole is a {@link JButton}. When the player clicks a button,
-     * we tell the Controller which hole was clicked.
-     * </p>
-     *
-     * @return the panel containing the grid of hole buttons
-     */
     private JPanel buildGrid() {
         final JPanel grid = new JPanel(
             new GridLayout(GRID_ROWS, GRID_COLS, HOLE_GRID_H_GAP, HOLE_GRID_V_GAP));
@@ -205,15 +175,6 @@ public final class WhacAMoleViewImpl extends JPanel implements WhacAMoleView {
         return grid;
     }
 
-    /**
-     * Builds the bottom part of the window.
-     *
-     * <p>
-     * Here we have the Start button and the "game over" message.
-     * </p>
-     *
-     * @return a panel containing the start button and the game over label
-     */
     private JPanel buildBottomBar() {
         final JPanel box = new JPanel(
             new GridLayout(BOTTOM_ROWS, BOTTOM_COLS, BOTTOM_GAP, BOTTOM_GAP));
@@ -222,18 +183,6 @@ public final class WhacAMoleViewImpl extends JPanel implements WhacAMoleView {
         return box;
     }
 
-    /**
-     * Connects the Start button to the game initialization logic.
-     *
-     * <p>
-     * When the player presses Start:
-     * <ul>
-     *   <li>we start a new game in the Controller,</li>
-     *   <li>we disable the Start button,</li>
-     *   <li>we hide the final message.</li>
-     * </ul>
-     * </p>
-     */
     private void wireActions() {
         this.startButton.addActionListener(e -> {
             if (this.gameStarted) {
@@ -248,33 +197,11 @@ public final class WhacAMoleViewImpl extends JPanel implements WhacAMoleView {
         });
     }
 
-    /**
-     * Creates a Swing {@link Timer} that updates the UI every few milliseconds.
-     *
-     * <p>
-     * This timer does not change the game logic directly: it only calls
-     * {@link #refreshUI()} to redraw what the screen should show.
-     * The logic itself is updated by the Controller's internal timer.
-     * </p>
-     */
     private void setupUIRefreshLoop() {
         this.uiRefreshLoop = new Timer(UI_REFRESH_MILLIS, e -> refreshUI());
         this.uiRefreshLoop.start();
     }
 
-    /**
-     * Updates the graphics depending on what the Controller says.
-     *
-     * <p>
-     * This method:
-     * <ul>
-     *   <li>updates the score and timer labels,</li>
-     *   <li>shows the mole or the bomb in the correct hole,</li>
-     *   <li>disables all holes when the game is over,</li>
-     *   <li>shows the final score when time is up.</li>
-     * </ul>
-     * </p>
-     */
     private void refreshUI() {
         final WhacAMoleGameState state = this.controller.getState();
 
@@ -305,7 +232,6 @@ public final class WhacAMoleViewImpl extends JPanel implements WhacAMoleView {
 
             if (!state.isGameOver() && i == moleIndex) {
 
-                // Show mole or bomb icon (or text fallback if icons are missing)
                 if (isBomb && this.bombIcon != null) {
                     b.setIcon(this.bombIcon);
                     b.setText("");
@@ -351,35 +277,30 @@ public final class WhacAMoleViewImpl extends JPanel implements WhacAMoleView {
                     "Whac-A-Mole - Game Over",
                     JOptionPane.INFORMATION_MESSAGE
                 );
+
+                closeGameWindow();
             }
         }
     }
 
     /**
-     * Returns the final score of the match.
-     *
-     * <p>
-     * This is used by the main UniBoParty board to assign points
-     * to the player after the minigame ends.
-     * </p>
-     *
-     * @return the score stored in the Model at the end of the game
+     * Closes the top-level game window that contains this panel.
      */
+    private void closeGameWindow() {
+        final java.awt.Window window =
+            javax.swing.SwingUtilities.getWindowAncestor(this);
+        if (window != null) {
+            window.dispose();
+        }
+    }
+
     @Override
     public int getFinalScore() {
         return this.controller.getState().getScore();
     }
 
     /**
-     * Returns the encoded game result from the controller.
-     *
-     * <p>
-     * 2 = game in progress,
-     * 1 = game won,
-     * 0 = game lost.
-     * </p>
-     *
-     * @return the result code
+     * @return the encoded result of the Whac-A-Mole match
      */
     public int getResultCode() {
         return this.controller.getResultCode();

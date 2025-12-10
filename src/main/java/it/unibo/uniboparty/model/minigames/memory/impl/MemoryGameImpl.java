@@ -104,19 +104,16 @@ public final class MemoryGameImpl implements MemoryGameModel {
     @Override
     public boolean flipCard(final int index) {
 
-        // Do not accept new clicks if the game is already over
         if (this.isGameOver()) {
             this.lastMessage = "The game is already over.";
             return false;
         }
 
-        // Do not accept new clicks if there is a mismatch still visible
         if (this.mismatchPending) {
             this.lastMessage = "Are you in a hurry?";
             return false;
         }
 
-        // Check that the index is inside the deck bounds
         if (!isValidIndex(index)) {
             this.lastMessage = "You are not supposed to be here!";
             return false;
@@ -124,16 +121,13 @@ public final class MemoryGameImpl implements MemoryGameModel {
 
         final Card selected = this.cards.get(index);
 
-        // Ignore clicks on already revealed cards
         if (selected.isRevealed()) {
-            this.lastMessage = "This card is already revealed. U blind?";
+            this.lastMessage = "This card is already revealed.";
             return false;
         }
 
-        // Reveal the chosen card
         selected.reveal();
 
-        // First card of the turn
         if (this.firstSelectedCard == null) {
             this.firstSelectedCard = selected;
             this.secondSelectedCard = null;
@@ -141,31 +135,24 @@ public final class MemoryGameImpl implements MemoryGameModel {
             return true;
         }
 
-        // Second card of the turn
         this.secondSelectedCard = selected;
 
-        // Every time you flip the second card, it counts as a move
         this.moves++;
 
         if (checkForMatch(this.firstSelectedCard, this.secondSelectedCard)) {
             this.matchedPairs++;
 
             if (this.matchedPairs == this.totalPairs) {
-                // All pairs found: victory, regardless of move limit
-                this.lastMessage = "Congratulations! You win in " + this.moves + " moves!";
+                this.lastMessage = "Congratulations! You found all pairs in " + this.moves + " moves!";
             } else if (this.moves > this.maxMoves) {
-                // Move limit exceeded before finding all pairs: defeat
                 this.gameLost = true;
                 this.lastMessage = String.format(MOVE_LIMIT_MESSAGE, this.maxMoves);
             } else {
                 this.lastMessage = "It's a match!";
             }
 
-            // Turn is finished, no mismatch to resolve
             endTurn();
         } else {
-            // NO MATCH:
-            // Keep both cards visible and wait for resolveMismatch()
             this.mismatchPending = true;
 
             if (this.moves > this.maxMoves && this.matchedPairs < this.totalPairs) {
@@ -194,7 +181,9 @@ public final class MemoryGameImpl implements MemoryGameModel {
         if (this.gameLost) {
             this.lastMessage = String.format(MOVE_LIMIT_MESSAGE, this.maxMoves);
         } else if (this.isGameOver()) {
-            this.lastMessage = "You found all pairs in " + this.moves + " moves!";
+            // In pratica non dovrebbe quasi mai capitare qui,
+            // ma teniamo un messaggio coerente con la vittoria.
+            this.lastMessage = "Congratulations! You found all pairs in " + this.moves + " moves!";
         } else {
             this.lastMessage = "Try again!";
         }

@@ -59,6 +59,11 @@ public final class MainBoardFrame extends JFrame {
     private final JButton rollButton;
 
     /**
+     * Label that shows whose turn it is.
+     */
+    private final JLabel currentPlayerLabel;
+
+    /**
      * Index of the player who triggered the last minigame.
      */
     private int lastPlayerIndex;
@@ -102,8 +107,23 @@ public final class MainBoardFrame extends JFrame {
         this.lastPlayerIndex = 0;
         this.lastMinigameId = null;
 
+        /*
+         * Top panel: shows which player's turn it is.
+         */
+        final JPanel topPanel = new JPanel();
+        this.currentPlayerLabel = new JLabel();
+        updateCurrentPlayerLabel();
+        topPanel.add(this.currentPlayerLabel);
+        this.add(topPanel, BorderLayout.NORTH);
+
+        /*
+         * Center: the board.
+         */
         this.add(this.boardView, BorderLayout.CENTER);
 
+        /*
+         * Bottom panel: dice result + roll button.
+         */
         final JPanel bottomPanel = new JPanel();
         this.diceResultLabel = new JLabel("Roll the dice to start");
         this.rollButton = new JButton("Roll dice");
@@ -117,6 +137,14 @@ public final class MainBoardFrame extends JFrame {
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+    }
+
+    /**
+     * Updates the label that shows whose turn it is.
+     */
+    private void updateCurrentPlayerLabel() {
+        final Player current = this.playerManager.getCurrentPlayer();
+        this.currentPlayerLabel.setText("È il turno di: " + current.getName());
     }
 
     /**
@@ -143,6 +171,8 @@ public final class MainBoardFrame extends JFrame {
 
         if (this.lastMinigameId != null) {
             launchMinigame(this.lastMinigameId);
+        } else if (!result.gameEnded()) {
+            updateCurrentPlayerLabel();
         }
 
         if (result.gameEnded()) {
@@ -227,6 +257,7 @@ public final class MainBoardFrame extends JFrame {
             this.rollButton.setEnabled(false);
             showLeaderboard();
         } else {
+            updateCurrentPlayerLabel();
             this.rollButton.setEnabled(true);
         }
     }
@@ -244,8 +275,7 @@ public final class MainBoardFrame extends JFrame {
         final List<it.unibo.uniboparty.model.end_screen.api.Player> leaderboardPlayers
             = new ArrayList<>();
 
-        final List<Player> players
-            = this.playerManager.getPlayers();
+        final List<Player> players = this.playerManager.getPlayers();
 
         for (int i = 0; i < numPlayers; i++) {
             final Player p = players.get(i);
