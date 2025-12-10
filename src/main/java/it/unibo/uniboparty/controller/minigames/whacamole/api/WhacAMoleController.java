@@ -61,4 +61,17 @@ public interface WhacAMoleController {
      * </p>
      */
     void stopIfGameOver();
+
+    /**
+     * Encoded result of the current match.
+     *
+     * <ul>
+     *   <li>2 = game still in progress</li>
+     *   <li>1 = game won</li>
+     *   <li>0 = game lost</li>
+     * </ul>
+     *
+     * @return the result code
+     */
+    int getResultCode();
 }

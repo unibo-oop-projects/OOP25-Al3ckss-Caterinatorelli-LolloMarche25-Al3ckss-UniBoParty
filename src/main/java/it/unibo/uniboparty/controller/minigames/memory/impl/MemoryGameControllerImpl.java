@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import javax.swing.JOptionPane;
 
 import it.unibo.uniboparty.controller.minigames.memory.api.MemoryGameController;
 import it.unibo.uniboparty.model.minigames.memory.api.Card;
@@ -74,6 +75,11 @@ public final class MemoryGameControllerImpl implements MemoryGameController {
     private final Timer timer;
 
     /**
+     * True when the end-of-game dialog has already been shown.
+     */
+    private boolean endDialogShown;
+
+    /**
      * Private constructor: the controller creates both model and view by itself.
      *
      * <p>
@@ -82,28 +88,23 @@ public final class MemoryGameControllerImpl implements MemoryGameController {
      * </p>
      */
     private MemoryGameControllerImpl() {
-        // Create a shuffled deck (8 pairs for a 4x4 grid)
         final int numberOfPairs = ROWS * COLS / 2;
         final MemoryDeckFactory factory = new MemoryDeckFactoryImpl();
         final List<Card> deck = factory.createShuffledDeck(numberOfPairs);
 
-        // Create the model
         this.game = new MemoryGameImpl(deck);
 
-        // Create the view and connect it to this controller
         this.view = new MemoryGameViewImpl();
         this.view.setController(this);
 
-        // First render of the UI
         final MemoryGameReadOnlyState initialState = this.game.getGameState();
         this.view.render(initialState);
 
-        // Initialize timer and info panel (time + moves)
         this.secondsPassed = 0;
         this.resultCode = RESULT_IN_PROGRESS;
+        this.endDialogShown = false;
         this.view.updateInfoPanel(this.secondsPassed, initialState.getMoves());
 
-        // Swing timer that fires every second to update the info panel
         this.timer = new Timer(TIME_TICK_MILLIS, e -> {
             this.secondsPassed++;
             final MemoryGameReadOnlyState current = this.game.getGameState();
@@ -162,37 +163,25 @@ public final class MemoryGameControllerImpl implements MemoryGameController {
      */
     @Override
     public void onCardClicked(final int r, final int c) {
-        // Convert 2D position (row, col) into 1D index in the deck
         final int index = r * COLS + c;
 
-        // Try to flip the card in the model.
-        // If flipCard() returns false, the move is ignored.
         final boolean accepted = this.game.flipCard(index);
 
-        // State immediately after the flip attempt
         final MemoryGameReadOnlyState stateAfterFlip = this.game.getGameState();
 
-        // Update the view to show what happened
         this.view.render(stateAfterFlip);
         this.view.updateInfoPanel(this.secondsPassed, stateAfterFlip.getMoves());
 
-        // If the move was not accepted, nothing more to do
         if (!accepted) {
             return;
         }
 
-        // Decide if the turn is complete.
-        // waitingSecondFlip == true  -> only the first card has been flipped
-        // waitingSecondFlip == false -> the turn is complete (2 cards flipped)
         final boolean closedTurn = !stateAfterFlip.isWaitingSecondFlip();
 
-        // Case A: the turn is NOT closed yet (only the first card flipped)
         if (!closedTurn) {
             return;
         }
 
-        // Case B: the turn is closed (2 cards flipped)
-        // Check if there is a mismatch to handle or if the game is over
         if (this.game.hasMismatchPending()) {
             handleMismatch();
         } else if (stateAfterFlip.isGameOver()) {
@@ -209,23 +198,18 @@ public final class MemoryGameControllerImpl implements MemoryGameController {
      * </p>
      */
     private void handleMismatch() {
-        // Disable all buttons while we wait to hide the cards
         this.view.setAllButtonsDisabled(true);
 
-        // Single-shot Swing timer that waits before hiding the mismatch
         final Timer mismatchTimer = new Timer(MISMATCH_DELAY_MILLIS, e -> {
-            // Ask the model to hide the mismatching cards and end the turn
             this.game.resolveMismatch();
 
             final MemoryGameReadOnlyState afterHide = this.game.getGameState();
             this.view.render(afterHide);
             this.view.updateInfoPanel(this.secondsPassed, afterHide.getMoves());
 
-            // If the game ended after this move, stop everything
             if (afterHide.isGameOver()) {
                 endGame();
             } else {
-                // Otherwise, re-enable the buttons to continue playing
                 this.view.setAllButtonsDisabled(false);
             }
 
@@ -237,7 +221,8 @@ public final class MemoryGameControllerImpl implements MemoryGameController {
 
     /**
      * Called when the game is over.
-     * Stops the timer and disables all buttons in the view.
+     * Stops the timer, disables all buttons and shows a dialog
+     * with the final result.
      */
     private void endGame() {
         this.timer.stop();
@@ -248,6 +233,26 @@ public final class MemoryGameControllerImpl implements MemoryGameController {
             this.resultCode = RESULT_WON;
         } else {
             this.resultCode = RESULT_LOST;
+        }
+
+        if (!this.endDialogShown) {
+            this.endDialogShown = true;
+
+            final String message;
+            if (this.resultCode == RESULT_WON) {
+                message = "You win!\nYou found all pairs in "
+                        + finalState.getMoves() + " moves.";
+            } else {
+                message = "You lost.\nYou used "
+                        + finalState.getMoves() + " moves.";
+            }
+
+            JOptionPane.showMessageDialog(
+                (JPanel) this.view,
+                message,
+                "Memory - Game Over",
+                JOptionPane.INFORMATION_MESSAGE
+            );
         }
     }
 }

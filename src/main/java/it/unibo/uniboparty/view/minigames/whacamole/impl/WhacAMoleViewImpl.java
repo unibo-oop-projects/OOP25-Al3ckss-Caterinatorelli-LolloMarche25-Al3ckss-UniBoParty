@@ -8,6 +8,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.net.URL;
 
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -76,6 +77,7 @@ public final class WhacAMoleViewImpl extends JPanel implements WhacAMoleView {
 
     private Timer uiRefreshLoop;
     private boolean gameStarted;
+    private boolean endDialogShown;
 
     /**
      * Creates the Swing GUI for the Whac-A-Mole game.
@@ -103,6 +105,7 @@ public final class WhacAMoleViewImpl extends JPanel implements WhacAMoleView {
 
         this.holeButtons = new JButton[TOTAL_HOLES];
         this.gameStarted = false;
+        this.endDialogShown = false;
 
         // Load images from resources (same path as in the JavaFX version)
         this.moleIcon = loadScaledIcon("/images/whacamole/mole.png", ICON_SIZE, ICON_SIZE);
@@ -270,8 +273,6 @@ public final class WhacAMoleViewImpl extends JPanel implements WhacAMoleView {
      *   <li>disables all holes when the game is over,</li>
      *   <li>shows the final score when time is up.</li>
      * </ul>
-     * It does not contain game logic: it only reads the state and
-     * updates the buttons.
      * </p>
      */
     private void refreshUI() {
@@ -339,8 +340,18 @@ public final class WhacAMoleViewImpl extends JPanel implements WhacAMoleView {
 
             this.controller.stopIfGameOver();
 
-            this.gameOverLabel.setText("TIME'S UP! Final Score: " + state.getScore());
+            this.gameOverLabel.setText("TIME'S UP!");
             this.gameOverLabel.setVisible(true);
+
+            if (!this.endDialogShown) {
+                this.endDialogShown = true;
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Time's up!\nFinal score: " + state.getScore(),
+                    "Whac-A-Mole - Game Over",
+                    JOptionPane.INFORMATION_MESSAGE
+                );
+            }
         }
     }
 
@@ -357,5 +368,20 @@ public final class WhacAMoleViewImpl extends JPanel implements WhacAMoleView {
     @Override
     public int getFinalScore() {
         return this.controller.getState().getScore();
+    }
+
+    /**
+     * Returns the encoded game result from the controller.
+     *
+     * <p>
+     * 2 = game in progress,
+     * 1 = game won,
+     * 0 = game lost.
+     * </p>
+     *
+     * @return the result code
+     */
+    public int getResultCode() {
+        return this.controller.getResultCode();
     }
 }

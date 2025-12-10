@@ -67,13 +67,11 @@ public final class MemoryGameViewImpl extends JPanel implements MemoryGameView {
     public MemoryGameViewImpl() {
         super(new BorderLayout());
 
-        // Top info label (time + moves)
         this.infoLabel = new JLabel("Time: 0s | Moves: 0", JLabel.CENTER);
         this.infoLabel.setBorder(
             javax.swing.BorderFactory.createEmptyBorder(
                 INFO_PADDING, INFO_PADDING, INFO_PADDING, INFO_PADDING));
 
-        // Bottom status label (messages)
         this.statusLabel = new JLabel("Welcome! Let's play!", JLabel.CENTER);
         this.statusLabel.setBorder(
             javax.swing.BorderFactory.createEmptyBorder(
@@ -82,7 +80,6 @@ public final class MemoryGameViewImpl extends JPanel implements MemoryGameView {
             this.statusLabel.getFont().deriveFont(Font.PLAIN, STATUS_FONT_SIZE));
         this.statusLabel.setForeground(Color.DARK_GRAY);
 
-        // Center grid with 4x4 cards
         this.gridPanel = new JPanel(new GridLayout(ROWS, COLS, 10, 10));
         this.gridPanel.setBorder(
             javax.swing.BorderFactory.createEmptyBorder(
@@ -90,11 +87,9 @@ public final class MemoryGameViewImpl extends JPanel implements MemoryGameView {
 
         this.buttons = new JButton[ROWS][COLS];
 
-        // Load default "question mark" image for hidden cards
         this.questionIcon = loadScaledIcon("/images/memory/question.png",
                 CARD_IMG_SIZE, CARD_IMG_SIZE);
 
-        // Create all card buttons
         for (int r = 0; r < ROWS; r++) {
             for (int c = 0; c < COLS; c++) {
                 final JButton cardButton = new JButton("?");
@@ -106,7 +101,6 @@ public final class MemoryGameViewImpl extends JPanel implements MemoryGameView {
                 final int rr = r;
                 final int cc = c;
 
-                // When the button is clicked, notify the controller
                 cardButton.addActionListener(e -> {
                     if (this.controller != null) {
                         this.controller.onCardClicked(rr, cc);
@@ -118,7 +112,6 @@ public final class MemoryGameViewImpl extends JPanel implements MemoryGameView {
             }
         }
 
-        // Layout: info on top, grid center, status bottom
         this.add(this.infoLabel, BorderLayout.NORTH);
         this.add(this.gridPanel, BorderLayout.CENTER);
         this.add(this.statusLabel, BorderLayout.SOUTH);
@@ -155,27 +148,27 @@ public final class MemoryGameViewImpl extends JPanel implements MemoryGameView {
      */
     @Override
     public void render(final MemoryGameReadOnlyState state) {
-        setStatusMessage(state.getMessage());
+        if (state.isGameOver()) {
+            setStatusMessage("Game over. Close the window to return to the board.");
+        } else {
+            setStatusMessage(state.getMessage());
+        }
 
         final List<CardReadOnly> cards = state.getCards();
 
-        // Update every button according to the card at the same position
         for (int r = 0; r < ROWS; r++) {
             for (int c = 0; c < COLS; c++) {
                 final int index = r * COLS + c;
                 final CardReadOnly card = cards.get(index);
 
                 if (card.isRevealed()) {
-                    // Show the real symbol image
                     showCardWithImage(r, c, card.getSymbol().toString());
                 } else {
-                    // Show the hidden card
                     hideCard(r, c);
                 }
             }
         }
 
-        // If the game is over, disable further input
         if (state.isGameOver()) {
             setAllButtonsDisabled(true);
         }
@@ -218,7 +211,6 @@ public final class MemoryGameViewImpl extends JPanel implements MemoryGameView {
             b.setIcon(icon);
             b.setText("");
         } else {
-            // Fallback: no image found, show the symbol text
             b.setIcon(null);
             b.setText(imageName);
         }

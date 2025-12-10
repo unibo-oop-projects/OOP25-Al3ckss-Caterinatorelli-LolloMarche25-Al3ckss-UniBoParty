@@ -24,6 +24,11 @@ public final class MemoryGameImpl implements MemoryGameModel {
     private static final int MOVES_PER_PAIR_LIMIT = 3;
 
     /**
+     * Message shown when the player exceeds the move limit.
+     */
+    private static final String MOVE_LIMIT_MESSAGE = "You lost: move limit (%d) exceeded.";
+
+    /**
      * All the cards in the current game.
      */
     private final List<Card> cards; 
@@ -151,7 +156,7 @@ public final class MemoryGameImpl implements MemoryGameModel {
             } else if (this.moves > this.maxMoves) {
                 // Move limit exceeded before finding all pairs: defeat
                 this.gameLost = true;
-                this.lastMessage = "You lost: move limit (" + this.maxMoves + ") exceeded.";
+                this.lastMessage = String.format(MOVE_LIMIT_MESSAGE, this.maxMoves);
             } else {
                 this.lastMessage = "It's a match!";
             }
@@ -165,7 +170,7 @@ public final class MemoryGameImpl implements MemoryGameModel {
 
             if (this.moves > this.maxMoves && this.matchedPairs < this.totalPairs) {
                 this.gameLost = true;
-                this.lastMessage = "You lost: move limit (" + this.maxMoves + ") exceeded.";
+                this.lastMessage = String.format(MOVE_LIMIT_MESSAGE, this.maxMoves);
             } else {
                 this.lastMessage = "No match. Try to remember these cards.";
             }
@@ -187,7 +192,7 @@ public final class MemoryGameImpl implements MemoryGameModel {
         this.mismatchPending = false;
 
         if (this.gameLost) {
-            this.lastMessage = "You lost: move limit (" + this.maxMoves + ") exceeded.";
+            this.lastMessage = String.format(MOVE_LIMIT_MESSAGE, this.maxMoves);
         } else if (this.isGameOver()) {
             this.lastMessage = "You found all pairs in " + this.moves + " moves!";
         } else {

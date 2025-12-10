@@ -108,16 +108,9 @@ public final class WhacAMoleControllerImpl implements WhacAMoleController {
     }
 
     /**
-     * Returns the current result code of the game.
-     *
-     * <p>
-     * 2 = game in progress,
-     * 1 = game won (final score &gt; 0),
-     * 0 = game lost (final score == 0).
-     * </p>
-     *
-     * @return the result code
+     * {@inheritDoc}
      */
+    @Override
     public int getResultCode() {
         return this.resultCode;
     }

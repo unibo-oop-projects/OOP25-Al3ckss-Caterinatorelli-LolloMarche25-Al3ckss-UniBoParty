@@ -18,15 +18,7 @@ import it.unibo.uniboparty.controller.board.impl.BoardControllerImpl;
 import it.unibo.uniboparty.model.board.CellType;
 import it.unibo.uniboparty.model.board.api.BoardModel;
 import it.unibo.uniboparty.model.board.impl.BoardModelImpl;
-import it.unibo.uniboparty.utilities.MinigameId;
 import it.unibo.uniboparty.view.board.api.BoardView;
-import it.unibo.uniboparty.view.minigames.dinosaurgame.impl.DinoGameIntroFrame;
-import it.unibo.uniboparty.view.minigames.hangman.impl.HangManIntroFrame;
-import it.unibo.uniboparty.view.minigames.mazegame.impl.MazeIntroFrame;
-import it.unibo.uniboparty.view.minigames.sudoku.impl.SudokuIntroFrame;
-import it.unibo.uniboparty.view.minigames.tetris.impl.TetrisIntroFrame;
-import it.unibo.uniboparty.view.minigames.typeracergame.impl.TyperacerGameIntroFrame;
-import it.unibo.uniboparty.view.minigames.whacamole.impl.WhacAMoleIntroFrame;
 
 /**
  * Swing implementation of the {@link BoardView} interface.
@@ -251,54 +243,15 @@ public final class BoardViewImpl extends JPanel implements BoardView {
     }
 
     /**
-     * Opens the intro screen of the selected minigame.
-     * This method is called internally after updating the player's position.
-     * It is triggered only when the destination cell contains a MINIGAME.
-     *
-     * @param minigameId the identifier of the minigame to launch
-     */
-    private void openMinigameIntro(final MinigameId minigameId) {
-        switch (minigameId) {
-        case GAME_1:
-            new WhacAMoleIntroFrame();
-            break;
-        case GAME_2:
-            new SudokuIntroFrame();
-            break;
-        case GAME_3:
-            new HangManIntroFrame();
-            break;
-        case GAME_4:
-            new MazeIntroFrame();
-            break;
-        case GAME_5:
-            new TetrisIntroFrame();
-            break;
-        case GAME_6:
-            new TyperacerGameIntroFrame();
-            break;
-        case GAME_7:
-            new DinoGameIntroFrame();
-            break;
-        default:
-            // Other games will be added by teammates:
-            // case GAME_2: new MemoryIntroFrame(); break;
-            // case GAME_3: ...
-            break;
-        }
-    }
-
-    /**
-     * Updates the logical position of the player, refreshes the board UI,
-     * and automatically opens the intro screen of the corresponding minigame
-     * if the player lands on a MINIGAME cell.
+     * Updates the player position on the board and refreshes the UI.
      *
      * <p>
-     * This method is typically called by the part of the application that manages
-     * player turns and movement (for example, the players/turn manager).
+     * This method only moves the pawn and redraws the board.
+     * If you want to start a minigame after the move, it must be done
+     * by the code that calls this method.
      * </p>
      *
-     * @param position the index of the destination cell
+     * @param position index of the destination cell
      * @throws IllegalArgumentException if {@code position} is outside the board bounds
      */
     @Override
@@ -309,11 +262,6 @@ public final class BoardViewImpl extends JPanel implements BoardView {
         }
         this.playerPosition = position;
         this.refresh();
-
-        final MinigameId minigame = this.controller.onPlayerLanded(position);
-        if (minigame != null) {
-            this.openMinigameIntro(minigame);
-        }
     }
 
     @Override
