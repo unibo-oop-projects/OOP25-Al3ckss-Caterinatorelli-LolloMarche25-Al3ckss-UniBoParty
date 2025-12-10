@@ -16,6 +16,7 @@ public final class ModelImpl implements Model {
     private static final int DINO_X = GameConfig.INIT_DINO_X;
     private static final int DINO_WIDTH = GameConfig.DINO_WIDTH;
     private static final int DINO_HEIGHT = GameConfig.DINO_HEIGHT;
+    private static final int FRAMES_PER_SECOND = 1000 / GameConfig.TIMER_DELAY_MS;
 
     // Physics constants
     private static final double GRAVITY = GameConfig.GRAVITY;
@@ -64,7 +65,7 @@ public final class ModelImpl implements Model {
         difficulty++;
 
         // Check win condition: survived 30 seconds
-        if (difficulty % (1000 / GameConfig.TIMER_DELAY_MS) == 0) {
+        if (difficulty % FRAMES_PER_SECOND == 0) {
             survivalTime++;
             if (survivalTime >= GameConfig.WIN_TIME_SECONDS) {
                 gameState = GameState.WIN;
@@ -85,43 +86,34 @@ public final class ModelImpl implements Model {
             isJumping = false;
         }
 
-        // find farthest obstacle x (nearest to spawn)
         for (final ObstacleImpl o : obstacles) {
+            o.moveObstacle();
+
             if (o.getObstX() > nearestX) {
                 nearestX = o.getObstX();
             }
-        }
-
-        for (final ObstacleImpl o : obstacles) {
-            o.moveObstacle();
 
             if (o.getObstX() + o.getObstWidth() < 0) {
                 final int newSpeed = GameConfig.OBSTACLE_INITIAL_SPEED
                         + (difficulty / GameConfig.DIFFICULTY_INCREMENT_INTERVAL);
 
-                final ObstacleImpl replacement = ObstacleFactory.create(
+                ObstacleFactory.regenerate(
+                    o,
                     nearestX,
                     GameConfig.GROUND_Y,
                     GameConfig.INIT_OBSTACLE_MIN_DISTANCE,
                     GameConfig.INIT_OBSTACLE_MAX_VARIATION,
                     newSpeed
                 );
-
-                o.reset(
-                    replacement.getObstX(),
-                    replacement.getObstY(),
-                    replacement.getObstWidth(),
-                    replacement.getObstHeight(),
-                    replacement.getObstSpeed()
-                );
             }
         }
 
         // collision detection
         for (final ObstacleImpl o : obstacles) {
-            final boolean overlapX = DINO_X + DINO_WIDTH > o.getObstX()
+                final boolean overlapX = DINO_X + DINO_WIDTH > o.getObstX()
                     && DINO_X < o.getObstX() + o.getObstWidth();
-            final boolean overlapY = dinoY > o.getObstY() - o.getObstHeight();
+                final boolean overlapY = (dinoY + DINO_HEIGHT) > (o.getObstY() - o.getObstHeight())
+                    && dinoY < o.getObstY();
 
             if (overlapX && overlapY) {
                 gameState = GameState.GAME_OVER;

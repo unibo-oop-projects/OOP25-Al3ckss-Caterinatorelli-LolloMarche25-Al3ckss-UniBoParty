@@ -19,7 +19,6 @@ import javax.swing.SwingUtilities;
  */
 public final class GameLauncher {
 
-    private static final String UTILITY = "Utility class";
     private static final Logger LOGGER = Logger.getLogger(GameLauncher.class.getName());
     private static final int SUDOKU_CHOICE = 0;
     private static final int HANGMAN_CHOICE = 1;
@@ -41,7 +40,7 @@ public final class GameLauncher {
      */
     public static void main(final String[] args) {
         SwingUtilities.invokeLater(() -> {
-            final String[] options = {"Sudoku", "Hangman", "WhacaMole", "Tetris", "Maze Game", "TypeRacer", "Dino Run","Memory"};
+            final String[] options = {"Sudoku", "Hangman", "WhacaMole", "Tetris", "Maze Game", "TypeRacer", "Dino Run", "Memory"};
             final int choice = JOptionPane.showOptionDialog(
                     null,
                     "Which game would you like to play?",
@@ -84,6 +83,5 @@ public final class GameLauncher {
             }
         });
     }
-
 
 }

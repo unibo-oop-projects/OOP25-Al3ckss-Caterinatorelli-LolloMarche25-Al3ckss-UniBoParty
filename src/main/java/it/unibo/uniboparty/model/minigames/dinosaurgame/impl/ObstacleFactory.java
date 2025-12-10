@@ -42,4 +42,29 @@ public final class ObstacleFactory {
 
         return new ObstacleImpl(x, groundY, width, height, speed);
     }
+
+    /**
+     * Regenerates an existing obstacle in-place to avoid object churn.
+     *
+     * @param obstacle     the obstacle to reset
+     * @param startX       base x coordinate to start from
+     * @param groundY      ground level y coordinate
+     * @param minDistance  minimum horizontal distance from startX
+     * @param maxVariation maximum additional random variation in distance
+     * @param speed        new speed for the obstacle
+     */
+    public static void regenerate(
+            final ObstacleImpl obstacle,
+            final int startX,
+            final int groundY,
+            final int minDistance,
+            final int maxVariation,
+            final int speed
+    ) {
+        final int[] type = OBSTACLE_TYPES[RANDOM.nextInt(OBSTACLE_TYPES.length)];
+        final int width = type[0];
+        final int height = type[1];
+        final int x = startX + minDistance + RANDOM.nextInt(maxVariation);
+        obstacle.reset(x, groundY, width, height, speed);
+    }
 }
