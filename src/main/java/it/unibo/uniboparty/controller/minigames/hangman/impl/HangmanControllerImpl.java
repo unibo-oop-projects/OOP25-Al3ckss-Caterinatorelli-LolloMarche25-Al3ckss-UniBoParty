@@ -1,46 +1,78 @@
 package it.unibo.uniboparty.controller.minigames.hangman.impl;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import it.unibo.uniboparty.controller.minigames.hangman.api.HangmanController;
 import it.unibo.uniboparty.model.minigames.hangman.api.HangmanModel;
 import it.unibo.uniboparty.view.minigames.hangman.api.HangmanView;
 import it.unibo.uniboparty.model.minigames.hangman.impl.HangmanModelImpl;
 import it.unibo.uniboparty.view.minigames.hangman.impl.HangmanViewImpl;
+import it.unibo.uniboparty.utilities.MinigameResultCallback;
 
 /**
  * Concrete implementation of the {@link HangmanController} interface.
  *
  * <p>
- * This class orchestrates the "Hangman" minigame logic. It bridges the gap between
- * the {@link HangmanModel} (game rules and state) and the {@link HangmanView}
- * (user interface), managing player inputs for both single letter guesses and full word attempts.
+ * This class orchestrates the Hangman minigame: it connects the model and the view
+ * and handles both single-letter guesses and full-word attempts.
+ * </p>
  */
-public class HangmanControllerImpl implements HangmanController {
+public final class HangmanControllerImpl implements HangmanController {
+
+    private static final int RESULT_LOST = 0;
+    private static final int RESULT_WON = 1;
+    private static final int RESULT_IN_PROGRESS = 2;
 
     private final HangmanModel model;
     private final HangmanView view;
+    private final transient MinigameResultCallback resultCallback;
 
     /**
-     * Constructs a new {@code HangmanControllerImpl}.
-     *
-     * <p>
-     * This constructor internally instantiates the concrete {@link HangmanModelImpl}
-     * and {@link HangmanViewImpl} and immediately initializes the game state and
-     * event listeners.
+     * Encoded result of the current match.
+     * 2 = in progress, 1 = win, 0 = loss.
+     */
+    private int resultCode;
+
+    /**
+     * Default constructor: runs the minigame standalone (no callback).
      */
     public HangmanControllerImpl() {
+        this(new HangmanViewImpl(), null);
+    }
+
+    /**
+     * Creates a controller with the given view and an optional callback.
+     *
+     * @param view concrete view implementation
+     * @param resultCallback callback to notify when the game ends, may be {@code null}
+     */
+    @SuppressFBWarnings(
+        value = "EI_EXPOSE_REP2",
+        justification = "The Hangman view is created by the intro frame and then "
+        + "passed to the controller. Sharing this reference is intentional "
+        + "and required by the MVC design."
+    )
+    public HangmanControllerImpl(final HangmanView view, final MinigameResultCallback resultCallback) {
         this.model = new HangmanModelImpl();
-        this.view = new HangmanViewImpl();
+        this.view = view;
+        this.resultCallback = resultCallback;
+        this.resultCode = RESULT_IN_PROGRESS;
 
         initGame();
         initListeners();
     }
 
     /**
-     * Sets up the initial visual state of the game.
+     * Returns the encoded result of the match.
      *
-     * <p>
-     * This method resets the view by displaying the initial masked word (e.g., underscores)
-     * and setting the hangman graphic to the starting state (zero errors).
+     * @return 2 = in progress, 1 = win, 0 = loss
+     */
+    public int getResultCode() {
+        return this.resultCode;
+    }
+
+    /**
+     * Sets up the initial visual state of the game.
      */
     private void initGame() {
         view.updateMaskedWord(model.getMaskedWord());
@@ -49,10 +81,6 @@ public class HangmanControllerImpl implements HangmanController {
 
     /**
      * Registers event listeners for user interactions.
-     *
-     * <p>
-     * Specifically, it maps the letter buttons and the "guess word" input field
-     * from the view to the corresponding handling methods in this controller.
      */
     private void initListeners() {
         view.addLetterListener(e -> {
@@ -74,11 +102,7 @@ public class HangmanControllerImpl implements HangmanController {
     /**
      * Processes a player's guess of a single letter.
      *
-     * <p>
-     * This method disables the corresponding button in the UI, updates the model,
-     * refreshes the masked word and error count on the view, and checks if the game has ended.
-     *
-     * @param letter the character guessed by the player.
+     * @param letter the character guessed by the player
      */
     private void handleLetterGuess(final char letter) {
         view.disableLetterButton(letter);
@@ -91,10 +115,7 @@ public class HangmanControllerImpl implements HangmanController {
     /**
      * Processes a player's guess of the entire word.
      *
-     * <p>
-     * It delegates the word check to the model and updates the view accordingly.
-     *
-     * @param word the string guessed by the player.
+     * @param word the string guessed by the player
      */
     private void handleWordGuess(final String word) {
         model.guessWord(word);
@@ -104,17 +125,31 @@ public class HangmanControllerImpl implements HangmanController {
     }
 
     /**
-     * Checks the current state of the game (victory or defeat).
-     *
-     * <p>
-     * If the game conditions are met (word guessed or max errors reached),
-     * it triggers the appropriate end-game display in the view.
+     * Checks the current state of the game (victory or defeat)
+     * and notifies the view and the optional callback.
      */
     private void checkGameState() {
+        if (this.resultCode != RESULT_IN_PROGRESS) {
+            return;
+        }
+
         if (model.isGameWon()) {
+            this.resultCode = RESULT_WON;
             view.showVictory(model.getSecretWord());
+            notifyResult();
         } else if (model.isGameOver()) {
+            this.resultCode = RESULT_LOST;
             view.showDefeat(model.getSecretWord());
+            notifyResult();
+        }
+    }
+
+    /**
+     * Notifies the board (if present) with the final result code.
+     */
+    private void notifyResult() {
+        if (this.resultCallback != null) {
+            this.resultCallback.onResult(this.resultCode);
         }
     }
 }

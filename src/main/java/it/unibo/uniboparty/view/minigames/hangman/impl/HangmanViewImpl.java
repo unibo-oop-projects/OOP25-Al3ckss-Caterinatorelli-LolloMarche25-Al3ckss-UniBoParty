@@ -1,5 +1,7 @@
 package it.unibo.uniboparty.view.minigames.hangman.impl;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import it.unibo.uniboparty.view.minigames.hangman.api.HangmanView;
 
 import java.awt.BorderLayout;
@@ -26,9 +28,9 @@ import java.util.Map;
  * It organizes the visual components into three main areas:
  *
  * <ul>
- * <li><b>Center:</b> The {@link HangmanDrawPanel} which draws the stick figure.</li>
- * <li><b>North:</b> The display for the secret word (masked or revealed).</li>
- * <li><b>South:</b> The control panel containing the virtual keyboard and the full-word guess input.</li>
+ * <li><b>Center:</b> the {@link HangmanDrawPanel} which draws the stick figure;</li>
+ * <li><b>North:</b> the display for the secret word (masked or revealed);</li>
+ * <li><b>South:</b> the virtual keyboard and the full-word guess input.</li>
  * </ul>
  */
 public final class HangmanViewImpl implements HangmanView {
@@ -42,6 +44,7 @@ public final class HangmanViewImpl implements HangmanView {
     private static final int K_GAP = 5;
     private static final int BORDER_LEN = 20;
     private static final int TEXT_FIELD = 10;
+
     private final JFrame frame;
     private final JLabel wordLabel;
     private final HangmanDrawPanel drawPanel;
@@ -56,11 +59,6 @@ public final class HangmanViewImpl implements HangmanView {
 
     /**
      * Constructs the Hangman View.
-     *
-     * <p>
-     * Initializes the main frame, sets up the layout including the custom drawing panel,
-     * the masked word display, and the interaction panel (virtual keyboard and text input).
-     * Finally, it makes the frame visible to the user.
      */
     public HangmanViewImpl() {
         frame = new JFrame("Hangman");
@@ -92,7 +90,7 @@ public final class HangmanViewImpl implements HangmanView {
         southPanel.add(keyboardPanel, BorderLayout.CENTER);
 
         final JPanel guessPanel = new JPanel();
-        guessPanel.add(new JLabel("O indovina la parola:"));
+        guessPanel.add(new JLabel("Or guess the whole word:"));
         guessField = new JTextField(TEXT_FIELD);
         guessButton = new JButton("Guess!");
         guessPanel.add(guessField);
@@ -101,6 +99,22 @@ public final class HangmanViewImpl implements HangmanView {
 
         frame.add(southPanel, BorderLayout.SOUTH);
         frame.setVisible(true);
+    }
+
+    /**
+     * Returns the top-level frame used by this view.
+     *
+     * @return the Swing {@link JFrame} that shows the game
+     */
+    @SuppressFBWarnings(
+            value = "EI_EXPOSE_REP",
+            justification = "The JFrame is the top-level Swing window of the Hangman view. "
+                    + "It is intentionally exposed so that external code can show and dispose "
+                    + "the minigame window, without modifying the internal state of the view "
+                    + "beyond standard Swing usage."
+    )
+    public JFrame getFrame() {
+        return this.frame;
     }
 
     @Override
@@ -140,15 +154,23 @@ public final class HangmanViewImpl implements HangmanView {
 
     @Override
     public void showVictory(final String secretWord) {
-        JOptionPane.showMessageDialog(frame,
-                "You Won! The word was: " + secretWord, "Victory", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(
+                frame,
+                "You Won! The word was: " + secretWord,
+                "Victory",
+                JOptionPane.INFORMATION_MESSAGE
+        );
         frame.dispose();
     }
 
     @Override
     public void showDefeat(final String secretWord) {
-        JOptionPane.showMessageDialog(frame,
-                "You Lost! The word was: " + secretWord, "Lost", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(
+                frame,
+                "You Lost! The word was: " + secretWord,
+                "Lost",
+                JOptionPane.ERROR_MESSAGE
+        );
         frame.dispose();
     }
 }

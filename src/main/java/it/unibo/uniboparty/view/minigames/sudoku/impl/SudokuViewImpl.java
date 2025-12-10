@@ -1,5 +1,7 @@
 package it.unibo.uniboparty.view.minigames.sudoku.impl;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import it.unibo.uniboparty.view.minigames.sudoku.api.ISudokuView;
 
 import java.awt.BorderLayout;
@@ -247,6 +249,21 @@ public class SudokuViewImpl extends JFrame implements ISudokuView {
                 boardpanel.add(tile);
             }
         }
+    }
+
+    /**
+     * Returns the main frame used by this view.
+     *
+     * @return the underlying {@link JFrame}
+     */
+    @SuppressFBWarnings(
+            value = "EI_EXPOSE_REP",
+            justification = "The JFrame is the main Sudoku window and needs to be "
+                    + "returned so that other components (controllers / intro frame) "
+                    + "can show or close it. This is an intentional exposure."
+    )
+    public JFrame getFrame() {
+        return this.frame;
     }
 
     /**
