@@ -17,7 +17,7 @@ import it.unibo.uniboparty.view.minigames.mazegame.api.GameObserver;
  */
 public class MazeModelImpl implements MazeModel {
     private static final int MINUTE_MILLIS = 30_000;
-    private static final int MAX_MOVES_NUM = 65;
+    private static final int MAX_MOVES_NUM = 80;
     private final MazeGridImpl grid;
     private final Player player;
 
