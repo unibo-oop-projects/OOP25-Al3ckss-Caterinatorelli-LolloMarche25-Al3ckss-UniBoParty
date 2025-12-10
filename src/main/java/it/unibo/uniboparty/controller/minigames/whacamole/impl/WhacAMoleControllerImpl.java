@@ -11,7 +11,7 @@ import it.unibo.uniboparty.model.minigames.whacamole.impl.WhacAMoleGame;
 
 /**
  * Default Swing implementation of the {@link WhacAMoleController} interface.
- * 
+ *
  * <p>
  * This Controller:
  * <ul>
@@ -35,6 +35,11 @@ public final class WhacAMoleControllerImpl implements WhacAMoleController {
     private static final int RESULT_LOST = 0;
     private static final int RESULT_WON = 1;
     private static final int RESULT_IN_PROGRESS = 2;
+
+    /**
+     * Minimum score required to win the game.
+     */
+    private static final int MIN_SCORE_TO_WIN = 10;
 
     private final WhacAMoleModel game;
     private Timer gameLoop;
@@ -60,12 +65,10 @@ public final class WhacAMoleControllerImpl implements WhacAMoleController {
         this.game.startGame();
         this.resultCode = RESULT_IN_PROGRESS;
 
-        // If a previous loop exists, stop it before starting a new one
         if (this.gameLoop != null) {
             this.gameLoop.stop();
         }
 
-        // Create a periodic task that advances the game logic
         final ActionListener task = e -> {
             updateGameLogic(TICK_MILLIS);
             stopIfGameOver();
@@ -124,10 +127,9 @@ public final class WhacAMoleControllerImpl implements WhacAMoleController {
         if (this.gameLoop != null && state.isGameOver()) {
             this.gameLoop.stop();
 
-            // Simple rule:
-            // if the player scored at least 1 point, consider it a win,
-            // otherwise it is a loss.
-            if (state.getScore() > 0) {
+            final int finalScore = state.getScore();
+
+            if (finalScore >= MIN_SCORE_TO_WIN) {
                 this.resultCode = RESULT_WON;
             } else {
                 this.resultCode = RESULT_LOST;
