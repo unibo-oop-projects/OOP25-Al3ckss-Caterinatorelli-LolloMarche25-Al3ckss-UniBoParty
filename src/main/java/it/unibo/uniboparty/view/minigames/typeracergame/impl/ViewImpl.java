@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
@@ -142,16 +143,30 @@ public final class ViewImpl extends JPanel implements View, GameObserver {
     @Override
     public void showFinalScore(final int finalScore) {
         SwingUtilities.invokeLater(() -> {
-            wordLabel.setText("Game Over! Final Score: " + finalScore);
+            wordLabel.setText("Game Over!");
             textField.setEnabled(false);
+
+            JOptionPane.showMessageDialog(
+                this,
+                "Time's up!\nFinal score: " + finalScore + " words",
+                "TypeRacer - Game Over",
+                JOptionPane.INFORMATION_MESSAGE
+            );
         });
     }
 
     @Override
     public void showVictoryMessage(final int finalScore) {
         SwingUtilities.invokeLater(() -> {
-            wordLabel.setText("You Win! Score: " + finalScore + " words!");
+            wordLabel.setText("You Win!");
             textField.setEnabled(false);
+
+            JOptionPane.showMessageDialog(
+                this,
+                "Congratulations!\nFinal score: " + finalScore + " words",
+                "TypeRacer - Victory",
+                JOptionPane.INFORMATION_MESSAGE
+            );
         });
     }
 

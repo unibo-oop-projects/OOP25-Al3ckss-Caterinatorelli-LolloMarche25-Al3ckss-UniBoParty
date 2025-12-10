@@ -54,9 +54,12 @@ public final class ControllerImpl implements Controller {
                 model.update();
 
                 // Stop timer if game over or won
-                if (model.getGameState() == GameState.GAME_OVER
-                        || model.getGameState() == GameState.WIN) {
+                if (model.getGameState() == GameState.GAME_OVER) {
                     timer.stop();
+                    view.showEndGameDialog(false);
+                } else if (model.getGameState() == GameState.WIN) {
+                    timer.stop();
+                    view.showEndGameDialog(true);
                 }
             }
         });

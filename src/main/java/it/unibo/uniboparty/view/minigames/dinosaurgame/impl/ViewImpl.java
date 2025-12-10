@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.event.KeyListener;
 import java.util.Objects;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -89,5 +90,24 @@ public final class ViewImpl extends JPanel implements View, GameObserver {
      */
     public void setPanelFocusable(final boolean focusable) {
         gamePanel.setFocusable(focusable);
+    }
+
+    /**
+     * Shows the end game dialog with a message and a back button.
+     *
+     * @param won true if the player won, false if lost
+     */
+    public void showEndGameDialog(final boolean won) {
+        SwingUtilities.invokeLater(() -> {
+            final String message = won ? "You Won!\n\nCongratulations!" : "You Lost!\n\nBetter luck next time!";
+            final String title = won ? "Dinosaur Run - Victory" : "Dinosaur Run - Game Over";
+
+            JOptionPane.showMessageDialog(
+                this,
+                message,
+                title,
+                won ? JOptionPane.INFORMATION_MESSAGE : JOptionPane.WARNING_MESSAGE
+            );
+        });
     }
 }
