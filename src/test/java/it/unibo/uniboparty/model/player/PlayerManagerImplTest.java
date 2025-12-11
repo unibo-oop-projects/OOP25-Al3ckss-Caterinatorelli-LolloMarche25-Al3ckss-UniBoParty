@@ -26,9 +26,15 @@ class PlayerManagerImplTest {
 
     private static final int BOARD_SIZE = 20;
     private static final int NUM_PLAYERS = 3;
+    private static final int CELL_POSITION_3 = 3;
+    private static final int CELL_POSITION_5 = 5;
+    private static final int CELL_POSITION_6 = 6;
+    private static final int CELL_POSITION_8 = 8;
+    private static final int SCORE_10 = 10;
+    private static final int SCORE_5 = 5;
+
     private PlayerManager playerManager;
     private List<Player> players;
-    private MockBoardView boardView;
     private MockBoardController boardController;
 
     @BeforeEach
@@ -39,7 +45,7 @@ class PlayerManagerImplTest {
             new Player("Charlie")
         );
 
-        boardView = new MockBoardView();
+        final MockBoardView boardView = new MockBoardView();
         boardController = new MockBoardController(BOARD_SIZE);
         playerManager = new PlayerManagerImpl(players, boardView, boardController);
     }
@@ -65,18 +71,18 @@ class PlayerManagerImplTest {
     @Test
     void testScoreManagement() {
         assertEquals(0, playerManager.getScore(0));
-        playerManager.addScore(0, 10);
-        assertEquals(10, playerManager.getScore(0));
-        playerManager.addScore(1, 5);
-        assertEquals(5, playerManager.getScore(1));
+        playerManager.addScore(0, SCORE_10);
+        assertEquals(SCORE_10, playerManager.getScore(0));
+        playerManager.addScore(1, SCORE_5);
+        assertEquals(SCORE_5, playerManager.getScore(1));
     }
 
     @Test
     void testPlayTurnNormalCell() {
-        boardController.setCellType(3, CellType.NORMAL);
-        final TurnResult result = playerManager.playTurn(3);
+        boardController.setCellType(CELL_POSITION_3, CellType.NORMAL);
+        final TurnResult result = playerManager.playTurn(CELL_POSITION_3);
 
-        assertEquals(3, result.newPosition());
+        assertEquals(CELL_POSITION_3, result.newPosition());
         assertNull(result.minigameToStart());
         assertFalse(result.gameEnded());
         assertEquals(1, playerManager.getCurrentPlayerIndex());
@@ -84,25 +90,25 @@ class PlayerManagerImplTest {
 
     @Test
     void testPlayTurnMinigameCell() {
-        boardController.setCellType(5, CellType.MINIGAME);
-        boardController.setMinigame(5, MinigameId.GAME_1);
+        boardController.setCellType(CELL_POSITION_5, CellType.MINIGAME);
+        boardController.setMinigame(CELL_POSITION_5, MinigameId.GAME_1);
 
-        final TurnResult result = playerManager.playTurn(5);
+        final TurnResult result = playerManager.playTurn(CELL_POSITION_5);
 
-        assertEquals(5, result.newPosition());
+        assertEquals(CELL_POSITION_5, result.newPosition());
         assertEquals(MinigameId.GAME_1, result.minigameToStart());
         assertFalse(result.gameEnded());
     }
 
     @Test
     void testPlayTurnBack2Cell() {
-        players.get(0).setPosition(5);
-        boardController.setCellType(8, CellType.BACK_2);
+        players.get(0).setPosition(CELL_POSITION_5);
+        boardController.setCellType(CELL_POSITION_8, CellType.BACK_2);
 
-        final TurnResult result = playerManager.playTurn(3);
+        final TurnResult result = playerManager.playTurn(CELL_POSITION_3);
 
-        assertEquals(6, result.newPosition());
-        assertEquals(6, players.get(0).getPosition());
+        assertEquals(CELL_POSITION_6, result.newPosition());
+        assertEquals(CELL_POSITION_6, players.get(0).getPosition());
     }
 
     @Test
@@ -118,19 +124,19 @@ class PlayerManagerImplTest {
 
     @Test
     void testApplyMinigameResultWin() {
-        players.get(0).setPosition(5);
+        players.get(0).setPosition(CELL_POSITION_5);
         playerManager.applyMinigameResult(0, MinigameId.GAME_2, 1);
-        assertEquals(6, players.get(0).getPosition());
+        assertEquals(CELL_POSITION_6, players.get(0).getPosition());
     }
 
     @Test
     void testApplyMinigameResultLoss() {
-        players.get(0).setPosition(5);
+        players.get(0).setPosition(CELL_POSITION_5);
         playerManager.applyMinigameResult(0, MinigameId.GAME_3, 0);
-        assertEquals(4, players.get(0).getPosition());
+        assertEquals(CELL_POSITION_5 - 1, players.get(0).getPosition());
     }
 
-    private static class MockBoardView implements BoardView {
+    private static final class MockBoardView implements BoardView {
         @Override
         public void setPlayerPosition(final int position) {
             // Not needed for tests
@@ -142,7 +148,7 @@ class PlayerManagerImplTest {
         }
     }
 
-    private static class MockBoardController implements BoardController {
+    private static final class MockBoardController implements BoardController {
         private final int boardSize;
         private final CellType[] cellTypes;
         private final MinigameId[] minigames;
