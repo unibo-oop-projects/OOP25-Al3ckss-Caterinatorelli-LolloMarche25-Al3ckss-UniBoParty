@@ -62,6 +62,7 @@ public final class WhacAMoleIntroFrame extends AbstractMinigameIntroFrame {
             + "- Hit the mole when it appears in the grid.\n"
             + "- Avoid bombs: they remove 2 points.\n"
             + "- Each mole is worth 1 point.\n"
+            + "- You win if your score is at least 10 at the end of the time.\n"
             + "- You have 30 seconds to score as much as possible.";
     }
 

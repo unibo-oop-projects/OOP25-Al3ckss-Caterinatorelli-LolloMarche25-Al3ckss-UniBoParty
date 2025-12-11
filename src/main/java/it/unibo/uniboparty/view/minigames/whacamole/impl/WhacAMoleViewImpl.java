@@ -274,7 +274,7 @@ public final class WhacAMoleViewImpl extends JPanel implements WhacAMoleView {
                 JOptionPane.showMessageDialog(
                     this,
                     "Time's up!\nFinal score: " + state.getScore(),
-                    "Whac-A-Mole - Game Over",
+                    "Whac-A-Mole - End game",
                     JOptionPane.INFORMATION_MESSAGE
                 );
 

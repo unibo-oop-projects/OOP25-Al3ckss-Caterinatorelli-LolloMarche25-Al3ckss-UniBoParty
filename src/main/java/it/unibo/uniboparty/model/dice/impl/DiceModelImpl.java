@@ -46,9 +46,9 @@ public final class DiceModelImpl implements DiceModel {
      */
     @Override
     public void roll() {
-        // nextInt(6) genera 0-5, quindi aggiungiamo 1
         this.die1 = RANDOM.nextInt(MAX_DIE_VALUE) + 1;
-        this.die2 = RANDOM.nextInt(MAX_DIE_VALUE) + 1;
+        //this.die2 = RANDOM.nextInt(MAX_DIE_VALUE) + 1; //remove comment to use two dice
+        this.die2 = 0; //keep this to use only one die
     }
 
     @Override

@@ -144,7 +144,8 @@ public final class MainBoardFrame extends JFrame {
      */
     private void updateCurrentPlayerLabel() {
         final Player current = this.playerManager.getCurrentPlayer();
-        this.currentPlayerLabel.setText("È il turno di: " + current.getName());
+        this.currentPlayerLabel.setText("È il turno di: " + current.getName()
+                                + " (posizione: " + current.getPosition() + ")");
     }
 
     /**
@@ -159,7 +160,7 @@ public final class MainBoardFrame extends JFrame {
     private void handleRoll() {
         this.diceModel.roll();
         final int diceRoll = this.diceModel.getTotal();
-        this.diceResultLabel.setText("You rolled: " + diceRoll);
+        this.diceResultLabel.setText(this.playerManager.getCurrentPlayer().getName() + " rolled: " + diceRoll);
 
         final TurnResult result = this.playerManager.playTurn(diceRoll);
 
@@ -271,6 +272,7 @@ public final class MainBoardFrame extends JFrame {
      * </p>
      */
     private void showLeaderboard() {
+        this.dispose();
         final int numPlayers = this.playerManager.getNumberOfPlayers();
         final List<it.unibo.uniboparty.model.end_screen.api.Player> leaderboardPlayers
             = new ArrayList<>();

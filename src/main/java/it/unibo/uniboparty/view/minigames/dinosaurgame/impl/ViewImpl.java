@@ -99,7 +99,8 @@ public final class ViewImpl extends JPanel implements View, GameObserver {
      */
     public void showEndGameDialog(final boolean won) {
         SwingUtilities.invokeLater(() -> {
-            final String message = won ? "You Won!\n\nCongratulations!" : "You Lost!\n\nBetter luck next time!";
+            final String message = won ? "You Won!\n\nCongratulations!\n\nclose the window" 
+                                      : "You Lost!\n\nBetter luck next time!\n\nclose the window";
             final String title = won ? "Dinosaur Run - Victory" : "Dinosaur Run - Game Over";
 
             JOptionPane.showMessageDialog(

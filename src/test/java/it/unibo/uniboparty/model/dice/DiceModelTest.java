@@ -31,7 +31,7 @@ class DiceModelTest {
         final int d2 = model.getDie2();
 
         assertTrue(d1 >= MIN_VAL && d1 <= MAX_VAL, "Il dado 1 deve essere tra 1 e 6");
-        assertTrue(d2 >= MIN_VAL && d2 <= MAX_VAL, "Il dado 2 deve essere tra 1 e 6");
+        //assertTrue(d2 >= MIN_VAL && d2 <= MAX_VAL, "Il dado 2 deve essere tra 1 e 6"); //ignore per dado 2 non usato
         assertEquals(d1 + d2, model.getTotal(), "Il totale deve essere la somma dei dadi");
     }
 
@@ -46,7 +46,7 @@ class DiceModelTest {
             final int total = model.getTotal();
 
             assertTrue(d1 >= MIN_VAL && d1 <= MAX_VAL, "Errore nel range dado 1 al lancio " + i);
-            assertTrue(d2 >= MIN_VAL && d2 <= MAX_VAL, "Errore nel range dado 2 al lancio " + i);
+            //assertTrue(d2 >= MIN_VAL && d2 <= MAX_VAL, "Errore nel range dado 2 al lancio " + i); //ignore per dado 2 non usato
             assertEquals(d1 + d2, total, "Errore nella somma al lancio " + i);
         }
     }

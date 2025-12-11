@@ -148,7 +148,7 @@ public final class ViewImpl extends JPanel implements View, GameObserver {
 
             JOptionPane.showMessageDialog(
                 this,
-                "Time's up!\nFinal score: " + finalScore + " words",
+                "Time's up!\nFinal score: " + finalScore + " words\n\nclose the window",
                 "TypeRacer - Game Over",
                 JOptionPane.INFORMATION_MESSAGE
             );

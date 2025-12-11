@@ -3,6 +3,7 @@ package it.unibo.uniboparty.view.board.impl;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -84,6 +85,9 @@ public final class BoardViewImpl extends JPanel implements BoardView {
     /** Background color for "swap" cells. */
     private static final Color COLOR_SWAP = Color.decode("#c2f0ff");
 
+    private static final String START_PAREN = "(";
+    private static final String END_PAREN = ")";
+
     private final transient BoardController controller;
 
     private final JPanel boardGrid;
@@ -132,6 +136,7 @@ public final class BoardViewImpl extends JPanel implements BoardView {
             final String text = this.getCellText(i, lastIndex, type);
 
             final JLabel cellLabel = new JLabel(text);
+            cellLabel.setFont(new Font("Arial", Font.BOLD, 10));
             cellLabel.setPreferredSize(new Dimension(CELL_WIDTH, CELL_HEIGHT));
             cellLabel.setHorizontalAlignment(SwingConstants.CENTER);
             cellLabel.setVerticalAlignment(SwingConstants.CENTER);
@@ -191,15 +196,15 @@ public final class BoardViewImpl extends JPanel implements BoardView {
             return "Finish";
         }
         if (type == CellType.MINIGAME) {
-            return "MG";
+            return "MG" + START_PAREN + index + END_PAREN;
         }
         if (type == CellType.BACK_2) {
-            return "-2";
+            return "-2" + START_PAREN + index + END_PAREN;
         }
         if (type == CellType.SWAP) {
-            return "SWAP";
+            return "SWAP" + START_PAREN + index + END_PAREN;
         }
-        return "";
+        return START_PAREN + index + END_PAREN;
     }
 
     /**
