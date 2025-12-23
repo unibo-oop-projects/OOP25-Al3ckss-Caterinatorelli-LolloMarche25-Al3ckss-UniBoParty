@@ -1,6 +1,16 @@
+rootProject.name = "oop-25-Al3ckss/UniBoParty"
 plugins {
-    // Automatically downloads the correct java version to run the static analyzers
+    id("com.gradle.develocity") version "4.3"
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 
-rootProject.name = "OOP24-UniboParty"
+develocity {
+    buildScan {
+        termsOfUseUrl = "https://gradle.com/terms-of-service"
+        termsOfUseAgree = "yes"
+        uploadInBackground = !System.getenv("CI").toBoolean()
+        buildScanPublished {
+            file("scan-journal.log").writeText("$buildScanId - $buildScanUri\n")
+        }
+    }
+}
