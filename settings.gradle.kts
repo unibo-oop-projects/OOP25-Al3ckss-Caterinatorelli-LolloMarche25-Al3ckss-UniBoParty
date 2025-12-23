@@ -1,4 +1,4 @@
-rootProject.name = "oop-25-Al3ckss/UniBoParty"
+rootProject.name = "oop-25-Al3ckss-UniBoParty"
 plugins {
     id("com.gradle.develocity") version "4.3"
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
